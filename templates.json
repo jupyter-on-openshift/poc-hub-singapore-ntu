@@ -73,6 +73,16 @@
                     "generate": "expression",
                     "from": "[a-f0-9]{32}",
                     "required": true
+                },
+                {
+                    "name": "PYTHON_IMAGE_NAME",
+                    "value": "python:3.6",
+                    "required": true
+                },
+                {
+                    "name": "POSTGRESQL_IMAGE_NAME",
+                    "value": "postresql:9.6",
+                    "required": true
                 }
             ],
             "objects": [
@@ -157,7 +167,7 @@
                             "sourceStrategy": {
                                 "from": {
                                     "kind": "ImageStreamTag",
-                                    "name": "python:3.5",
+                                    "name": "${PYTHON_IMAGE_NAME}",
                                     "namespace": "openshift"
                                 }
                             }
@@ -536,7 +546,7 @@
                                     ],
                                     "from": {
                                         "kind": "ImageStreamTag",
-                                        "name": "postgresql:9.5",
+                                        "name": "${POSTGRESQL_IMAGE_NAME}",
                                         "namespace": "openshift"
                                     }
                                 },
@@ -612,7 +622,7 @@
                             "sourceStrategy": {
                                 "from": {
                                     "kind": "ImageStreamTag",
-                                    "name": "python:3.6",
+                                    "name": "${PYTHON_IMAGE_NAME}",
                                     "namespace": "openshift"
                                 }
                             }
