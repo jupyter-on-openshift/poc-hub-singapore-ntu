@@ -83,6 +83,16 @@
                     "name": "POSTGRESQL_IMAGE_NAME",
                     "value": "postgresql:9.6",
                     "required": true
+                },
+                {
+                    "name": "POSTGRESQL_VOLUME_SIZE",
+                    "value": "1Gi",
+                    "required": true
+                },
+                {
+                    "name": "NOTEBOOK_VOLUME_SIZE",
+                    "value": "10Gi",
+                    "required": true
                 }
             ],
             "objects": [
@@ -350,6 +360,10 @@
                                             {
                                                 "name": "OAUTH_CLIENT_SECRET",
                                                 "value": "${OAUTH_CLIENT_SECRET}"
+                                            },
+                                            {
+                                                "name": "NOTEBOOK_VOLUME_SIZE",
+                                                "value": "${NOTEBOOK_VOLUME_SIZE}"
                                             }
                                         ],
                                         "volumeMounts": [
@@ -443,7 +457,7 @@
                         ],
                         "resources": {
                             "requests": {
-                                "storage": "1Gi"
+                                "storage": "${POSTGRESQL_VOLUME_SIZE}"
                             }
                         }
                     }
