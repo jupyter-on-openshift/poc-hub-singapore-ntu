@@ -1,1 +1,1 @@
-FROM openshift/python:36
+FROM myproject/minimal-notebook:latest
