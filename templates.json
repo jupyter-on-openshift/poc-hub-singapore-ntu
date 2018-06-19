@@ -25,6 +25,15 @@
                     "required": true
                 },
                 {
+                    "name": "NOTEBOOK_REPOSITORY_URL",
+                    "value": "https://github.com/jupyter-on-openshift/ntuphys_nb",
+                    "required": true
+                },
+                {
+                    "name": "NOTEBOOK_REPOSITORY_CONTEXT_DIR",
+                    "value": "MH2801"
+                },
+                {
                     "name": "JUPYTERHUB_IDLE_TIMEOUT",
                     "value": "900"
                 },
@@ -298,7 +307,7 @@
                                             },
                                             {
                                                 "name": "JUPYTERHUB_NOTEBOOK_IMAGE",
-                                                "value": "${APPLICATION_NAME}-nb-s2i:latest"
+                                                "value": "${APPLICATION_NAME}-nb-img:latest"
                                             },
                                             {
                                                 "name": "JUPYTERHUB_IDLE_TIMEOUT",
@@ -656,8 +665,7 @@
                             "dockerStrategy": {
                                 "from": {
                                     "kind": "ImageStreamTag",
-                                    "name": "${APPLICATION_NAME}-nb-s2i:latest",
-                                    "namespace": "openshift"
+                                    "name": "${APPLICATION_NAME}-nb-s2i:latest"
                                 }
                             }
                         },
@@ -665,6 +673,58 @@
                             "to": {
                                 "kind": "ImageStreamTag",
                                 "name": "${APPLICATION_NAME}-nb-ntu:latest"
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "ImageStream",
+                    "apiVersion": "v1",
+                    "metadata": {
+                        "name": "${APPLICATION_NAME}-nb-img",
+                        "labels": {
+                            "app": "${APPLICATION_NAME}"
+                        }
+                    }
+                },
+                {
+                    "kind": "BuildConfig",
+                    "apiVersion": "v1",
+                    "metadata": {
+                        "name": "${APPLICATION_NAME}-nb-img",
+                        "labels": {
+                            "app": "${APPLICATION_NAME}"
+                        }
+                    },
+                    "spec": {
+                        "triggers": [
+                            {
+                                "type": "ConfigChange"
+                            },
+                            {
+                                "type": "ImageChange"
+                            }
+                        ],
+                        "source": {
+                            "type": "Git",
+                            "git": {
+                                "uri": "${NOTEBOOK_REPOSITORY_URL}"
+                            },
+                            "contextDir": "${NOTEBOOK_REPOSITORY_CONTEXT_DIR}"
+                        },
+                        "strategy": {
+                            "type": "Source",
+                            "sourceStrategy": {
+                                "from": {
+                                    "kind": "ImageStreamTag",
+                                    "name": "${APPLICATION_NAME}-nb-ntu:latest"
+                                }
+                            }
+                        },
+                        "output": {
+                            "to": {
+                                "kind": "ImageStreamTag",
+                                "name": "${APPLICATION_NAME}-nb-img:latest"
                             }
                         }
                     }
