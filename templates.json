@@ -81,7 +81,7 @@
                 },
                 {
                     "name": "POSTGRESQL_IMAGE_NAME",
-                    "value": "postresql:9.6",
+                    "value": "postgresql:9.6",
                     "required": true
                 }
             ],
