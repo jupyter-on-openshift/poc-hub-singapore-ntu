@@ -32,13 +32,14 @@ c.MyOAuthenticator.client_secret = os.environ.get('OAUTH_CLIENT_SECRET')
 # user this needs to take into account for fact will be able to see all
 # users notebooks.
 
-c.KubeSpawner.user_storage_pvc_ensure = True
+#c.KubeSpawner.user_storage_pvc_ensure = True
+c.KubeSpawner.user_storage_pvc_ensure = False
 
 c.KubeSpawner.pvc_name_template = '%s-notebooks' % c.KubeSpawner.hub_connect_ip
 
-c.KubeSpawner.user_storage_capacity = '%s' % os.environ['NOTEBOOK_VOLUME_SIZE']
+#c.KubeSpawner.user_storage_capacity = '%s' % os.environ['NOTEBOOK_VOLUME_SIZE']
 
-c.KubeSpawner.user_storage_access_modes = ['ReadWriteMany']
+#c.KubeSpawner.user_storage_access_modes = ['ReadWriteMany']
 
 c.KubeSpawner.volumes = [
     {
@@ -62,29 +63,6 @@ volume_mounts_admin = [
         'name': 'notebooks',
         'mountPath': '/opt/app-root/src',
         'subPath': 'notebooks'
-    }
-]
-
-init_containers = [
-    {
-        'name': 'setup-volume',
-        'image': os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
-        'command': [
-            'setup-volume.sh',
-            '/opt/app-root/src',
-            '/mnt/notebooks/{username}/workspace'
-        ],
-        'resources': {
-            'limits': {
-                'memory': '256Mi'
-            }
-        },
-        'volumeMounts': [
-            {
-                'name': 'notebooks',
-                'mountPath': '/mnt'
-            }
-        ]
     }
 ]
 
@@ -116,14 +94,11 @@ def modify_pod_hook(spawner, pod):
         volume_mounts = volume_mounts_user
         workspace = 'workspace'
 
-    pod.spec.containers[0].env.append(dict(name='NOTEBOOK_ARGS',
-            value="--NotebookApp.default_url=/tree/%s" % workspace))
+    pod.spec.containers[0].env.append(dict(name='JUPYTER_WORKSPACE_NAME',
+            value=workspace))
 
     pod.spec.containers[0].volume_mounts.extend(
             expand_strings(spawner, volume_mounts))
-
-    pod.spec.init_containers.extend(
-            expand_strings(spawner, init_containers))
 
     return pod
 

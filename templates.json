@@ -247,6 +247,26 @@
                         }
                     }
                 },
+		{
+		    "apiVersion": "v1",
+		    "kind": "PersistentVolumeClaim",
+                    "metadata": {
+                        "name": "${APPLICATION_NAME}-notebooks",
+                        "labels": {
+                            "app": "${APPLICATION_NAME}"
+                        }
+                    },
+		    "spec": {
+			"accessModes": [
+			    "ReadWriteMany"
+			],
+			"resources": {
+			    "requests": {
+				"storage": "${NOTEBOOK_VOLUME_SIZE}"
+			    }
+			}
+		    }
+		},
                 {
                     "kind": "DeploymentConfig",
                     "apiVersion": "v1",
