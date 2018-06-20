@@ -94,6 +94,8 @@ def modify_pod_hook(spawner, pod):
         volume_mounts = volume_mounts_user
         workspace = 'workspace'
 
+    pod.spec.containers[0].env.append(dict(name='JUPYTER_MASTER_FILES',
+            value='/opt/app-root/master'))
     pod.spec.containers[0].env.append(dict(name='JUPYTER_WORKSPACE_NAME',
             value=workspace))
 
