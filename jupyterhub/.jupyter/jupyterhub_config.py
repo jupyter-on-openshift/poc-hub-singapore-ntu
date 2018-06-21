@@ -9,19 +9,55 @@ from jupyterhub.app import DATA_FILES_PATH
 c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
         os.path.join(DATA_FILES_PATH, 'templates')]
 
-# Optionally enable user authentication for selected OAuth providers.
+# Setup configuration for authenticating using LDAP. In this case we
+# need to deal with separate LDAP servers based on the domain name so
+# we need to provide a custom authenticator which can delegate to the
+# respective LDAP authenticator instance for the domain.
 
-if os.environ.get('OAUTH_SERVICE_TYPE') == 'GitHub':
-    from oauthenticator.github import GitHubOAuthenticator
-    c.JupyterHub.authenticator_class = GitHubOAuthenticator
+from ldapauthenticator import LDAPAuthenticator
 
-elif os.environ.get('OAUTH_SERVICE_TYPE') == 'GitLab':
-    from oauthenticator.gitlab import GitLabOAuthenticator
-    c.JupyterHub.authenticator_class = GitLabOAuthenticator
+c.LDAPAuthenticator.use_ssl = False
+c.LDAPAuthenticator.lookup_dn = True
+c.LDAPAuthenticator.lookup_dn_search_filter = '({login_attr}={login})'
+c.LDAPAuthenticator.escape_userdn = False
+c.LDAPAuthenticator.valid_username_regex = '^[A-Za-z0-9\\\._-]{7,}$'
+c.LDAPAuthenticator.user_attribute = 'sAMAccountName'
+c.LDAPAuthenticator.lookup_dn_user_dn_attribute = 'sAMAccountName'
+c.LDAPAuthenticator.escape_userdn = False
 
-c.MyOAuthenticator.oauth_callback_url = os.environ.get('OAUTH_CALLBACK_URL' )
-c.MyOAuthenticator.client_id = os.environ.get('OAUTH_CLIENT_ID')
-c.MyOAuthenticator.client_secret = os.environ.get('OAUTH_CLIENT_SECRET')
+student_authenticator = LDAPAuthenticator()
+student_authenticator.server_address = 'student.main.ntu.edu.sg'
+student_authenticator.bind_dn_template = ['student\\{username}']
+student_authenticator.user_search_base = 'DC=student,DC=main,DC=ntu,DC=edu,DC=sg'
+
+staff_authenticator = LDAPAuthenticator()
+staff_authenticator.server_address = 'staff.main.ntu.edu.sg'
+staff_authenticator.bind_dn_template = ['staff\\{username}']
+staff_authenticator.user_search_base = 'DC=staff,DC=main,DC=ntu,DC=edu,DC=sg'
+
+assoc_authenticator = LDAPAuthenticator()
+assoc_authenticator.server_address = 'assoc.main.ntu.edu.sg'
+assoc_authenticator.bind_dn_template = ['assoc\\{username}']
+assoc_authenticator.user_search_base = 'DC=assoc,DC=main,DC=ntu,DC=edu,DC=sg'
+
+from jupyterhub.auth import Authenticator
+
+class MultiLDAPAuthenticator(Authenticator):
+
+    def authenticate(self, handler, data):
+        domain = data['domain'].lower()
+
+        if domain == 'student':
+            return student_authenticator.authenticate(handler, data)
+        elif domain == 'staff':
+            return staff_authenticator.authenticate(handler, data)
+        elif domain == 'assoc':
+            return assoc_authenticator.authenticate(handler, data)
+
+	self.log.warn('domain:%s Unknown authentication domain name', domain)
+	return None
+
+c.JupyterHub.authenticator_class = MultiLDAPAuthenticator
 
 # Provide persistent storage for users notebooks. We share one
 # persistent volume for all users, mounting just their subdirectory into
