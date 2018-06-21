@@ -104,7 +104,7 @@ volume_mounts_user = [
 volume_mounts_admin = [
     {
         'name': 'notebooks',
-        'mountPath': '/opt/app-root/src',
+        'mountPath': '/opt/app-root/src/users',
         'subPath': 'notebooks'
     }
 ]
@@ -132,7 +132,7 @@ def expand_strings(spawner, src):
 def modify_pod_hook(spawner, pod):
     if spawner.user.name in spawner.user.authenticator.admin_users:
         volume_mounts = volume_mounts_admin
-        workspace = interpolate_properties(spawner, '{username}/workspace')
+        workspace = interpolate_properties(spawner, 'users/{username}/workspace')
     else:
         volume_mounts = volume_mounts_user
         workspace = 'workspace'
