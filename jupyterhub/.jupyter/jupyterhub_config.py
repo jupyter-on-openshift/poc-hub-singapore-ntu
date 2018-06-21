@@ -4,10 +4,12 @@ import escapism
 
 # Setup location for customised template files.
 
-from jupyterhub.app import DATA_FILES_PATH
+#from jupyterhub.app import DATA_FILES_PATH
 
-c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
-        os.path.join(DATA_FILES_PATH, 'templates')]
+#c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
+#        os.path.join(DATA_FILES_PATH, 'templates')]
+
+c.JupyterHub.template_paths = ['/opt/app-root/src/templates']
 
 # Setup configuration for authenticating using LDAP. In this case we
 # need to deal with separate LDAP servers based on the domain name so
@@ -86,15 +88,14 @@ volume_mounts_user = [
     {
         'name': 'notebooks',
         'mountPath': '/opt/app-root/src',
-        'subPath': 'notebooks/{username}'
+        'subPath': '{username}'
     }
 ]
 
 volume_mounts_admin = [
     {
         'name': 'notebooks',
-        'mountPath': '/opt/app-root/src/users',
-        'subPath': 'notebooks'
+        'mountPath': '/opt/app-root/src/users'
     }
 ]
 
@@ -125,6 +126,12 @@ def modify_pod_hook(spawner, pod):
     else:
         volume_mounts = volume_mounts_user
         workspace = 'workspace'
+
+    try:
+        os.mkdir(interpolate_properties(spawner, '/opt/app-root/notebooks/{username}'))
+
+    except IOError:
+        pass
 
     pod.spec.containers[0].env.append(dict(name='JUPYTER_MASTER_FILES',
             value='/opt/app-root/master'))

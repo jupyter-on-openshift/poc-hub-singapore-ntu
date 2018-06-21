@@ -392,6 +392,10 @@
                                             {
                                                 "name": "config",
                                                 "mountPath": "/opt/app-root/configs"
+                                            },
+                                            {
+                                                "name": "notebooks",
+                                                "mountPath": "/opt/app-root/notebooks"
                                             }
                                         ]
                                     }
@@ -402,6 +406,12 @@
                                         "configMap": {
                                             "name": "${APPLICATION_NAME}-cfg",
                                             "defaultMode": 420
+                                        }
+                                    },
+                                    {
+                                        "name": "notebooks",
+                                        "persistentVolumeClaim": {
+                                            "claimName": "${APPLICATION_NAME}-notebooks"
                                         }
                                     }
                                 ]
