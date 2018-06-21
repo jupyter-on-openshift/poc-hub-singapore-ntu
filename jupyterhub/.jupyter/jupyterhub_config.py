@@ -25,6 +25,9 @@ c.LDAPAuthenticator.user_attribute = 'sAMAccountName'
 c.LDAPAuthenticator.lookup_dn_user_dn_attribute = 'sAMAccountName'
 c.LDAPAuthenticator.escape_userdn = False
 
+c.LDAPAuthenticator.lookup_dn_search_user = os.environ['LDAP_SEARCH_USER']
+c.LDAPAuthenticator.lookup_dn_search_password = os.environ['LDAP_SEARCH_PASSWORD']
+
 student_authenticator = LDAPAuthenticator()
 student_authenticator.server_address = 'student.main.ntu.edu.sg'
 student_authenticator.bind_dn_template = ['student\\{username}']
@@ -66,23 +69,9 @@ c.JupyterHub.authenticator_class = MultiLDAPAuthenticator
 # user may land. Because it is a shared volume, there are no quota
 # restrictions which prevent a specific user filling up the entire
 # persistent volume.
-#
-# As we need to populate the persistent volume with notebooks from the
-# image in an init container, and the command needs to vary based on
-# the user, we add the volume mount and init container details using
-# the modify_pod_hook. We also need to specify the default_url where
-# the browser should start so can land in a subdirectory. For an admin
-# user this needs to take into account for fact will be able to see all
-# users notebooks.
 
-#c.KubeSpawner.user_storage_pvc_ensure = True
 c.KubeSpawner.user_storage_pvc_ensure = False
-
 c.KubeSpawner.pvc_name_template = '%s-notebooks' % c.KubeSpawner.hub_connect_ip
-
-#c.KubeSpawner.user_storage_capacity = '%s' % os.environ['NOTEBOOK_VOLUME_SIZE']
-
-#c.KubeSpawner.user_storage_access_modes = ['ReadWriteMany']
 
 c.KubeSpawner.volumes = [
     {

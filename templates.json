@@ -38,6 +38,16 @@
                     "value": "900"
                 },
                 {
+                    "name": "LDAP_SEARCH_USER",
+                    "value": "",
+                    "required": true
+                },
+                {
+                    "name": "LDAP_SEARCH_PASSWORD",
+                    "value": "",
+                    "required": true
+                },
+                {
                     "name": "JUPYTERHUB_CONFIG",
                     "value": "",
                     "required": false
@@ -248,6 +258,20 @@
                     }
                 },
                 {
+                    "apiVersion": "v1",
+                    "kind": "Secret",
+                    "metadata": {
+                        "name": "${APPLICATION_NAME}-ldap",
+                        "labels": {
+                            "app": "${APPLICATION_NAME}"
+                        }
+                    },
+                    "stringData": {
+			"user": "${LDAP_SEARCH_USER}",
+			"password": "${LDAP_SEARCH_PASSWORD}"
+                    }
+                },
+	        {
                     "kind": "DeploymentConfig",
                     "apiVersion": "v1",
                     "metadata": {
@@ -346,24 +370,22 @@
                                                 "value": "${COOKIE_SECRET}"
                                             },
                                             {
-                                                "name": "OAUTH_SERVICE_TYPE",
-                                                "value": "${OAUTH_SERVICE_TYPE}"
+                                                "name": "LDAP_SEARCH_USER",
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "name": "${APPLICATION_NAME}-ldap",
+                                                        "key": "user"
+                                                    }
+                                                }
                                             },
                                             {
-                                                "name": "OAUTH_CALLBACK_URL",
-                                                "value": "${OAUTH_CALLBACK_URL}"
-                                            },
-                                            {
-                                                "name": "OAUTH_CLIENT_ID",
-                                                "value": "${OAUTH_CLIENT_ID}"
-                                            },
-                                            {
-                                                "name": "OAUTH_CLIENT_SECRET",
-                                                "value": "${OAUTH_CLIENT_SECRET}"
-                                            },
-                                            {
-                                                "name": "NOTEBOOK_VOLUME_SIZE",
-                                                "value": "${NOTEBOOK_VOLUME_SIZE}"
+                                                "name": "LDAP_SEARCH_PASSWORD",
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "name": "${APPLICATION_NAME}-ldap",
+                                                        "key": "password"
+                                                    }
+                                                }
                                             }
                                         ],
                                         "volumeMounts": [
