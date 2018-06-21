@@ -2,6 +2,13 @@ import os
 import string
 import escapism
 
+# Setup location for customised template files.
+
+from jupyterhub.app import DATA_FILES_PATH
+
+c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
+        os.path.join(DATA_FILES_PATH, 'templates')]
+
 # Optionally enable user authentication for selected OAuth providers.
 
 if os.environ.get('OAUTH_SERVICE_TYPE') == 'GitHub':
