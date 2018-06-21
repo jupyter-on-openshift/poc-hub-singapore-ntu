@@ -54,8 +54,8 @@ class MultiLDAPAuthenticator(Authenticator):
         elif domain == 'assoc':
             return assoc_authenticator.authenticate(handler, data)
 
-	self.log.warn('domain:%s Unknown authentication domain name', domain)
-	return None
+        self.log.warn('domain:%s Unknown authentication domain name', domain)
+        return None
 
 c.JupyterHub.authenticator_class = MultiLDAPAuthenticator
 
