@@ -4,11 +4,6 @@ import escapism
 
 # Setup location for customised template files.
 
-#from jupyterhub.app import DATA_FILES_PATH
-
-#c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
-#        os.path.join(DATA_FILES_PATH, 'templates')]
-
 c.JupyterHub.template_paths = ['/opt/app-root/src/templates']
 
 # Setup configuration for authenticating using LDAP. In this case we
