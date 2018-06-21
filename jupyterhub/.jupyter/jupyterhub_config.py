@@ -16,7 +16,7 @@ c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
 
 from ldapauthenticator import LDAPAuthenticator
 
-c.LDAPAuthenticator.use_ssl = False
+c.LDAPAuthenticator.use_ssl = True
 c.LDAPAuthenticator.lookup_dn = True
 c.LDAPAuthenticator.lookup_dn_search_filter = '({login_attr}={login})'
 c.LDAPAuthenticator.escape_userdn = False
