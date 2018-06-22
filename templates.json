@@ -34,10 +34,6 @@
                     "value": "MH2801"
                 },
                 {
-                    "name": "JUPYTERHUB_IDLE_TIMEOUT",
-                    "value": "900"
-                },
-                {
                     "name": "LDAP_SEARCH_USER",
                     "value": "",
                     "required": true
@@ -46,6 +42,20 @@
                     "name": "LDAP_SEARCH_PASSWORD",
                     "value": "",
                     "required": true
+                },
+                {
+                    "name": "JUPYTERHUB_ADMIN_USERS",
+                    "value": "",
+                    "required": false
+                },
+                {
+                    "name": "JUPYTERHUB_ENROLLED_USERS",
+                    "value": "",
+                    "required": false
+                },
+                {
+                    "name": "JUPYTERHUB_IDLE_TIMEOUT",
+                    "value": "900"
                 },
                 {
                     "name": "JUPYTERHUB_CONFIG",
@@ -96,7 +106,9 @@
                         }
                     },
                     "data": {
-                        "jupyterhub_config.py": "${JUPYTERHUB_CONFIG}"
+                        "jupyterhub_config.py": "${JUPYTERHUB_CONFIG}",
+                        "admin_users.txt": "${JUPYTERHUB_ADMIN_USERS}",
+                        "user_whitelist.txt": "${JUPYTERHUB_ENROLLED_USERS}"
                     }
                 },
                 {
