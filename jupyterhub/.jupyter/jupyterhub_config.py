@@ -2,6 +2,10 @@ import os
 import string
 import escapism
 
+# Enable JupyterLab interface.
+
+c.JupyterHub.environment = dict(JUPYTER_ENABLE_LAB='true')
+
 # Setup location for customised template files.
 
 c.JupyterHub.template_paths = ['/opt/app-root/src/templates']

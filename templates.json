@@ -682,7 +682,13 @@
                                     "kind": "ImageStreamTag",
                                     "name": "${PYTHON_IMAGE_NAME}",
                                     "namespace": "openshift"
-                                }
+                                },
+				"env": [
+				    {
+					"name": "JUPYTER_INSTALL_LAB",
+					"value": "true"
+				    }
+				]
                             }
                         },
                         "output": {
