@@ -59,14 +59,14 @@ class MultiLDAPAuthenticator(Authenticator):
 
 c.JupyterHub.authenticator_class = MultiLDAPAuthenticator
 
-if os.path.exists('/opt/app-root/config/admin_users.txt'):
-    with open('/opt/app-root/config/admin_users.txt') as fp:
+if os.path.exists('/opt/app-root/configs/admin_users.txt'):
+    with open('/opt/app-root/configs/admin_users.txt') as fp:
         content = fp.read().strip()
         if content:
             a.Authenticator.admin_users = set(content.split())
 
-if os.path.exists('/opt/app-root/config/user_whitelist.txt'):
-    with open('/opt/app-root/config/user_whitelist.txt') as fp:
+if os.path.exists('/opt/app-root/configs/user_whitelist.txt'):
+    with open('/opt/app-root/configs/user_whitelist.txt') as fp:
         content = fp.read().strip()
         if content:
             a.Authenticator.whitelist = set(content.split())
