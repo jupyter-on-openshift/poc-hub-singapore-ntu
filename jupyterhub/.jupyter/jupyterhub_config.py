@@ -63,13 +63,13 @@ if os.path.exists('/opt/app-root/configs/admin_users.txt'):
     with open('/opt/app-root/configs/admin_users.txt') as fp:
         content = fp.read().strip()
         if content:
-            a.Authenticator.admin_users = set(content.split())
+            c.Authenticator.admin_users = set(content.split())
 
 if os.path.exists('/opt/app-root/configs/user_whitelist.txt'):
     with open('/opt/app-root/configs/user_whitelist.txt') as fp:
         content = fp.read().strip()
         if content:
-            a.Authenticator.whitelist = set(content.split())
+            c.Authenticator.whitelist = set(content.split())
 
 # Provide persistent storage for users notebooks. We share one
 # persistent volume for all users, mounting just their subdirectory into
