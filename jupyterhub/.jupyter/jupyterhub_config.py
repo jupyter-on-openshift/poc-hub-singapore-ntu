@@ -2,9 +2,10 @@ import os
 import string
 import escapism
 
-# Enable JupyterLab interface.
+# Enable JupyterLab interface if enabled.
 
-c.Spawner.environment = dict(JUPYTER_ENABLE_LAB='true')
+if os.environ.get('JUPYTERHUB_ENABLE_LAB', 'false').lower() in ['true', 'yes', 'y', '1']:
+    c.Spawner.environment = dict(JUPYTER_ENABLE_LAB='true')
 
 # Setup location for customised template files.
 

@@ -53,6 +53,10 @@
                     "value": "900"
                 },
                 {
+                    "name": "JUPYTERHUB_ENABLE_LAB",
+                    "value": "false"
+                },
+                {
                     "name": "POSTGRESQL_VOLUME_SIZE",
                     "value": "1Gi",
                     "required": true
@@ -368,6 +372,10 @@
                                             {
                                                 "name": "JUPYTERHUB_IDLE_TIMEOUT",
                                                 "value": "${JUPYTERHUB_IDLE_TIMEOUT}"
+                                            },
+                                            {
+                                                "name": "JUPYTERHUB_ENABLE_LAB",
+                                                "value": "${JUPYTERHUB_ENABLE_LAB}"
                                             },
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_PASSWORD",
