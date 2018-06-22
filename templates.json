@@ -287,6 +287,19 @@
 			"password": "${LDAP_SEARCH_PASSWORD}"
                     }
                 },
+                {
+                    "apiVersion": "v1",
+                    "kind": "Secret",
+                    "metadata": {
+                        "name": "${APPLICATION_NAME}-pgsql",
+                        "labels": {
+                            "app": "${APPLICATION_NAME}"
+                        }
+                    },
+                    "stringData": {
+			"password": "${DATABASE_PASSWORD}"
+                    }
+                },
 	        {
                     "kind": "DeploymentConfig",
                     "apiVersion": "v1",
@@ -341,7 +354,12 @@
                                         "env": [
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_PASSWORD",
-                                                "value": "${DATABASE_PASSWORD}"
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "name": "${APPLICATION_NAME}-pgsql",
+                                                        "key": "password"
+                                                    }
+                                                }
                                             },
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_HOST",
@@ -379,7 +397,12 @@
                                             },
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_PASSWORD",
-                                                "value": "${DATABASE_PASSWORD}"
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "name": "${APPLICATION_NAME}-pgsql",
+                                                        "key": "password"
+                                                    }
+                                                }
                                             },
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_HOST",
@@ -550,7 +573,12 @@
                                             },
                                             {
                                                 "name": "POSTGRESQL_PASSWORD",
-                                                "value": "${DATABASE_PASSWORD}"
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "name": "${APPLICATION_NAME}-pgsql",
+                                                        "key": "password"
+                                                    }
+                                                }
                                             },
                                             {
                                                 "name": "POSTGRESQL_DATABASE",
