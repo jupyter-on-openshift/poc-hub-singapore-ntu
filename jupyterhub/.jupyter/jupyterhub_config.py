@@ -4,7 +4,7 @@ import escapism
 
 # Enable JupyterLab interface.
 
-c.JupyterHub.environment = dict(JUPYTER_ENABLE_LAB='true')
+c.Spawner.environment = dict(JUPYTER_ENABLE_LAB='true')
 
 # Setup location for customised template files.
 
