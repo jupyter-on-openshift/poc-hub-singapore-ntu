@@ -58,12 +58,12 @@
                 },
                 {
                     "name": "POSTGRESQL_VOLUME_SIZE",
-                    "value": "1Gi",
+                    "value": "512Mi",
                     "required": true
                 },
                 {
                     "name": "NOTEBOOK_VOLUME_SIZE",
-                    "value": "10Gi",
+                    "value": "25Gi",
                     "required": true
                 },
                 {
