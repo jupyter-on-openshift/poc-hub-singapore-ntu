@@ -72,7 +72,7 @@ oc create secret generic "$LDAP_CREDENTIALS_SECRET" \
     -o json --dry-run \
     --from-literal=user="$LDAP_USERNAME" \
     --from-literal=password="$LDAP_PASSWORD" \
-    | oc replace -f -
+    | oc replace -f - -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Failed to update LDAP credentials secret for $COURSE_NAME."
@@ -82,7 +82,7 @@ fi
 # Trigger a new deployment if requested.
 
 if [[ $DO_RESTART =~ ^[Yy]$ ]]; then
-    oc rollout latest "dc/$JUPYTERHUB_DEPLOYMENT"
+    oc rollout latest "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 fi
 
 if [ "$?" != "0" ]; then
