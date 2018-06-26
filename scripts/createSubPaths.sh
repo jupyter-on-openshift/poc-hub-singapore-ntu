@@ -86,10 +86,6 @@ mount_a_path $NFS_NOTEBOOK_PATH
 create_share_path_change_ownership_and_permission notebooks $COURSE_NAME
 unmount_a_path $NFS_NOTEBOOK_PATH
 
-#Create PV for JupyterHub DB and NoteBooks
-echo "Creating PVs for JupyterHub DB and NoteBooks.."
-oc create -f $PV_RESOURCE_DEF_PATH_NOTEBOOKS
-oc create -f $PV_RESOURCE_DEF_PATH_DB
 
 
 
