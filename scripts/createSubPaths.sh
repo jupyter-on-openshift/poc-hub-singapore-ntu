@@ -20,20 +20,6 @@ else
    read -p "NFS PATH FOR NOTEBOOKS: " NFS_NOTEBOOK_PATH
 fi
 
-if [ "$#" -ge 1 ]; then
-   PV_RESOURCE_DEF_PATH_DB=$1
-   shift
-else
-   read -p "PV RESOURCE DEFINITION PATH: " PV_RESOURCE_DEF_PATH_DB
-fi
-
-if [ "$#" -ge 1 ]; then
-   PV_RESOURCE_DEF_PATH_NOTEBOOKS=$1
-   shift
-else
-   read -p "PV RESOURCE DEFINITION PATH: " PV_RESOURCE_DEF_PATH_NOTEBOOKS
-fi 
-
 mount_a_path(){
 # Mount NFS mount point of jupyterhub DB
 echo "Mounting $1"
