@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "pv-template-volume",
+    "name": "pv-template-volume-jupyterhub-notebooks",
     "annotations": {
       "description": "NFS Persistent Volume"
     }
@@ -12,15 +12,15 @@
       "kind": "PersistentVolume",
       "apiVersion": "v1",
       "metadata": {
-        "name": "pv-$COURSE_NAME-database"
+        "name": "pv-$COURSE_NAME-notebooks"
       },
       "spec": {
            "capacity": {
-                "storage": "${NFS_PV_DB_CAPACITY}"
+                "storage": "${NFS_PV_NOTEBOOKS_CAPACITY}"
            },
         "accessModes": [ "ReadWriteOnce" ],
         "nfs": {
-          "path": "${NFS_DB_NOTEBOOKS_PATH}"
+          "path": "${NFS_PV_NOTEBOOKS_PATH}"
           "server": "${NFS_SERVER_ADDRESS}"
         },
        "persistentVolumeReclaimPolicy": "Retain"
@@ -36,14 +36,14 @@
       "required": true
     },
     {
-      "name": "NFS_PV_DB_CAPACITY",
+      "name": "NFS_PV_NOTEBOOKS_CAPACITY",
       "displayName": "Volume Capacity",
       "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
       "value": "25Gi",
       "required": true
     },
     {
-      "name": "NFS_PV_DB_PATH",
+      "name": "NFS_PV_NOTEBOOKS_PATH",
       "displayName": "NFS Export Path",
       "description": "The path of the NFS export.",
       "value": "",
@@ -51,7 +51,7 @@
     }
   ],
   "labels": {
-    "template": "nfs-persistent-volume-db-template"
+    "template": "nfs-persistent-volume-notebooks-template"
   }
 
 }
