@@ -24,7 +24,7 @@ else
 fi
 
 if [ "$#" -ge 1 ]; then
-    LDAP_USER=$1
+    LDAP_USERNAME=$1
     shift
 else
     read -p "LDAP Username: " LDAP_USERNAME
@@ -36,15 +36,11 @@ fi
 
 echo
 
-DO_RESTART=y
-
-if [ x"$RESTART_PROMPT" != x"N" ]; then
+if [ x"$RESTART_PROMPT" != x"n" ]; then
     read -p "New Deployment? [Y/n] " DO_RESTART
 fi
 
-DO_UPDATE=y
-
-if [ x"$CONTINUE_PROMPT" != x"N" ]; then
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
     read -p "Continue? [Y/n] " DO_UPDATE
 fi
 
