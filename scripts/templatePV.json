@@ -1,0 +1,97 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "pv-template-volume",
+    "annotations": {
+      "description": "NFS Persistent Volume"
+    }
+  },
+  "objects": [
+    {
+      "kind": "PersistentVolume",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "pv-$COURSE_NAME-notebooks"
+      },
+      "spec": {
+           "capacity": {
+                "storage": "${NFS_PV_NOTEBOOKS_CAPACITY}"
+           },
+        "accessModes": [
+          "ReadWriteMany"
+        ],
+        "nfs": {
+          "path": "${NFS_PV_NOTEBOOKS_PATH}"
+          "server": "${NFS_SERVER_ADDRESS}"
+        },
+           "persistentVolumeReclaimPolicy": "Retain"
+      }
+    },
+    "kind": "PersistentVolume",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "pv-$COURSE_NAME-database"
+      },
+      "spec": {
+           "capacity": {
+                "storage": "${NFS_PV_DB_CAPACITY}"
+           },
+        "accessModes": [ "ReadWriteOnce" ],
+        "nfs": {
+          "path": "${NFS_PV_DB_PATH}",
+          "server": "${NFS_SERVER_ADDRESS}"
+        },
+           "persistentVolumeReclaimPolicy": "Retain"
+      }
+    }
+
+  ],
+  "parameters": [
+    {
+      "name": "COURSE_NAME",
+      "displayName": "Name of the Course",
+      "description": "The name of course",
+      "value": "sample-course",
+      "required": true
+    },
+    {
+      "name": "NFS_PV_NOTEBOOKS_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "value": "25Gi",
+      "required": true
+    },
+    {
+      "name": "NFS_PV_NOTEBOOKS_PATH",
+      "displayName": "NFS Export Path",
+      "description": "The path of the NFS export.",
+      "value": "",
+      "required": true
+    },
+    {
+      "name": "NFS_PV_DB_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "NFS_PV_DB_PATH",
+      "displayName": "NFS Export Path",
+      "description": "The path of the NFS export.",
+      "value": "",
+      "required": true
+    },
+    {
+      "name": "NFS_SERVER_ADDRESS",
+      "displayName": "NFS Srv Addr",
+      "description": "The IP Address or domian name of the NFS server.",
+      "value": "sds.ntu.edu.sg",
+      "required": true
+    }
+  ],
+  "labels": {
+    "template": "nfs-persistent-volume-template"
+  }
+}
