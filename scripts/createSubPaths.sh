@@ -55,13 +55,10 @@ fi
 }
 
 create_share_path_change_ownership_and_permission(){
-
-#Create shared path for JupyterHub DB. Change ownership and permission
-
- echo "Creating shared path for JupyterHub DB. Changing ownership and permission..."
- mkdir /mnt/$1-${2}
- chown nfsnobody:root /mnt/$1-${2}
- chmod 0770 /mnt/$1-${2}
+echo "Creating shared path for JupyterHub $1. Changing ownership and permission..."
+mkdir /mnt/$1-${2}
+chown nfsnobody:root /mnt/$1-${2}
+chmod 0770 /mnt/$1-${2}
 }
 
 mount_a_path $NFS_DB_PATH
