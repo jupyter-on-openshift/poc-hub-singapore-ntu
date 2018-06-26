@@ -34,7 +34,7 @@ fi
 oc get "configmap/$ADMIN_USERS_CONFIG_MAP" -n "$COURSE_NAME" > /dev/null 2>&1
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Cannot find config map for $COURSE_NAME." 2>&1
+    echo "ERROR: Cannot find config map for $COURSE_NAME." 1>&2
     exit 1
 fi
 
@@ -45,6 +45,6 @@ oc get "configmap/$ADMIN_USERS_CONFIG_MAP" -o go-template --template \
     -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Cannot extract admin users from $COURSE_NAME." 2>&1
+    echo "ERROR: Cannot extract admin users from $COURSE_NAME." 1>&2
     exit 1
 fi
