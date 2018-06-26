@@ -45,6 +45,6 @@ oc get "configmap/$USER_WHITELIST_CONFIG_MAP" -o go-template --template \
     -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Cannot extract users whitelist $COURSE_NAME." 2>&1
+    echo "ERROR: Cannot extract users whitelist from $COURSE_NAME." 2>&1
     exit 1
 fi
