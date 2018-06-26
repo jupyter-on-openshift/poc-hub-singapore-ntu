@@ -3,7 +3,7 @@
 # Assumed that a project is used for each course and the name of the
 # course is used for the project name. Inside of the project, it is
 # assumed that the JupyterHub deployment is called 'jupyterhub' and that
-# the user whitelist is maintained under the key 'user-whitelist.txt' in
+# the user whitelist is maintained under the key 'user_whitelist.txt' in
 # the config map with name 'jupyterhub-cfg'.
 
 JUPYTERHUB_DEPLOYMENT=${JUPYTERHUB_DEPLOYMENT:-jupyterhub}
