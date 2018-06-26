@@ -50,7 +50,7 @@ fi
 
 # Assumed that 'oc' is in the current path and that the script is being
 # run with appropriate privileges to perform update on project. First
-# check that we can find the deployment in the project.
+# check that we can find the deployment in the project and then a secret.
 
 oc get "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME" > /dev/null 2>&1
 
