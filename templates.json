@@ -16,7 +16,7 @@
             "parameters": [
                 {
                     "name": "APPLICATION_NAME",
-                    "value": "poc-hub-shared-storage-2",
+                    "value": "jupyterhub",
                     "required": true
                 },
                 {
