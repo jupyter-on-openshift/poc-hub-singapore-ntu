@@ -1,5 +1,6 @@
 #!/bin/bash
 
+NFS_SERVER_NAME=${NFS_SERVER_NAME:-sds.ntu.edu.sg}
 NFS_SERVER_SHARE=${NFS_SERVER_SHARE:-/NTU/SPMS/openshift/jupyterhubdb}
 
 # Script can optionally be passed the course name and a version number.
@@ -47,15 +48,11 @@ fi
 # Now mount the NFS server share where database will be stored on /mnt.
 # Check whether mounted in a loop in case doesn't show as mounted
 # immediately.
-#
-# Note that it is assumed that there is an entry for the NFS share in
-# the /etc/fstab file, so we don't need to supply the NFS server name
-# or file system type.
 
-mount $NFS_SERVER_SHARE /mnt
+mount "$NFS_SERVER_NAME:$NFS_SERVER_SHARE" /mnt
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: NFS share $NFS_SERVER_SHARE could not be mounted on /mnt."
+    echo "ERROR: $NFS_SERVER_NAME:$NFS_SERVER_SHARE could not be mounted."
     exit 1
 fi
 
