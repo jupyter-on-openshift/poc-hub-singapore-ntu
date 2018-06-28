@@ -62,7 +62,7 @@ MOUNTED=
 for _ in {1..5}; do
     if mount | grep "$NFS_SERVER_SHARE on /mnt " > /dev/null 2>&1; then
         MOUNTED=1
-        continue
+        break
     fi
     sleep 3
 done
