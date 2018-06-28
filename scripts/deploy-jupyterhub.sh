@@ -46,6 +46,7 @@ set +e
 # Deploy JupyterHub in the project.
 
 oc new-app -n "$COURSE_NAME" --template jupyterhub \
+    --param COURSE_NAME="$COURSE_NAME" \
     --param NOTEBOOK_REPOSITORY_URL="$NOTEBOOK_REPOSITORY_URL" \
     --param NOTEBOOK_REPOSITORY_CONTEXT_DIR="$NOTEBOOK_REPOSITORY_CONTEXT_DIR" \
     --param LDAP_SEARCH_USER="$LDAP_SEARCH_USER" \

@@ -20,6 +20,11 @@
                     "required": true
                 },
                 {
+                    "name": "COURSE_NAME",
+                    "value": "",
+                    "required": true
+                },
+                {
                     "name": "NOTEBOOK_REPOSITORY_URL",
                     "value": "",
                     "required": true
@@ -270,7 +275,8 @@
                             "requests": {
                                 "storage": "${NOTEBOOK_VOLUME_SIZE}"
                             }
-                        }
+                        },
+                        "volumeName": "${COURSE_NAME}-notebooks-pv"
                     }
                 },
                 {
@@ -534,7 +540,8 @@
                             "requests": {
                                 "storage": "${POSTGRESQL_VOLUME_SIZE}"
                             }
-                        }
+                        },
+                        "volumeName": "${COURSE_NAME}-database-pv"
                     }
                 },
                 {
