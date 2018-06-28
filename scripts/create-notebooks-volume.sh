@@ -6,14 +6,24 @@
 
 JUPYTERHUB_DEPLOYMENT=${JUPYTERHUB_DEPLOYMENT:-jupyterhub}
 
-# Script can optionally be passed the course name. If not supplied the
-# user will be prompted to supply it.
+# Script can optionally be passed the course name and a version number.
+# If not supplied the user will be prompted to supply them. There is no
+# strict need for the version number, which is more relevant to the
+# database volume, but support it just in case there is a reason to
+# start over with storage for notebooks.
 
 if [ "$#" -ge 1 ]; then
     COURSE_NAME=$1
     shift
 else
     read -p "Course Name: " COURSE_NAME
+fi
+
+if [ "$#" -ge 1 ]; then
+    VERSION_NUMBER=$1
+    shift
+else
+    read -p "Version Number : " VERSION_NUMBER
 fi
 
 read -p "Continue? [Y/n] " DO_UPDATE
@@ -27,7 +37,7 @@ fi
 # resources. First check that a persistent volume doesn't already exist
 # with the name we intend using.
 
-PERSISTENT_VOLUME_NAME=$COURSE_NAME-notebooks-pv
+PERSISTENT_VOLUME_NAME=$COURSE_NAME-notebooks-pv$VERSION_NUMBER
 
 oc get "pv/$PERSISTENT_VOLUME_NAME" > /dev/null 2>&1
 
@@ -47,6 +57,7 @@ fi
 
 oc process -f `dirname $0`/template-notebooks-volume.json \
     --param COURSE_NAME=$COURSE_NAME \
+    --param VERSION_NUMBER=$VERSION_NUMBER \
     --param APPLICATION_NAME=$JUPYTERHUB_DEPLOYMENT | \
     oc create -f -
 
