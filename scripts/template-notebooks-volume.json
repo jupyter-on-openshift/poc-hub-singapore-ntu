@@ -47,7 +47,7 @@
                 },
                 "nfs": {
                     "server": "${NFS_SERVER_NAME}",
-                    "path": "${NFS_SERVER_SHARE}/notebooks-${COURSE_NAME}"
+                    "path": "${NFS_SERVER_SHARE}/notebooks-${COURSE_NAME}-pv"
                 },
                 "claimRef": {
                     "namespace": "${COURSE_NAME}",
