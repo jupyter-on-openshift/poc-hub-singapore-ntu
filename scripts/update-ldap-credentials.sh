@@ -24,14 +24,14 @@ else
 fi
 
 if [ "$#" -ge 1 ]; then
-    LDAP_USERNAME=$1
+    LDAP_SEARCH_USER=$1
     shift
 else
-    read -p "LDAP Username: " LDAP_USERNAME
+    read -p "LDAP Search User: " LDAP_SEARCH_USER
 fi
 
-if [ x"$LDAP_PASSWORD" = x"" ]; then
-    read -s -p "LDAP Password: " LDAP_PASSWORD
+if [ x"$LDAP_SEARCH_PASSWORD" = x"" ]; then
+    read -s -p "LDAP Search Password: " LDAP_SEARCH_PASSWORD
 fi
 
 echo
@@ -70,8 +70,8 @@ fi
 
 oc create secret generic "$LDAP_CREDENTIALS_SECRET" \
     -o json --dry-run \
-    --from-literal=user="$LDAP_USERNAME" \
-    --from-literal=password="$LDAP_PASSWORD" \
+    --from-literal=user="$LDAP_SEARCH_USER" \
+    --from-literal=password="$LDAP_SEARCH_PASSWORD" \
     | oc replace -f - -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then

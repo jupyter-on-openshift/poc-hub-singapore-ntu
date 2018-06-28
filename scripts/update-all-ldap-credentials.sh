@@ -17,14 +17,14 @@ if [ "$#" -ge 1 ]; then
     LDAP_USER=$1
     shift
 else
-    read -p "LDAP Username: " LDAP_USERNAME
+    read -p "LDAP Search User: " LDAP_SEARCH_USER
 fi
 
-if [ x"$LDAP_PASSWORD" = x"" ]; then
-    read -s -p "LDAP Password: " LDAP_PASSWORD
+if [ x"$LDAP_SEARCH_PASSWORD" = x"" ]; then
+    read -s -p "LDAP Search Password: " LDAP_SEARCH_PASSWORD
 fi
 
-export LDAP_PASSWORD
+export LDAP_SEARCH_PASSWORD
 
 echo
 
@@ -75,5 +75,5 @@ for name in $PROJECTS; do
 
     echo "Updating project for $name."
 
-    `dirname $0`/update-ldap-credentials.sh "$name" "$LDAP_USERNAME"
+    `dirname $0`/update-ldap-credentials.sh "$name" "$LDAP_SEARCH_USER"
 done
