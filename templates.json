@@ -83,12 +83,12 @@
                 },
                 {
                     "name": "PYTHON_IMAGE_NAME",
-                    "value": "python:3.6",
+                    "value": "python:3.5",
                     "required": true
                 },
                 {
                     "name": "POSTGRESQL_IMAGE_NAME",
-                    "value": "postgresql:9.6",
+                    "value": "postgresql:9.5",
                     "required": true
                 },
                 {
