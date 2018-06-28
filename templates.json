@@ -50,7 +50,7 @@
                 },
                 {
                     "name": "JUPYTERHUB_IDLE_TIMEOUT",
-                    "value": "900"
+                    "value": "3600"
                 },
                 {
                     "name": "JUPYTERHUB_ENABLE_LAB",
