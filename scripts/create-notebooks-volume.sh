@@ -28,7 +28,7 @@ fi
 
 read -p "Continue? [Y/n] " DO_UPDATE
 
-if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
+if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
     exit 1
 fi
 

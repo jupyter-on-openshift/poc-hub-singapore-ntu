@@ -32,7 +32,7 @@ read -p "New Deployment? [Y/n] " DO_RESTART
 
 read -p "Continue? [Y/n] " DO_UPDATE
 
-if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
+if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
     exit 1
 fi
 
@@ -80,7 +80,7 @@ fi
 
 # Trigger a new deployment if requested.
 
-if [[ $DO_RESTART =~ ^[Yy]$ ]]; then
+if [[ $DO_RESTART =~ ^[Yy]?$ ]]; then
     oc rollout latest "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 fi
 
