@@ -55,7 +55,7 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-MOUNTED=
+MOUNTED=0
 
 for _ in {1..5}; do
     if mount | grep "$NFS_SERVER_SHARE on /mnt " > /dev/null 2>&1; then
@@ -65,7 +65,7 @@ for _ in {1..5}; do
     sleep 3
 done
 
-if [ x"$MOUNTED" != x"1" ]; then
+if [ "$MOUNTED" != "1" ]; then
     echo "ERROR: NFS share $NFS_SERVER_SHARE not showing as mounted on /mnt."
     exit 1
 fi
