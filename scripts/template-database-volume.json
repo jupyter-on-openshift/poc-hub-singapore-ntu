@@ -1,0 +1,65 @@
+{
+    "apiVersion": "v1",
+    "kind": "Template",
+    "metadata": {
+        "name": "database-volume"
+    },
+    "parameters": [
+        {
+            "name": "COURSE_NAME",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "VERSION_NUMBER",
+            "required": false,
+            "value": ""
+        },
+        {
+            "name": "APPLICATION_NAME",
+            "required": true,
+            "value": "jupyterhub"
+        },
+        {
+            "name": "STORAGE_CAPACITY",
+            "required": true,
+            "value": "512Mi"
+        },
+        {
+            "name": "NFS_SERVER_NAME",
+            "required": true,
+            "value": "sds.ntu.edu.sg"
+        },
+        {
+            "name": "NFS_SERVER_SHARE",
+            "required": true,
+            "value": "/NTU/SPMS/openshift/jupyterhubdb"
+        }
+    ],
+    "objects": [
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolume",
+            "metadata": {
+                "name": "${COURSE_NAME}-database-pv${VERSION_NUMBER}"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteMany"
+                ],
+                "capacity": {
+                    "storage": "${STORAGE_CAPACITY}"
+                },
+                "nfs": {
+                    "server": "${NFS_SERVER_NAME}",
+                    "path": "${NFS_SERVER_SHARE}/database-${COURSE_NAME}-pv${VERSION_NUMBER}"
+                },
+                "claimRef": {
+                    "namespace": "${COURSE_NAME}",
+                    "name": "${APPLICATION_NAME}-database"
+                },
+                "persistentVolumeReclaimPolicy": "Retain"
+            }
+        }
+    ]
+}
