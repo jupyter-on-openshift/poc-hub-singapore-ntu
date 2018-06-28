@@ -26,7 +26,9 @@ else
     read -p "Version Number : " VERSION_NUMBER
 fi
 
-read -p "Continue? [Y/n] " DO_UPDATE
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
+    read -p "Continue? [Y/n] " DO_UPDATE
+fi
 
 if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
     exit 1
