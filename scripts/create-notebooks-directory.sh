@@ -106,7 +106,7 @@ fi
 
 # All done, unmount the NFS share. Assume the unmount will be done.
 
-unmount /mnt
+umount /mnt
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Could not unmount the directory /mnt."
