@@ -10,9 +10,9 @@ read -p "Notebook Repository Context Dir: " NOTEBOOK_REPOSITORY_CONTEXT_DIR
 read -p "LDAP Search User: " LDAP_SEARCH_USER
 read -s -p "LDAP Search Password: " LDAP_SEARCH_PASSWORD
 
-read -p "JupyterHub Admin Users: " JUPYTERHUB_ADMIN_USERS
-
 echo
+
+read -p "JupyterHub Admin Users: " JUPYTERHUB_ADMIN_USERS
 
 read -p "Continue? [Y/n] " DO_UPDATE
 
