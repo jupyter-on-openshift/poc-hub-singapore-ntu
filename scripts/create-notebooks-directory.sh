@@ -65,7 +65,7 @@ for _ in {1..5}; do
     sleep 3
 done
 
-if [ x"$MOUNTED" != "1" ]; then
+if [ x"$MOUNTED" != x"1" ]; then
     echo "ERROR: NFS share $NFS_SERVER_SHARE not showing as mounted on /mnt."
     exit 1
 fi
