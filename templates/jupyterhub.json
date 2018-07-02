@@ -246,11 +246,6 @@
                         "kind": "ImageStreamTag",
                         "name": "${APPLICATION_NAME}-hub-img:latest"
                     }
-                },
-                "resources": {
-                    "limits": {
-                        "memory": "3Gi"
-                    }
                 }
             }
         },
@@ -735,6 +730,11 @@
                         "kind": "ImageStreamTag",
                         "name": "${APPLICATION_NAME}-nb-s2i:latest"
                     }
+                },
+                "resources": {
+                    "limits": {
+                        "memory": "3Gi"
+                    }
                 }
             }
         },
@@ -786,6 +786,11 @@
                     "to": {
                         "kind": "ImageStreamTag",
                         "name": "${APPLICATION_NAME}-nb-bld:latest"
+                    }
+                },
+                "resources": {
+                    "limits": {
+                        "memory": "3Gi"
                     }
                 }
             }
@@ -844,6 +849,11 @@
                     "to": {
                         "kind": "ImageStreamTag",
                         "name": "${APPLICATION_NAME}-nb-img:latest"
+                    }
+                },
+                "resources": {
+                    "limits": {
+                        "memory": "3Gi"
                     }
                 }
             }
