@@ -61,7 +61,7 @@ fi
 # Note that the template doesn't needed to be loaded into the OpenShift
 # cluster, it will be used from the file system where the script exists.
 
-oc process -f `dirname $0`/template-database-volume.json \
+oc process -f `dirname $0`/../templates/database-volume.json \
     --param COURSE_NAME=$COURSE_NAME \
     --param VERSION_NUMBER=$VERSION_NUMBER \
     --param APPLICATION_NAME=$JUPYTERHUB_DEPLOYMENT | \
