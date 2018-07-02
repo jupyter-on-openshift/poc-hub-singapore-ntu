@@ -1,4 +1,4 @@
-# Forking the repository
+# Forking the Repository
 
 This example has been tailor made for a specific deployment environment, it will not work out of the box in other environments. You should create a copy or fork of this repository before you use it. This will allow you to modify it to customise it to your own requirements.
 
