@@ -232,7 +232,7 @@
                         "source": {
                             "type": "Git",
                             "git": {
-                                "uri": "https://github.com/jupyter-on-openshift/poc-hub-shared-storage-2.git"
+                                "uri": "https://github.com/jupyter-on-openshift/poc-hub-singapore-ntu.git"
                             },
                             "contextDir": "jupyterhub"
                         },
@@ -773,7 +773,7 @@
                         "source": {
                             "type": "Git",
                             "git": {
-                                "uri": "https://github.com/jupyter-on-openshift/poc-hub-shared-storage-2.git"
+                                "uri": "https://github.com/jupyter-on-openshift/poc-hub-singapore-ntu.git"
                             },
                             "contextDir": "notebook"
                         },
