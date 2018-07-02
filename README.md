@@ -12,4 +12,17 @@ This example is a proof of concept developed to show how a JupyterHub environmen
 * The JupyterLab web interface can be optionally enabled, resulting in support for it being built into the Jupyter notebook image and it being used instead of the Jupyter notebook classic web interface.
 * Scripts are provided to simplify the deployment of the JupyterHub environment, as well as update configuration for LDAP credentials, JupyterHub admin user list and general user whitelist.
 
-Because the example has been tailor made for a specific deployment environment, it will not work out of the box in other environments. It should therefore be used as an example only, and a copy taken which should then be customised for your own requirements.
+Because the example has been tailor made for a specific deployment environment, it will not work out of the box in other environments. It should therefore be used as an example only, and a copy or fork made which should then be customised for your own requirements.
+
+Documentation on installation and use of the JupyterHub environment using the included configuration is as follows:
+
+* [Quick Start Installation](documents/quick-start-installation.md)
+* [Step by Step Installation](documents/step-by-step-installation.md)
+* [Troubleshooting Issues](documents/troubleshooting-issues.md)
+* [Deleting the Environment](documents/deleting-the-environment.md)
+* [Updating LDAP Credentials](documents/updating-ldap-credentials.md)
+* [Updating List of Admins](documents/updating-list-of-admins.md)
+* [Updating User Whitelist](documents/updating-user-whitelist.md)
+* [Notebook Repository Setup](documents/notebook-repository-setup.md)
+* [Guide for Admin Users](documents/guide-for-admin-users.md)
+* [Guide for Normal Users](documents/guide-for-normal-users.md)
