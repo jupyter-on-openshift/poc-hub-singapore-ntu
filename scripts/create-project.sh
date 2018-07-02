@@ -40,7 +40,7 @@ fi
 # script and for now rely on user going to web console for the project,
 # selecting it, filling in fields and creating it.
 
-oc create -f `dirname $0`/../templates.json -n "$COURSE_NAME"
+oc create -f `dirname $0`/../templates/jupyterhub.json -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Cannot load templates into project for $COURSE_NAME."
