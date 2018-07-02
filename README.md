@@ -16,6 +16,7 @@ Because the example has been tailor made for a specific deployment environment, 
 
 Documentation on installation and use of the JupyterHub environment using the included configuration is as follows:
 
+* [Forking the Repository](documents/forking-the-repository.md)
 * [Quick Start Installation](documents/quick-start-installation.md)
 * [Step by Step Installation](documents/step-by-step-installation.md)
 * [Troubleshooting Issues](documents/troubleshooting-issues.md)
