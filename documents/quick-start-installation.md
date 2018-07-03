@@ -60,7 +60,7 @@ template "jupyterhub" created
         * NOTEBOOK_VOLUME_SIZE=25Gi
         * NOTEBOOK_MEMORY=512Mi
         * JUPYTERHUB_CONFIG=
-        * PYTHON_IMAGE_NAME=python:3.5
+        * PYTHON_IMAGE_NAME=python:3.6
         * POSTGRESQL_IMAGE_NAME=postgresql:9.6
         * DATABASE_PASSWORD=... # generated
         * COOKIE_SECRET=... # generated
