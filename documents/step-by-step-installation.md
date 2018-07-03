@@ -49,6 +49,8 @@ The persistent volume for the database will have type ``ReadWriteOnce``. It will
 
 The names of the persistent volumes created will have the format ``$COURSE_NAME-notebooks-pv$VERSION_NUMBER`` and ``$COURSE_NAME-database-pv$VERSION_NUMBER``. Because the directories are named for the source, the persistent volume will be created with a claim reference, so it can only be used by the Jupyter deployment for that course. This way nothing else deployed to the OpenShift cluster can inadvertently claim the persistent volumes.
 
+The reclaim policy for the persistent volumes is set to ``Retain``. This means that when the persistent volume claims are deleted along with the JupyterHub deployment, the persistent volume will not be automatically cleared. To clean up the persistent volume will require manual intervention to delete the directory on the NFS server, along with the persistent volume resource definition. This is so that contents of the directory can be retained if necessary at the end of the course for any reason.
+
 The details of the NFS server and NFS volume is coded into the respective scripts. If during testing you need to override these values, you can set the ``NFS_SERVER_NAME`` and ``NFS_SERVER_SHARE`` environment variables.
 
 The name of the JupyterHub deployment is also coded into the scripts. This defaults to ``jupyterhub``. If during testing you need to override this value, you can set the ``JUPYTERHUB_DEPLOYMENT`` environment variable.
