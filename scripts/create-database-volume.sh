@@ -27,7 +27,7 @@ if [ "$#" -ge 1 ]; then
     VERSION_NUMBER=$1
     shift
 else
-    read -p "Version Number : " VERSION_NUMBER
+    read -p "Version Number: " VERSION_NUMBER
 fi
 
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
