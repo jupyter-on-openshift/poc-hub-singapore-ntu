@@ -1,5 +1,8 @@
 #!/bin/bash
 
+NFS_SERVER_NAME=${NFS_SERVER_NAME:-sds.ntu.edu.sg}
+NFS_SERVER_SHARE=${NFS_SERVER_SHARE:-/NTU/SPMS/openshift/jupyterhubdb}
+
 # Assumed that a project is used for each course and the name of the
 # course is used for the project name. Inside of the project, it is
 # assumed that the JupyterHub deployment is called 'jupyterhub'.
@@ -64,7 +67,9 @@ fi
 oc process -f `dirname $0`/../templates/database-volume.json \
     --param COURSE_NAME=$COURSE_NAME \
     --param VERSION_NUMBER=$VERSION_NUMBER \
-    --param APPLICATION_NAME=$JUPYTERHUB_DEPLOYMENT | \
+    --param APPLICATION_NAME=$JUPYTERHUB_DEPLOYMENT \
+    --param NFS_SERVER_NAME=$NFS_SERVER_NAME \
+    --param NFS_SERVER_SHARE=$NFS_SERVER_SHARE | \
     oc create -f -
 
 if [ "$?" != "0" ]; then
