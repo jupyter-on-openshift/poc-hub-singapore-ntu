@@ -105,7 +105,7 @@ The persistent volume can now be mounted against PostgreSQL using:
 ```
 oc set volume dc/jupyterhub-db --add \
   --claim-name jupyterhub-database-pvc2 --name data \
-  --mount-path /var/lib/pgsql/data
+  --mount-path /var/lib/pgsql/data -n coursename
 ```
 
 Set PostgreSQL running again by running:
