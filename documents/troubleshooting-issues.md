@@ -121,3 +121,32 @@ Then start up JupyterHub again.
 ```
 oc scale --replicas=1 jupyterhub -n coursename
 ```
+
+## Load Testing
+
+If needing to load test the JupyterHub deployment and OpenShift environment to see if you can create many concurrent Jupyter notebook instances at the same time, you will first need to disable the LDAP authentication mechanism for users.
+
+From the web console, edit the config map ``jupyterhub-cfg`` and under the ``jupyterhub_config.py`` entry add:
+
+```
+c.JupyterHub.authenticator_class = 'tmpauthenticator.TmpAuthenticator'
+```
+
+Also override the default timeout for idle Jupyter notebook instances so that they will be cleaned up after a shorter period than the default of 60 minutes (3600 seconds).
+
+
+```
+oc set env dc/jupyterhub JUPYTERHUB_IDLE_TIMEOUT=300
+```
+
+Running ``oc set env`` will cause a redeployment of JupyterHub and the updated config map will now also be used.
+
+You can now use curl to create Jupyter notebook instances. A script for testing can be found at [scripts/spawn-jupyter-notebooks.sh](../scripts/spawn-jupyter-notebooks.sh).
+
+Run the script as:
+
+```
+scripts/spawn-jupyter-notebooks.sh https://... 10 3
+```
+
+The arguments are the URL for the JupyterHub instance, the number of sessions to create and the delay between each session being created.
