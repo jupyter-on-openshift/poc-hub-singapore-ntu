@@ -25,3 +25,99 @@ oc start-build jupyterhub-hub-img --follow
 ```
 
 The ``--follow`` option is optional, and will result in the build being monitored, with log file output appearing in the terminal.
+
+## Corrupt Database
+
+JupyterHub uses a PostgreSQL database to store the current list of whitelisted users and admin users, along with the state of any current active sessions.
+
+If this database were to become corrupted, the easiest way to recover is to start over with a fresh database. To be able to do this, you need to have ensured you have kept up to date the config maps for the admin users and user whitelist. That is, if you had manually added users, or designated users as admins, through the admin panel of JupyterHub, that you had also updated the corresponding config maps. So long as you do this, the database can be re-created from the lists provided by the config maps.
+
+To facilitate re-creating the database, you should perform the following steps.
+
+First up, if you don't have a copy of the config maps for the admin users and user whitelist saved separate to the OpenShift cluster, make one. This can be done by running the commands:
+
+```
+scripts/extract-admin-users.sh coursename > admin_users.txt
+```
+
+and
+
+```
+scripts/extract-user-whitelist.sh coursename > user_whitelist.txt
+```
+
+This is a backup copy just in case required.
+
+Next ensure that both PostgreSQL and JupyterHub are not running. This can be done by running the commands:
+
+```
+oc scale --replicas=0 jupyterhub -n coursename
+```
+
+and:
+
+```
+oc scale --replicas=0 jupyterhub-db -n coursename
+```
+
+The ``-n`` argument ensures you are performing the step against the correct project for the course.
+
+Now ensure there are no Jupyter notebook instances running.
+
+```
+oc delete pods --selector component=singleuser-server -n coursename
+```
+
+From the host where you are able to mount the NFS volumes, run:
+
+```
+sudo scripts/create-database-directory.sh coursename 2
+```
+
+This should result in a new directory being created with format ``database-$COURSE_NAME-pv2``. That is, it will create a directory parallel to the existing directory for the database, but with ``2`` at the end.
+
+Next create the corresponding persistent volume resource definition.
+
+```
+scripts/create-database-volume.sh coursename 2
+```
+
+This should result in a persistent volume resource definition with name ``$COURSE_NAME-database-pv2`` being created.
+
+It is now necessary to unmount the existing persistent volume claim from the deployment configuration for the PostgreSQL database.
+
+```
+oc set volume dc/jupyterhub-db --remove --name data -n coursename
+```
+
+Now create a new persistent volume claim associated with the new persistent volume.
+
+```
+oc process -f templates/database-claim.json \
+  --param COURSE_NAME=coursename \
+  --param VERSION_NUMBER=2 | oc create -f - -n coursename
+```
+
+This should result in the creation of a peristent volume claim in the project for the course with format ``jupyterhub-database-pvc2``.
+
+The persistent volume can now be mounted against PostgreSQL using:
+
+```
+oc set volume dc/jupyterhub-db --add \
+  --claim-name jupyterhub-database-pvc2 --name data \
+  --mount-path /var/lib/pgsql/data
+```
+
+Set PostgreSQL running again by running:
+
+```
+oc scale --replicas=1 jupyterhub-db -n coursename
+```
+
+Confirm that PostgreSQL starts up okay.
+
+Then start up JupyterHub again.
+
+```
+oc scale --replicas=1 jupyterhub -n coursename
+```

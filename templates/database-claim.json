@@ -1,0 +1,52 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "database-claim"
+    },
+    "parameters": [
+        {
+            "name": "APPLICATION_NAME",
+            "value": "jupyterhub",
+            "required": true
+        },
+        {
+            "name": "COURSE_NAME",
+            "value": "",
+            "required": true
+        },
+        {
+            "name": "VERSION_NUMBER",
+            "required": false,
+            "value": ""
+        },
+        {
+            "name": "POSTGRESQL_VOLUME_SIZE",
+            "value": "512Mi",
+            "required": true
+        }
+    ],
+    "objects": [
+        {
+            "kind": "PersistentVolumeClaim",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-database-pvc${VERSION_NUMBER}",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "${POSTGRESQL_VOLUME_SIZE}"
+                    }
+                },
+                "volumeName": "${COURSE_NAME}-database-pv${VERSION_NUMBER}"
+            }
+        }
+    ]
+}
