@@ -146,7 +146,7 @@ You can now use curl to create Jupyter notebook instances. A script for testing 
 Run the script as:
 
 ```
-scripts/spawn-jupyter-notebooks.sh https://... 10 3
+scripts/spawn-jupyter-notebooks.sh https://... 5 5
 ```
 
 The arguments are the URL for the JupyterHub instance, the number of sessions to create and the delay between each session being created.
