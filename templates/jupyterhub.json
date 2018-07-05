@@ -30,6 +30,10 @@
             "value": ""
         },
         {
+            "name": "NOTEBOOK_REPOSITORY_REFERENCE",
+            "value": "master"
+        },
+        {
             "name": "LDAP_SEARCH_USER",
             "value": "",
             "required": true
@@ -826,7 +830,8 @@
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${NOTEBOOK_REPOSITORY_URL}"
+                        "uri": "${NOTEBOOK_REPOSITORY_URL}",
+                        "ref": "${NOTEBOOK_REPOSITORY_REFERENCE}"
                     },
                     "contextDir": "${NOTEBOOK_REPOSITORY_CONTEXT_DIR}"
                 },

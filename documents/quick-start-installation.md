@@ -17,6 +17,7 @@ When the script is run, it will prompt you for a number of inputs. These are:
 * ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
 * ``Notebook Repository URL`` - The URL of the Git repository which hosts the Jupyter notebook and data files for the course.
 * ``Notebook Repository Context Dir`` - The directory within the Git repository which contains the Jupyter notebook and data files, along with the ``requirements.txt`` file listing what Python packages are required for the Jupyter notebooks. This should be left empty if files are in the root of the Git repository.
+* ``Notebook Repository Reference`` - The Git branch, tag or ref of the Git repository which holds the desired version of the Jupyter notebooks and data files. If left as empty, the Git repository 'master' branch will be used.
 * ``LDAP Search User`` - The name of the LDAP user account used to perform searches against the LDAP authentication servers.
 * ``LDAP Search Password`` - The password for the LDAP user account used to perform searches against the LDAP authentication servers.
 * ``JupyterHub Admin Users`` - A list of the LDAP users who should initially be granted JupyterHub admin rights. The names of each user should be separate by whitespace. This can be left empty as the names can be updated later.
@@ -28,6 +29,7 @@ $ sudo scripts/deploy-jupyterhub.sh
 Course Name: jakevdp
 Notebook Repository URL: https://github.com/jakevdp/PythonDataScienceHandbook
 Notebook Repository Context Dir:
+Notebook Repository Reference [master]:
 LDAP Search User: ldap-username
 LDAP Search Password:
 JupyterHub Admin Users: admin-username
@@ -50,6 +52,7 @@ template "jupyterhub" created
         * COURSE_NAME=jakevdp
         * NOTEBOOK_REPOSITORY_URL=https://github.com/jakevdp/PythonDataScienceHandbook
         * NOTEBOOK_REPOSITORY_CONTEXT_DIR=
+        * NOTEBOOK_REPOSITORY_REFERENCE=master
         * LDAP_SEARCH_USER=ldap-username
         * LDAP_SEARCH_PASSWORD=...
         * JUPYTERHUB_ADMIN_USERS=admin-username

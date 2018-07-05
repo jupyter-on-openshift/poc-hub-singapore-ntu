@@ -6,6 +6,11 @@ read -p "Course Name: " COURSE_NAME
 
 read -p "Notebook Repository URL: " NOTEBOOK_REPOSITORY_URL
 read -p "Notebook Repository Context Dir: " NOTEBOOK_REPOSITORY_CONTEXT_DIR
+read -p "Notebook Repository Reference [master]: " NOTEBOOK_REPOSITORY_REFERENCE
+
+if [ "$NOTEBOOK_REPOSITORY_REFERENCE" = "" ]; then
+    NOTEBOOK_REPOSITORY_REFERENCE=master
+fi
 
 read -p "LDAP Search User: " LDAP_SEARCH_USER
 read -s -p "LDAP Search Password: " LDAP_SEARCH_PASSWORD
