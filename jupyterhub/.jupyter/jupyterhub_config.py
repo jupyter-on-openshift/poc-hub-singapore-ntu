@@ -100,14 +100,15 @@ volume_mounts_user = [
     {
         'name': 'notebooks',
         'mountPath': '/opt/app-root/src',
-        'subPath': '{username}'
+        'subPath': 'users/{username}'
     }
 ]
 
 volume_mounts_admin = [
     {
         'name': 'notebooks',
-        'mountPath': '/opt/app-root/src/users'
+        'mountPath': '/opt/app-root/src/users',
+        'subPath': 'users'
     }
 ]
 
@@ -139,11 +140,8 @@ def modify_pod_hook(spawner, pod):
         volume_mounts = volume_mounts_user
         workspace = 'workspace'
 
-    try:
-        os.mkdir(interpolate_properties(spawner, '/opt/app-root/notebooks/{username}'))
-
-    except IOError:
-        pass
+    os.makedirs(interpolate_properties(spawner,
+            '/opt/app-root/notebooks/users/{username}'), exist_ok=True)
 
     pod.spec.containers[0].env.append(dict(name='JUPYTER_MASTER_FILES',
             value='/opt/app-root/master'))
