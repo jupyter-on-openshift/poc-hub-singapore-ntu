@@ -69,8 +69,9 @@ oc process -f `dirname $0`/../templates/database-volume.json \
     --param VERSION_NUMBER=$VERSION_NUMBER \
     --param APPLICATION_NAME=$JUPYTERHUB_DEPLOYMENT \
     --param NFS_SERVER_NAME=$NFS_SERVER_NAME \
-    --param NFS_SERVER_SHARE=$NFS_SERVER_SHARE | \
-    oc create -f -
+    --param NFS_SERVER_SHARE=$NFS_SERVER_SHARE \
+    -n default | \
+    oc create -f - -n default
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Failed to create persistent volume for $COURSE_NAME database."
