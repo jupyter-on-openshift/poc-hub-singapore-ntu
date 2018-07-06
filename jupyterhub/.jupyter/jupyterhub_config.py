@@ -119,8 +119,7 @@ def interpolate_properties(spawner, template):
 
     return template.format(
         userid=spawner.user.id,
-        username=username
-        )
+        username=username)
 
 def expand_strings(spawner, src):
     if isinstance(src, list):
@@ -165,5 +164,10 @@ if idle_timeout and int(idle_timeout):
             'name': 'cull-idle',
             'admin': True,
             'command': ['cull-idle-servers', '--timeout=%s' % idle_timeout],
+        },
+        {
+            'name': 'backup-users',
+            'admin': True,
+            'command': ['backup-user-details', '--backups=/opt/app-root/notebooks/backups'],
         }
     ]
