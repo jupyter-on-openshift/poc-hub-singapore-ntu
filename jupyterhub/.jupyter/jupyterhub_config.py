@@ -85,7 +85,7 @@ if os.path.exists('/opt/app-root/configs/user_whitelist.txt'):
 # persistent volume.
 
 c.KubeSpawner.user_storage_pvc_ensure = False
-c.KubeSpawner.pvc_name_template = '%s-notebooks' % c.KubeSpawner.hub_connect_ip
+c.KubeSpawner.pvc_name_template = '%s-notebooks-pvc' % c.KubeSpawner.hub_connect_ip
 
 c.KubeSpawner.volumes = [
     {
