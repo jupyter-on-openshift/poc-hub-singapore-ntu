@@ -60,14 +60,14 @@ fi
 # Note that the template doesn't needed to be loaded into the OpenShift
 # cluster, it will be used from the file system where the script exists.
 
-oc process -f `dirname $0`/../templates/notebooks-volume.json \
+oc process -n default \
+    -f `dirname $0`/../templates/notebooks-volume.json \
     --param COURSE_NAME=$COURSE_NAME \
     --param VERSION_NUMBER=$VERSION_NUMBER \
     --param APPLICATION_NAME=$JUPYTERHUB_DEPLOYMENT \
     --param NFS_SERVER_NAME=$NFS_SERVER_NAME \
-    --param NFS_SERVER_SHARE=$NFS_SERVER_SHARE \
-    -n default | \
-    oc create -f - -n default
+    --param NFS_SERVER_SHARE=$NFS_SERVER_SHARE | \
+    oc create -n default -f -
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Failed to create persistent volume for $COURSE_NAME notebooks."
