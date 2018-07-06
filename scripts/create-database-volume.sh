@@ -74,4 +74,6 @@ oc process -n default \
     oc create -n default -f -
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Failed to create persistent volume for $COURSE_NA
+    echo "ERROR: Failed to create persistent volume for $COURSE_NAME database."
+    exit 1
+fi
