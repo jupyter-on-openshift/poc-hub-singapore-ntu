@@ -726,6 +726,10 @@
                         },
                         "env": [
                             {
+                                "name": "UPGRADE_PIP_TO_LATEST",
+                                "value": "true"
+                            },
+                            {
                                 "name": "JUPYTER_INSTALL_LAB",
                                 "value": "true"
                             }
