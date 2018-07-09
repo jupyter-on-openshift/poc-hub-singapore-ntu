@@ -26,13 +26,13 @@ When the JupyterHub instance is restarted in this way, if there were any Jupyter
 
 ## Shutting Down Jupyter Notebooks
 
-If when shutting down JupyterHub, you want to also shutdown all Jupyter notebook instances first, then this can be done from the admin panel accessed from the control panel in JupyerHub. Select on the _Stop All_ button in the admin panel. Once shutdown of all the Jupyter notebook instances has been done, you can then shutdown the JupyterHub instance.
+If when shutting down JupyterHub, you want to also shutdown all Jupyter notebook instances first, then this can be done from the admin panel accessed from the control panel in JupyterHub. Select the _Stop All_ button in the admin panel. Once shutdown of all the Jupyter notebook instances has been done, you can then shutdown the JupyterHub instance.
 
-If you need to shutdown a specific Jupyter notebook instances, and JupyterHub is running, this also can be done from the admin panel by selecting _stop server_ for the user.
+If you need to shutdown a specific Jupyter notebook instance, and JupyterHub is running, this also can be done from the admin panel by selecting _stop server_ for the user.
 
 The preferred way of shutting down Jupyter notebook instances is from the admin panel of JupyterHub. This ensures that JupyterHub can track the current state of the Jupyter notebook instance for a user. If Jupyter notebook instances need to be shutdown quickly, or JupyterHub is not accessible, they can be killed using the ``oc delete pod`` command.
 
-To get a list of all running pods corresponding to a JupyterHub instance you can run:
+To get a list of all running pods corresponding to Jupyter notebooks instance you can run:
 
 ```
 $ oc get pods -n coursename --selector app=jupyterhub,component=singleuser-server
@@ -68,6 +68,8 @@ To start up the PostgreSQL database again, you can run:
 $ oc scale dc jupyterhub-db --replicas=1 -n coursename
 deploymentconfig "jupyterhub-db" scaled
 ```
+
+Do not ever set the number of replicas of PostgreSQL to any value besides 0 or 1. If you scale up the number of replicas for PostrgreSQL to more than 1, you can corrupt the database.
 
 It is recommended that the PostgreSQL instance be started up before starting up JupyterHub, if both had been shutdown. This will avoid issues with JupyterHub not starting up and failing the deployment due to the PostgreSQL database not being available.
 
