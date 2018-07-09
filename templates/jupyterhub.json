@@ -731,7 +731,7 @@
                             },
                             {
                                 "name": "JUPYTER_INSTALL_LAB",
-                                "value": "true"
+                                "value": "${JUPYTERHUB_ENABLE_LAB}"
                             }
                         ]
                     }
