@@ -4,7 +4,7 @@ When JupyterHub is being initially deployed, the credentials for the LDAP user t
 
 The LDAP credentials for a single JupyterHub instance can be updated using the script:
 
-* [scripts/update-ldap-credentials.sh][../scripts/update-ldap-credentials.sh]
+* [scripts/update-ldap-credentials.sh](../scripts/update-ldap-credentials.sh)
 
 This script needs to be supplied three inputs:
 
@@ -45,3 +45,5 @@ Continue? [Y/n] y
 secret "jupyterhub-ldap" updated
 deploymentconfig "jupyterhub" rolled out
 ```
+
+This script will look through all projects in the OpenShift cluster looking for a secret corresponding to a JupyterHub instance and update it. This script should only be used where the cluster is only being used to host JupyterHub instances. If using the cluster for other purposes at the same time, it is recommended you update the LDAP credentials on one JupyterHub instance at a time.
