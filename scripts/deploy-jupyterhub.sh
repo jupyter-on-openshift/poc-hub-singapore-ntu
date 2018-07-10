@@ -44,21 +44,9 @@ set -e
 
 `dirname $0`/create-project.sh "$COURSE_NAME"
 
-# Go back to failing only when our checks fail.
+# Deploy instantiate the template to deploy JupyterHub.
 
-set +e
-
-# Deploy JupyterHub in the project.
-
-oc new-app -n "$COURSE_NAME" --template jupyterhub \
-    --param COURSE_NAME="$COURSE_NAME" \
-    --param NOTEBOOK_REPOSITORY_URL="$NOTEBOOK_REPOSITORY_URL" \
-    --param NOTEBOOK_REPOSITORY_CONTEXT_DIR="$NOTEBOOK_REPOSITORY_CONTEXT_DIR" \
-    --param LDAP_SEARCH_USER="$LDAP_SEARCH_USER" \
-    --param LDAP_SEARCH_PASSWORD="$LDAP_SEARCH_PASSWORD" \
-    --param JUPYTERHUB_ADMIN_USERS="$JUPYTERHUB_ADMIN_USERS"
-
-if [ "$?" != "0" ]; then
-    echo "ERROR: Cannot deploy JupyterHub for $COURSE_NAME."
-    exit 1
-fi
+`dirname $0`/instantiate-template.sh "$COURSE_NAME" \
+    "$NOTEBOOK_REPOSITORY_URL" "$NOTEBOOK_REPOSITORY_CONTEXT_DIR" \
+    "$NOTEBOOK_REPOSITORY_REFERENCE" "$LDAP_SEARCH_USER" \
+    "$LDAP_SEARCH_PASSWORD" "$JUPYTERHUB_ADMIN_USERS"

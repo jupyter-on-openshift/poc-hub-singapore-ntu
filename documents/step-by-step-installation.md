@@ -9,6 +9,7 @@ These scripts are:
 * [scripts/create-notebooks-volume.sh](../scripts/create-notebooks-volume.sh) - Creates the persistent volume resource definition in OpenShift for the volume to hold the users Jupyter notebooks for the course.
 * [scripts/create-database-volume.sh](../scripts/create-database-volume.sh) - Creates the persistent volume resource definition in OpenShift for the volume to hold the JupyterHub database for the course.
 * [scripts/create-project.sh](../scripts/create-project.sh) - Creates the project for the course and loads the template used to deploy JupyterHub.
+* [scripts/instiante-template.sh](../scripts/instantiate-template.sh) - Instantiates the template that deploys the JupyterHub instance.
 
 If running the scripts one at a time instead of using ``scripts/deploy-jupyterhub.sh``, you still need to perform the deployment. This can be done using the loaded template, from the command line or the web console.
 
@@ -83,122 +84,22 @@ This script must be run from a UNIX user account for which ``oc`` is already log
 
 The script will create a project with name the same as the course name. The template for deploying the JupyterHub instance will be loaded into the project. The template will not be instantiated and deployment of a JupyterHub instance into the project will need to be done as a separate step.
 
-## Deploying JupyterHub
+## Instantiating the Template
 
-The scripts above prepare the persistent volumes and the project for the course, they do not deploy the JupyterHub instance.
+Instantiation of the template which deploys the JupyterHub instance is handled using the script:
 
-Once the above scripts have been run, the JupyterHub deployment can be created by instantiating the template with the appropriate arguments. This can be done from the command line, or from the web console. The name of the template is ``jupyterhub``.
+* [scripts/instantiate-template.sh](../scripts/instantiate-template.sh)
 
-A description of the template, the parameters it accepts and the resources it creates, can be viewed by running:
+The script needs to be supplied with the following inputs.
 
-```
-oc describe templates/jupyterhub
-```
+* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
+* ``Notebook Repository URL`` - The URL of the Git repository which hosts the Jupyter notebook and data files for the course.
+* ``Notebook Repository Context Dir`` - The directory within the Git repository which contains the Jupyter notebook and data files, along with the ``requirements.txt`` file listing what Python packages are required for the Jupyter notebooks. This should be left empty if files are in the root of the Git repository.
+* ``Notebook Repository Reference`` - The Git branch, tag or ref of the Git repository which holds the desired version of the Jupyter notebooks and data files. If left as empty, the Git repository 'master' branch will be used.
+* ``LDAP Search User`` - The name of the LDAP user account used to perform searches against the LDAP authentication servers.
+* ``LDAP Search Password`` - The password for the LDAP user account used to perform searches against the LDAP authentication servers.
+* ``JupyterHub Admin Users`` - A list of the LDAP users who should initially be granted JupyterHub admin rights. The names of each user should be separate by whitespace. This can be left empty as the names can be updated later.
 
-The list of parameters the template accepts are:
+The input can be supplied as command line arguments. If not supplied as  a command line argument, the script will prompt for the value.
 
-```
-Parameters:
-    Name:	APPLICATION_NAME
-    Required:	true
-    Value:	jupyterhub
-
-    Name:	COURSE_NAME
-    Required:	true
-    Value:	<none>
-
-    Name:	NOTEBOOK_REPOSITORY_URL
-    Required:	true
-    Value:	<none>
-
-    Name:	NOTEBOOK_REPOSITORY_CONTEXT_DIR
-    Required:	false
-    Value:	<none>
-
-    Name:	LDAP_SEARCH_USER
-    Required:	true
-    Value:	<none>
-
-    Name:	LDAP_SEARCH_PASSWORD
-    Required:	true
-    Value:	<none>
-
-    Name:	JUPYTERHUB_ADMIN_USERS
-    Required:	false
-    Value:	<none>
-
-    Name:	JUPYTERHUB_ENROLLED_USERS
-    Required:	false
-    Value:	<none>
-
-    Name:	JUPYTERHUB_IDLE_TIMEOUT
-    Required:	false
-    Value:	3600
-
-    Name:	JUPYTERHUB_ENABLE_LAB
-    Required:	false
-    Value:	false
-
-    Name:	POSTGRESQL_VOLUME_SIZE
-    Required:	true
-    Value:	512Mi
-
-    Name:	NOTEBOOK_VOLUME_SIZE
-    Required:	true
-    Value:	25Gi
-
-    Name:	NOTEBOOK_MEMORY
-    Required:	true
-    Value:	512Mi
-
-    Name:	JUPYTERHUB_CONFIG
-    Required:	false
-    Value:	<none>
-
-    Name:	PYTHON_IMAGE_NAME
-    Required:	true
-    Value:	python:3.6
-
-    Name:	POSTGRESQL_IMAGE_NAME
-    Required:	true
-    Value:	postgresql:9.6
-
-    Name:	DATABASE_PASSWORD
-    Required:	true
-    Generated:	expression
-    From:	[a-zA-Z0-9]{16}
-
-    Name:	COOKIE_SECRET
-    Required:	true
-    Generated:	expression
-    From:	[a-f0-9]{32}
-```
-
-Many template parameters provide defaults, static or generated, and do not need to be supplied.
-
-The key parameters that would normally be supplied are:
-
-* ``COURSE_NAME`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
-* ``NOTEBOOK_REPOSITORY_URL`` - The URL of the Git repository which hosts the Jupyter notebook and data files for the course.
-* ``NOTEBOOK_REPOSITORY_CONTEXT_DIR`` - The directory within the Git repository which contains the Jupyter notebook and data files, along with the requirements.txt file listing what Python packages are required for the Jupyter notebooks. This should be left empty if files are in the root of the Git repository.
-* ``LDAP_SEARCH_USER`` - The name of the LDAP user account used to perform searches against the LDAP authentication servers.
-* ``LDAP_SEARCH_PASSWORD`` - The password for the LDAP user account used to perform searches against the LDAP authentication servers.
-* ``JUPYTERHUB_ADMIN_USERS`` - A list of the LDAP users who should initially be granted JupyterHub admin rights. The names of each user should be separate by whitespace. This can be left empty as the names can be updated later.
-
-These are the same key parameters which need to be supplied if using the all in one deployment script ``scripts/deploy-jupyterhub.sh``.
-
-To perform the deployment from the command line, as a user which ``admin`` or ``edit`` role in the project for the course, run:
-
-```
-oc new-app -n "jakevdp" --template jupyterhub \
-    --param COURSE_NAME="jakevdp" \
-    --param NOTEBOOK_REPOSITORY_URL="https://github.com/jakevdp/PythonDataScienceHandbook" \
-    --param NOTEBOOK_REPOSITORY_CONTEXT_DIR="" \
-    --param LDAP_SEARCH_USER="ldap-username" \
-    --param LDAP_SEARCH_PASSWORD="..." \
-    --param JUPYTERHUB_ADMIN_USERS="admin-username"
-```
-
-If creating the deployment from the web console, from the overview page for the project, select _Add to Project_, then _Select from Project_. Then click on the JupyterHub template and proceed with the deployment, supplying the above fields.
-
-Note that when deploying from the web console, because a special service account is created to run JupyterHub, it will be necessary to confirm via a dialog box that you wish to do this and proceed with the deployment.
+The script should only be run after the above steps have been run as it expects the project to have already been created.
