@@ -145,13 +145,13 @@ This is a backup copy just in case required.
 Next ensure that both PostgreSQL and JupyterHub are not running. This can be done by running the commands:
 
 ```
-$ oc scale --replicas=0 jupyterhub -n coursename
+$ oc scale --replicas=0 dc/jupyterhub -n coursename
 ```
 
 and:
 
 ```
-$ oc scale --replicas=0 jupyterhub-database -n coursename
+$ oc scale --replicas=0 dc/jupyterhub-database -n coursename
 ```
 
 The ``-n`` argument ensures you are performing the step against the correct project for the course.
@@ -205,7 +205,7 @@ $ oc set volume dc/jupyterhub-database --add \
 Set PostgreSQL running again by running:
 
 ```
-$ oc scale --replicas=1 jupyterhub-database -n coursename
+$ oc scale --replicas=1 dc/jupyterhub-database -n coursename
 ```
 
 Confirm that PostgreSQL starts up okay.
@@ -213,7 +213,7 @@ Confirm that PostgreSQL starts up okay.
 Then start up JupyterHub again.
 
 ```
-$ oc scale --replicas=1 jupyterhub -n coursename
+$ oc scale --replicas=1 dc/jupyterhub -n coursename
 ```
 
 ## Load Testing
