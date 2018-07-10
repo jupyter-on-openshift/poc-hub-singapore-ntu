@@ -68,7 +68,7 @@ Note that if always using the same copy of this repository, the set of system pa
 
 When the JupyterHub deployment is done, the builds will be automatically setup and run. If you need to make changes to the set of Jupyter notebook files, data files, or ``requirements.txt`` file after the deployment has been done, you will need to trigger a new build.
 
-To re-rerun the build for the image used to run the Jupyyer notebook instance, you can run the command:
+To re-rerun the build for the image used to run the Jupyter notebook instance, you can run the command:
 
 ```
 $ oc start-build jupyterhub-nb-img -n coursename
