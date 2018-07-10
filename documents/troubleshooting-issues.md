@@ -1,12 +1,12 @@
 # Troubleshooting Issues
 
-Issues could arise during the deployment of JupyterHub, or during its operation. A number of issues are described below along with how to deal with them.
+Issues could arise during the deployment of JupyterHub, or during its operation. A number of issues are described below along with how to deal with them. How to retrieve logs for applications and notification events from OpenShift are also covered.
 
 ## Viewing Application Logs
 
 Processes for the JupyterHub application and PostgreSQL database, along with processes for each separate instance of a users Jupyter notebook, all run in distinct containers (pods) under OpenShift. The pods isolate the applications from each other, as well as constraining what the applications or users of those applications can do.
 
-Any log output from the respective applications sent to stdout/stderr is capture by OpenShift and can be retrieved as necessary. To retrieve the logs for an application, you need to know the name of the pod for the current instance of the application.
+Any log output from the respective applications sent to stdout/stderr is captured by OpenShift and can be retrieved as necessary. To retrieve the logs for an application, you need to know the name of the pod for the current instance of the application.
 
 To get a list of the pods in a project for a course, you can run:
 
@@ -100,13 +100,13 @@ $ oc get builds -n coursename
 To view the build logs and determine why the build may have failed, use ``oc logs`` with the name of the build has argument.
 
 ```
-$ oc logs build/jupyterhub-hub-img-1 --course name
+$ oc logs build/jupyterhub-hub-img-1 -n coursename
 ```
 
 To restart a build, run ``oc start-build`` on the corresponding build configuration. For example:
 
 ```
-$ oc start-build jupyterhub-hub-img --follow
+$ oc start-build jupyterhub-hub-img --follow -n coursename
 ```
 
 The ``--follow`` option is optional, and will result in the build being monitored, with log file output appearing in the terminal.
