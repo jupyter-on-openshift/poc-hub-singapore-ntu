@@ -103,7 +103,7 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-chmod 0770 $NFS_NOTEBOOKS_DIRECTORY
+chmod u+rwx,g+rws $NFS_NOTEBOOKS_DIRECTORY
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Could not set permissions on directory $NFS_NOTEBOOKS_DIRECTORY."
