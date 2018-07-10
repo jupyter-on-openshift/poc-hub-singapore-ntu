@@ -17,7 +17,9 @@ if ! [[ $COURSE_NAME =~ ^[a-z0-9-]*$ ]]; then
     exit 1
 fi
 
-read -p "Continue? [Y/n] " DO_UPDATE
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
+    read -p "Continue? [Y/n] " DO_UPDATE
+fi
 
 if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
     exit 1
