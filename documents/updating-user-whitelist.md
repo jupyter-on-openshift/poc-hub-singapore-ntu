@@ -2,7 +2,7 @@
 
 JupyterHub provides a means for users to create their own Jupyter notebook instance. With the configuration for this example, the only non admin users who are able to create Jupyter notebook instances are those listed in the user whitelist.
 
-Do be aware though that after initially creating the JupyterHub deployment, the user whitelist will be empty. In this initial state, any user who can authenticate with LDAP will be allowed to create a Jupyter notebook instance. This is to facilitate initial testing of the deployment. Before making the JupyterHub instance available, you should update the user whitelist to restrict access to just the required set of users.
+Because the user whitelist will be empty initially, this means that only those listed as admin users will initially be able to access the JupyterHub instance.
 
 ## Querying User Whitelist
 
