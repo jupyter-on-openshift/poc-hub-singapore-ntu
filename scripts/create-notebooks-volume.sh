@@ -24,7 +24,7 @@ fi
 
 COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
 
-if ! [[ $COURSE_NAME =~ ^[a-z-]*$ ]]; then
+if ! [[ $COURSE_NAME =~ ^[a-z0-9-]*$ ]]; then
     echo "ERROR: Invalid course name $COURSE_NAME."
     exit 1
 fi
