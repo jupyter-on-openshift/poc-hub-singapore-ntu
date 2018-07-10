@@ -151,7 +151,7 @@ $ oc scale --replicas=0 jupyterhub -n coursename
 and:
 
 ```
-$ oc scale --replicas=0 jupyterhub-db -n coursename
+$ oc scale --replicas=0 jupyterhub-database -n coursename
 ```
 
 The ``-n`` argument ensures you are performing the step against the correct project for the course.
@@ -181,7 +181,7 @@ This should result in a persistent volume resource definition with name ``$COURS
 It is now necessary to unmount the existing persistent volume claim from the deployment configuration for the PostgreSQL database.
 
 ```
-$ oc set volume dc/jupyterhub-db --remove --name data -n coursename
+$ oc set volume dc/jupyterhub-database --remove --name data -n coursename
 ```
 
 Now create a new persistent volume claim associated with the new persistent volume.
@@ -197,7 +197,7 @@ This should result in the creation of a peristent volume claim in the project fo
 The persistent volume can now be mounted against PostgreSQL using:
 
 ```
-$ oc set volume dc/jupyterhub-db --add \
+$ oc set volume dc/jupyterhub-database --add \
   --claim-name jupyterhub-database-pvc2 --name data \
   --mount-path /var/lib/pgsql/data -n coursename
 ```
@@ -205,7 +205,7 @@ $ oc set volume dc/jupyterhub-db --add \
 Set PostgreSQL running again by running:
 
 ```
-$ oc scale --replicas=1 jupyterhub-db -n coursename
+$ oc scale --replicas=1 jupyterhub-database -n coursename
 ```
 
 Confirm that PostgreSQL starts up okay.
