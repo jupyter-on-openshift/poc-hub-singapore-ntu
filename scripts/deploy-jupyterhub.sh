@@ -4,6 +4,13 @@
 
 read -p "Course Name: " COURSE_NAME
 
+COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
+
+if ! [[ $COURSE_NAME =~ ^[a-z-]*$ ]]; then
+    echo "ERROR: Invalid course name $COURSE_NAME."
+    exit 1
+fi
+
 read -p "Notebook Repository URL: " NOTEBOOK_REPOSITORY_URL
 read -p "Notebook Repository Context Dir: " NOTEBOOK_REPOSITORY_CONTEXT_DIR
 read -p "Notebook Repository Reference [master]: " NOTEBOOK_REPOSITORY_REFERENCE

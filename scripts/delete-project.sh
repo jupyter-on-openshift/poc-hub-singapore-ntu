@@ -16,6 +16,13 @@ else
     read -p "Course Name: " COURSE_NAME
 fi
 
+COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
+
+if ! [[ $COURSE_NAME =~ ^[a-z-]*$ ]]; then
+    echo "ERROR: Invalid course name $COURSE_NAME."
+    exit 1
+fi
+
 # Assumed that 'oc' is in the current path and that the script is being
 # run with appropriate privileges to perform update on project. First
 # check that a project for the course exists.
