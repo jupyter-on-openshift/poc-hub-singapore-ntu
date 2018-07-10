@@ -21,7 +21,6 @@ Documentation on installation and use of the JupyterHub environment using the in
 * [Quick Start Installation](documents/quick-start-installation.md)
 * [Step by Step Installation](documents/step-by-step-installation.md)
 * [Troubleshooting Issues](documents/troubleshooting-issues.md)
-* [Access Application Logs](documents/access-application-logs.md)
 * [Shutdown the Environment](documents/shutdown-the-environment.md)
 * [Deleting the Environment](documents/deleting-the-environment.md)
 * [Updating LDAP Credentials](documents/updating-ldap-credentials.md)
