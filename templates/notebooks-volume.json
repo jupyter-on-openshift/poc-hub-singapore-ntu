@@ -56,7 +56,7 @@
                 },
                 "claimRef": {
                     "namespace": "${COURSE_NAME}",
-                    "name": "${APPLICATION_NAME}-notebooks-pvc"
+                    "name": "${APPLICATION_NAME}-notebooks-pvc${VERSION_NUMBER}"
                 },
                 "persistentVolumeReclaimPolicy": "Retain"
             }
