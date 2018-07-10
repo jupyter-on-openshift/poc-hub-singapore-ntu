@@ -87,6 +87,8 @@ fi
 # The target directory doesn't exist so create it and set ownership and
 # permissions. We expect the parent directory to already exist.
 
+echo "INFO: Will create directory $NFS_NOTEBOOKS_DIRECTORY."
+
 mkdir $NFS_NOTEBOOKS_DIRECTORY
 
 if [ "$?" != "0" ]; then
