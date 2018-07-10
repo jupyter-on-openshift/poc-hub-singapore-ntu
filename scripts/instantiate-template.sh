@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Assumed that a project is used for each course and the name of the
+# course is used for the project name. Inside of the project, it is
+# assumed that the JupyterHub deployment is called 'jupyterhub'.
+
+JUPYTERHUB_DEPLOYMENT=${JUPYTERHUB_DEPLOYMENT:-jupyterhub}
+
 # Script can optionally be passed the arguments. If not supplied the
 # user will be prompted to supply them.
 
@@ -64,6 +70,7 @@ fi
 # Deploy JupyterHub in the project.
 
 oc new-app -n "$COURSE_NAME" --template jupyterhub \
+    --param APPLICATION_NAME="$APPLICATION_NAME" \
     --param COURSE_NAME="$COURSE_NAME" \
     --param NOTEBOOK_REPOSITORY_URL="$NOTEBOOK_REPOSITORY_URL" \
     --param NOTEBOOK_REPOSITORY_CONTEXT_DIR="$NOTEBOOK_REPOSITORY_CONTEXT_DIR" \
