@@ -52,6 +52,8 @@ class MultiLDAPAuthenticator(Authenticator):
     def authenticate(self, handler, data):
         domain = data['domain'].lower()
 
+        data['username'] = data['username'].lower()
+
         if domain == 'student':
             return student_authenticator.authenticate(handler, data)
         elif domain == 'staff':
