@@ -61,7 +61,7 @@ A second step that must then be done, is to also delete the user from the admin 
 
 Performing the second step of deleting the user from the admin panel will remove them from the JupyterHub database and they will not be able to use the JupyterHub instance. Note though that if the user was also listed in the config map for admin users, they will be added back into the JupyterHub database the next time the JupyterHub instance is restarted. Ensure therefore that the user is also removed from the admin users if they appeared in both the user whitelist and list of admin users, and they should not retain any access.
 
-Because of the need to perform two steps when removing users, if you know you will need to keep making changes, it is better to load users and make changes through the admin panel and not use the config map. 
+Because of the need to perform two steps when removing users, if you know you will need to keep making changes, it is better to load users and make changes through the admin panel and not use the config map.
 
 ## User Database Backups
 
@@ -88,7 +88,7 @@ The suffix of the files is of the form ``-YYYY-MM-DD-hh-mm-ss.txt``.
 Find the most recent copy of the ``user_whitelist`` file. To copy the file back to the current host, run ``cat`` on the file and save the results to a file.
 
 ```
-$ oc rsh -n coursename podname  \
+$ oc rsh -n coursename podname \
   cat /opt/app-root/notebooks/backups/user_whitelist-2018-07-09-01-45-16.txt >
   coursename-user_whitelist.txt
 ```
