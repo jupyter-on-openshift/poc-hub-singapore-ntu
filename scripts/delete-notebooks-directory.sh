@@ -67,7 +67,7 @@ fi
 
 NFS_NOTEBOOKS_DIRECTORY=/mnt/notebooks-$COURSE_NAME-pv$VERSION_NUMBER
 
-if [ -d $NFS_NOTEBOOKS_DIRECTORY ]; then
+if [ ! -d $NFS_NOTEBOOKS_DIRECTORY ]; then
     echo "INFO: Directory $NFS_NOTEBOOKS_DIRECTORY does not exist."
     exit 0
 fi

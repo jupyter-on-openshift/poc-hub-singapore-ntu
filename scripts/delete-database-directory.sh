@@ -67,7 +67,7 @@ fi
 
 NFS_DATABASE_DIRECTORY=/mnt/database-$COURSE_NAME-pv$VERSION_NUMBER
 
-if [ -d $NFS_DATABASE_DIRECTORY ]; then
+if [ ! -d $NFS_DATABASE_DIRECTORY ]; then
     echo "INFO: Directory $NFS_DATABASE_DIRECTORY does not exist."
     exit 0
 fi
