@@ -65,9 +65,10 @@ fi
 
 # Now check to see whether the notebooks directory we want to delete exists.
 
-NFS_NOTEBOOKS_DIRECTORY=/mnt/notebooks-$COURSE_NAME-pv$VERSION_NUMBER
+#NFS_NOTEBOOKS_DIRECTORY=/mnt/notebooks-$COURSE_NAME-pv$VERSION_NUMBER
+NFS_NOTEBOOKS_DIRECTORY=notebooks-$COURSE_NAME-pv$VERSION_NUMBER
 
-if [ ! -d $NFS_NOTEBOOKS_DIRECTORY ]; then
+if [ -d $NFS_NOTEBOOKS_DIRECTORY ]; then
     echo "INFO: Directory $NFS_NOTEBOOKS_DIRECTORY does not exist."
     exit 0
 fi
@@ -86,7 +87,8 @@ fi
 
 STATUS=0
 
-rm -rf $NFS_NOTEBOOKS_DIRECTORY
+#rm -rf $NFS_NOTEBOOKS_DIRECTORY
+rm -rf /mnt/$NFS_NOTEBOOKS_DIRECTORY
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Could not delete directory $NFS_NOTEBOOKS_DIRECTORY."
