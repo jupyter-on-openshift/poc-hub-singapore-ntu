@@ -65,11 +65,9 @@ fi
 
 # Now check to see whether the database directory we want to delete exists.
 
-#NFS_DATABASE_DIRECTORY=/mnt/database-$COURSE_NAME-pv$VERSION_NUMBER
-NFS_DATABASE_DIRECTORY=database-$COURSE_NAME-pv$VERSION_NUMBER
-echo $NFS_DATABASE_DIRECTORY
+NFS_DATABASE_DIRECTORY=/mnt/database-$COURSE_NAME-pv$VERSION_NUMBER
 
-if [ -d $NFS_DATABASE_DIRECTORY ]; then
+if [ ! -d $NFS_DATABASE_DIRECTORY ]; then
     echo "INFO: Directory $NFS_DATABASE_DIRECTORY does not exist."
     exit 0
 fi
@@ -88,8 +86,7 @@ fi
 
 STATUS=0
 
-#rm -rf $NFS_DATABASE_DIRECTORY
-rm -rf /mnt/$NFS_DATABASE_DIRECTORY
+rm -rf $NFS_DATABASE_DIRECTORY
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Could not delete directory $NFS_DATABASE_DIRECTORY."
