@@ -154,20 +154,23 @@ def modify_pod_hook(spawner, pod):
 
 c.KubeSpawner.modify_pod_hook = modify_pod_hook
 
-# Setup culling of idle notebooks if timeout parameter is supplied.
+# Setup services for backups and idle notebook culling.
+
+c.JupyterHub.services = [
+    {
+        'name': 'backup-users',
+        'admin': True,
+        'command': ['backup-user-details', '--backups=/opt/app-root/notebooks/backups'],
+    }
+]
 
 idle_timeout = os.environ.get('JUPYTERHUB_IDLE_TIMEOUT')
 
 if idle_timeout and int(idle_timeout):
-    c.JupyterHub.services = [
+    c.JupyterHub.services.extend([
         {
             'name': 'cull-idle',
             'admin': True,
             'command': ['cull-idle-servers', '--timeout=%s' % idle_timeout],
-        },
-        {
-            'name': 'backup-users',
-            'admin': True,
-            'command': ['backup-user-details', '--backups=/opt/app-root/notebooks/backups'],
         }
-    ]
+    ])
