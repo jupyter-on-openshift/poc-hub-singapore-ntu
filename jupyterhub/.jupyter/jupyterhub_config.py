@@ -156,11 +156,15 @@ c.KubeSpawner.modify_pod_hook = modify_pod_hook
 
 # Setup services for backups and idle notebook culling.
 
+jupyterhub_service_name = os.environ.get('JUPYTERHUB_SERVICE_NAME', 'jupyterhub')
+
 c.JupyterHub.services = [
     {
         'name': 'backup-users',
         'admin': True,
-        'command': ['backup-user-details', '--backups=/opt/app-root/notebooks/backups'],
+        'command': ['backup-user-details',
+                '--backups=/opt/app-root/notebooks/backups',
+                '--config-map=%s-cfg-backup' % jupyterhub_service_name]
     }
 ]
 
