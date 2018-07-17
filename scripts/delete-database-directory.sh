@@ -69,6 +69,7 @@ NFS_DATABASE_DIRECTORY=/mnt/database-$COURSE_NAME-pv$VERSION_NUMBER
 
 if [ ! -d $NFS_DATABASE_DIRECTORY ]; then
     echo "INFO: Directory $NFS_DATABASE_DIRECTORY does not exist."
+    umount /mnt
     exit 0
 fi
 
@@ -79,6 +80,7 @@ echo "WARNING: Will delete directory $NFS_DATABASE_DIRECTORY."
 read -p "Continue? [Y/n] " DO_UPDATE
 
 if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
+    umount /mnt
     exit 1
 fi
 
