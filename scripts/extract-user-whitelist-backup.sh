@@ -3,12 +3,12 @@
 # Assumed that a project is used for each course and the name of the
 # course is used for the project name. Inside of the project, it is
 # assumed that the JupyterHub deployment is called 'jupyterhub' and that
-# the admin users is maintained under the key 'admin_user.txt' in
+# the user whitelist is maintained under the key 'user_whitelist.txt' in
 # the config map with name 'jupyterhub-cfg'.
 
 JUPYTERHUB_DEPLOYMENT=${JUPYTERHUB_DEPLOYMENT:-jupyterhub}
-ADMIN_USERS_CONFIG_MAP=${JUPYTERHUB_DEPLOYMENT}-cfg
-ADMIN_USERS_CONFIG_MAP_KEY=admin_users.txt
+USER_WHITELIST_CONFIG_MAP=${JUPYTERHUB_DEPLOYMENT}-cfg-backup
+USER_WHITELIST_CONFIG_MAP_KEY=user_whitelist.txt
 
 # Script must be passed the course name as argument.
 
@@ -34,11 +34,11 @@ fi
 oc get "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME" > /dev/null 2>&1
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Cannot find JupyterHub deployment for $COURSE_NAME." 2>&1
+    echo "ERROR: Cannot find JupyterHub deployment for $COURSE_NAME." 1>&2
     exit 1
 fi
 
-oc get "configmap/$ADMIN_USERS_CONFIG_MAP" -n "$COURSE_NAME" > /dev/null 2>&1
+oc get "configmap/$USER_WHITELIST_CONFIG_MAP" -n "$COURSE_NAME" > /dev/null 2>&1
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Cannot find config map for $COURSE_NAME." 1>&2
@@ -47,11 +47,11 @@ fi
 
 # 
 
-oc get "configmap/$ADMIN_USERS_CONFIG_MAP" -o go-template --template \
-    "{{ (index .data \"$ADMIN_USERS_CONFIG_MAP_KEY\") }}" \
+oc get "configmap/$USER_WHITELIST_CONFIG_MAP" -o go-template --template \
+    "{{ (index .data \"$USER_WHITELIST_CONFIG_MAP_KEY\") }}" \
     -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Cannot extract admin users from $COURSE_NAME." 1>&2
+    echo "ERROR: Cannot extract users whitelist from $COURSE_NAME." 1>&2
     exit 1
 fi

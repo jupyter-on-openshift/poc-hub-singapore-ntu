@@ -7,7 +7,7 @@
 # the config map with name 'jupyterhub-cfg'.
 
 JUPYTERHUB_DEPLOYMENT=${JUPYTERHUB_DEPLOYMENT:-jupyterhub}
-ADMIN_USERS_CONFIG_MAP=${JUPYTERHUB_DEPLOYMENT}-cfg
+ADMIN_USERS_CONFIG_MAP=${JUPYTERHUB_DEPLOYMENT}-cfg-backup
 ADMIN_USERS_CONFIG_MAP_KEY=admin_users.txt
 
 # Script must be passed the course name as argument.

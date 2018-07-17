@@ -19,6 +19,13 @@ fi
 
 COURSE_NAME=$1
 
+COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
+
+if ! [[ $COURSE_NAME =~ ^[a-z0-9-]*$ ]]; then
+    echo "ERROR: Invalid course name $COURSE_NAME." 1>&2
+    exit 1
+fi
+
 # Assumed that 'oc' is in the current path and that the script is being
 # run with appropriate privileges to perform update on project. First
 # check that we can find the deployment in the project and then a config
