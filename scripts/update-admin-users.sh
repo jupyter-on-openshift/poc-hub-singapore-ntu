@@ -35,9 +35,13 @@ else
     read -p "Admin Users File: " ADMIN_USERS_FILE
 fi
 
-read -p "New Deployment? [Y/n] " DO_RESTART
+if [ x"$DO_RESTART" == x"" ]; then
+    read -p "New Deployment? [Y/n] " DO_RESTART
+fi
 
-read -p "Continue? [Y/n] " DO_UPDATE
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
+    read -p "Continue? [Y/n] " DO_UPDATE
+fi
 
 if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
     exit 1
@@ -81,7 +85,7 @@ oc patch "configmap/$ADMIN_USERS_CONFIG_MAP" \
     -n "$COURSE_NAME"
 
 if [ "$?" != "0" ]; then
-    echo "ERROR: Failed to update admin users for $COURSE_NAME."
+    echo "WARNING: Failed to update admin users for $COURSE_NAME."
     exit 1
 fi
 
