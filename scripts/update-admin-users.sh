@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Some bash functions for common tasks.
+
+trim()
+{
+    local trimmed="$1"
+
+    # Strip leading space.
+    trimmed="${trimmed## }"
+    # Strip trailing space.
+    trimmed="${trimmed%% }"
+
+    echo "$trimmed"
+}
+
 # Assumed that a project is used for each course and the name of the
 # course is used for the project name. Inside of the project, it is
 # assumed that the JupyterHub deployment is called 'jupyterhub' and that
@@ -21,7 +35,12 @@ else
     read -p "Course Name: " COURSE_NAME
 fi
 
-COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
+COURSE_NAME=$(trim `echo $COURSE_NAME | tr 'A-Z' 'a-z'`)
+
+if [ "$COURSE_NAME" == "" ]; then
+    echo "ERROR: Course name cannot be empty."
+    exit 1
+fi
 
 if ! [[ $COURSE_NAME =~ ^[a-z0-9-]*$ ]]; then
     echo "ERROR: Invalid course name $COURSE_NAME."

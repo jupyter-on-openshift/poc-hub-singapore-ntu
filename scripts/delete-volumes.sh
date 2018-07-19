@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Some bash functions for common tasks.
+
+trim()
+{
+    local trimmed="$1"
+
+    # Strip leading space.
+    trimmed="${trimmed## }"
+    # Strip trailing space.
+    trimmed="${trimmed%% }"
+
+    echo "$trimmed"
+}
+
 # Script can optionally be passed the course name and a version number.
 # If not supplied the user will be prompted to supply them.
 
@@ -10,7 +24,12 @@ else
     read -p "Course Name: " COURSE_NAME
 fi
 
-COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
+COURSE_NAME=$(trim `echo $COURSE_NAME | tr 'A-Z' 'a-z'`)
+
+if [ "$COURSE_NAME" == "" ]; then
+    echo "ERROR: Course name cannot be empty."
+    exit 1
+fi
 
 if ! [[ $COURSE_NAME =~ ^[a-z0-9-]*$ ]]; then
     echo "ERROR: Invalid course name $COURSE_NAME."

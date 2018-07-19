@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Some bash functions for common tasks.
+
+trim()
+{
+    local trimmed="$1"
+
+    # Strip leading space.
+    trimmed="${trimmed## }"
+    # Strip trailing space.
+    trimmed="${trimmed%% }"
+
+    echo "$trimmed"
+}
+
 NFS_SERVER_NAME=${NFS_SERVER_NAME:-sds.ntu.edu.sg}
 NFS_SERVER_SHARE=${NFS_SERVER_SHARE:-/NTU/SPMS/openshift/jupyterhubdb}
 
@@ -13,7 +27,12 @@ else
     read -p "Course Name: " COURSE_NAME
 fi
 
-COURSE_NAME=`echo $COURSE_NAME | tr 'A-Z' 'a-z'`
+COURSE_NAME=$(trim `echo $COURSE_NAME | tr 'A-Z' 'a-z'`)
+
+if [ "$COURSE_NAME" == "" ]; then
+    echo "ERROR: Course name cannot be empty."
+    exit 1
+fi
 
 if ! [[ $COURSE_NAME =~ ^[a-z0-9-]*$ ]]; then
     echo "ERROR: Invalid course name $COURSE_NAME."
