@@ -27,5 +27,6 @@ Documentation on installation and use of the JupyterHub environment using the in
 * [Updating List of Admins](documents/updating-list-of-admins.md)
 * [Updating User Whitelist](documents/updating-user-whitelist.md)
 * [Notebook Repository Setup](documents/notebook-repository-setup.md)
+* [Notebook Resource Limits](documents/notebook-resource-limits.md)
 * [Guide for Admin Users](documents/guide-for-admin-users.md)
 * [Guide for Normal Users](documents/guide-for-normal-users.md)
