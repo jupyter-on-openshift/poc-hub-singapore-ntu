@@ -65,7 +65,7 @@ Because of the need to perform two steps when removing users, if you know you wi
 
 ## User Database Backups
 
-If the user whitelist stored in the config map has not been kept in synchronisation with what is in the database, it is possible to retrieve an up to date copy from the JupyterHub instance. This is done by retrieving it from backups which are periodically made from the database.
+As the recommended procedure is to use the admin page in JupyterHub to manage users, the user whitelist in the config map will usually be empty. In this case it is possible to retrieve an up to date copy from the JupyterHub instance. This is done by retrieving it from backups which are periodically made from the database.
 
 To see the list of files in the backups directory, first identify the name of the pod for the JupyterHub instance using ``oc get pods``.
 
@@ -81,11 +81,13 @@ Once you have the name of the pod, you can list what backup files there are by r
 $ oc rsh -n coursename podname ls /opt/app-root/notebooks/backups
 admin_users-2018-07-08-04-01-17.txt
 user_whitelist-2018-07-09-01-45-16.txt
+admin_users-latest.txt
+user_whitelist-latest.txt
 ```
 
-The suffix of the files is of the form ``-YYYY-MM-DD-hh-mm-ss.txt``.
+The suffix of the timestamped files is of the form ``-YYYY-MM-DD-hh-mm-ss.txt``. There is also one with the ``-latest.txt`` extension which is a symlink to the latest timestamped file.
 
-Find the most recent copy of the ``user_whitelist`` file. To copy the file back to the current host, run ``cat`` on the file and save the results to a file.
+To copy a file back to the current host, run ``cat`` on the file and save the results to a file.
 
 ```
 $ oc rsh -n coursename podname \
@@ -96,3 +98,5 @@ $ oc rsh -n coursename podname \
 A new backup file is created each time the JupyterHub instance is restarted. A backup will also be periodically made if it is detected that a change was made to the list of users in the whitelist since the last time a backup was made.
 
 You can therefore use the backup files as an audit trail as to when changes were made to the list of users in the whitelist.
+
+Note that these files are saved into a ``backups`` directory within the persistent volume used to hold users notebooks. An alternative way to retrieve these files is to mount the NFS share for the notebooks directory, and traverse to the ``backups`` directory within the notebooks directory for the course.
