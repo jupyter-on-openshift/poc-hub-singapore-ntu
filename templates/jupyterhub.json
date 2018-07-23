@@ -395,6 +395,16 @@
                                         "protocol": "TCP"
                                     }
                                 ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1000m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "250m",
+                                        "memory": "512Mi"
+                                    }
+                                },
                                 "env": [
                                     {
                                         "name": "JUPYTERHUB_SERVICE_NAME",
@@ -630,6 +640,16 @@
                                         "protocol": "TCP"
                                     }
                                 ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1000m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "250m",
+                                        "memory": "512Mi"
+                                    }
+                                },
                                 "volumeMounts": [
                                     {
                                         "mountPath": "/var/lib/pgsql/data",
