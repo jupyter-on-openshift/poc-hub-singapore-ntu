@@ -154,6 +154,26 @@ def modify_pod_hook(spawner, pod):
 
 c.KubeSpawner.modify_pod_hook = modify_pod_hook
 
+# Setup resource limits for memory and CPU.
+
+cpu_request = os.environ.get('NOTEBOOK_CPU_REQUEST')
+cpu_limit = os.environ.get('NOTEBOOK_CPU_LIMIT')
+
+if cpu_request:
+    c.Spawner.cpu_guarantee = float(cpu_request)
+
+if cpu_limit:
+    c.Spawner.cpu_limit = float(cpu_limit)
+
+memory_request = os.environ.get('NOTEBOOK_MEMORY_REQUEST')
+memory_limit = os.environ.get('NOTEBOOK_MEMORY_LIMIT')
+
+if memory_request:
+    c.Spawner.mem_guarantee = convert_size_to_bytes(memory_request)
+
+if memory_limit:
+    c.Spawner.mem_limit = convert_size_to_bytes(memory_limit)
+
 # Setup services for backups and idle notebook culling.
 
 jupyterhub_service_name = os.environ.get('JUPYTERHUB_SERVICE_NAME', 'jupyterhub')

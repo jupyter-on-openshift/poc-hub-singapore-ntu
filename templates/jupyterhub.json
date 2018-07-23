@@ -72,8 +72,23 @@
             "required": true
         },
         {
-            "name": "NOTEBOOK_MEMORY",
+            "name": "NOTEBOOK_MEMORY_REQUEST",
+            "value": "409Mi",
+            "required": true
+        },
+        {
+            "name": "NOTEBOOK_MEMORY_LIMIT",
             "value": "512Mi",
+            "required": true
+        },
+        {
+            "name": "NOTEBOOK_CPU_REQUEST",
+            "value": "0.1",
+            "required": true
+        },
+        {
+            "name": "NOTEBOOK_CPU_LIMIT",
+            "value": "1.0",
             "required": true
         },
         {
@@ -431,6 +446,22 @@
                                                 "key": "password"
                                             }
                                         }
+                                    },
+                                    {
+                                        "name": "NOTEBOOK_MEMORY_REQUEST",
+                                        "value": "${NOTEBOOK_MEMORY_REQUEST}"
+                                    },
+                                    {
+                                        "name": "NOTEBOOK_MEMORY_LIMIT",
+                                        "value": "${NOTEBOOK_MEMORY_LIMIT}"
+                                    },
+                                    {
+                                        "name": "NOTEBOOK_CPU_REQUEST",
+                                        "value": "${NOTEBOOK_CPU_REQUEST}"
+                                    },
+                                    {
+                                        "name": "NOTEBOOK_CPU_LIMIT",
+                                        "value": "${NOTEBOOK_CPU_LIMIT}"
                                     }
                                 ],
                                 "volumeMounts": [
