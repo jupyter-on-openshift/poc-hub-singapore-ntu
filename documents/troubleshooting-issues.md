@@ -226,6 +226,8 @@ Then start up JupyterHub again.
 $ oc scale --replicas=1 dc/jupyterhub -n coursename
 ```
 
+Note that if you had to use this procedure, you will have multiple database directories and persistent volume definitions for the one course. When later deleting the course, you will need to remember to delete all versions of the directories and persistent volume definitions.
+
 ## Project Deletion
 
 Each course is deployed to a separate project. The project should only be deleted when the course has completed and the JupyterHub instance for that course is no longer required.
@@ -292,6 +294,8 @@ scripts/instantiate-template.sh coursename
 ```
 
 You will be prompted for details of the Git repository, LDAP credentials and any permanent admin users.
+
+Note that if you had to use this procedure, you will have multiple database and notebooks directories, and corresponding persistent volume definitions, for the one course. When later deleting the course, you will need to remember to delete all versions of the directories and persistent volume definitions.
 
 ## Load Testing
 
