@@ -126,18 +126,28 @@ JupyterHub uses a PostgreSQL database to store the current list of whitelisted u
 
 If this database were to become corrupted, the easiest way to recover is to start over with a fresh database. To be able to do this, you need to have ensured you have kept up to date the config maps for the admin users and user whitelist. That is, if you had manually added users, or designated users as admins, through the admin panel of JupyterHub, that you had also updated the corresponding config maps. So long as you do this, the database can be re-created from the lists provided by the config maps.
 
-To facilitate re-creating the database, you should perform the following steps.
+A script is provided to rollover to a new database instance in one action, however, step by step instructions are also detailed below so the process can be understood in case the process needs to be adapted based on specific circumstances.
+
+If using the script, run:
+
+```
+sudo scripts/rollover-database.sh coursename 2
+```
+
+The arguments to the script should be the course name and the version number to be used to identified the persistent storage for the next instance of the database deployment.
+
+The individual steps if not using the all in one script, are as follows.
 
 First up, if you don't have a copy of the config maps for the admin users and user whitelist saved separate to the OpenShift cluster, make one. This can be done by running the commands:
 
 ```
-$ scripts/extract-admin-users.sh coursename > admin_users.txt
+$ scripts/extract-admin-users-backup.sh coursename > admin_users.txt
 ```
 
 and
 
 ```
-$ scripts/extract-user-whitelist.sh coursename > user_whitelist.txt
+$ scripts/extract-user-whitelist-backup.sh coursename > user_whitelist.txt
 ```
 
 This is a backup copy just in case required.
@@ -281,7 +291,7 @@ and create the JupyterHub and PostgreSQL instances.
 scripts/instantiate-template.sh coursename
 ```
 
-You will be prompted for details of the Git repository, LDAP credentials and any permanent admin users. 
+You will be prompted for details of the Git repository, LDAP credentials and any permanent admin users.
 
 ## Load Testing
 
