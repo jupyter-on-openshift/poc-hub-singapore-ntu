@@ -216,6 +216,73 @@ Then start up JupyterHub again.
 $ oc scale --replicas=1 dc/jupyterhub -n coursename
 ```
 
+## Project Deletion
+
+Each course is deployed to a separate project. The project should only be deleted when the course has completed and the JupyterHub instance for that course is no longer required.
+
+If the project is accidentally deleted, this will result in the removal of the JupyterHub and PostgreSQL database instances. In deleting the project, although the persistent volume claims will have been deleted, the underlying persistent volumes will still be intact, as the reclaim policy for the persistent volumes has been set to ``Retain``, meaning that the contents will not be discarded even if the persistent volume claim has been deleted.
+
+To recreate the project and restore the JupyterHub and PostgreSQL database instances, the steps outlined below need to be followed.
+
+As a safeguard to ensure you don't loose existing data in the notebooks and database directories, a copy should be made of these directories. The new instance of JupyterHub will use the copy and not the original.
+
+Mount the NFS share for database directories. From the root directory of the mounted file system, where the sub directories for each course are located, identify the database directory for the course which needs to be recovered. This will have a name of the form:
+
+```
+database-coursename-pv
+```
+
+You should make a copy of this directory by running:
+
+```
+sudo rsync -av ./database-coursename-pv ./database-coursename-pv2
+```
+
+The ``2`` represents a version number. You will use this number is subsequent commands.
+
+Unmount the NFS share for the database directories.
+
+Mount the NFS share for the notebooks directories.
+
+Similar to above, you will make a copy of the existing notebooks directory.
+
+The name of the directory for the notebooks directory will have the form:
+
+```
+notebooks-coursename-pv
+```
+
+Make a copy of this using the same version number as used above.
+
+```
+sudo rsync -av ./notebooks-coursename-pv ./notebooks-coursename-pv2
+```
+
+You can now unmount the NFS share.
+
+Next you need to create the persistent volume definitions for the copies of the directories.
+
+```
+scripts/create-database-volume.sh coursename 2
+scripts/create-notebooks-volume.sh coursename 2
+```
+
+The arguments are the course name and the version number used above.
+
+You can now create the project for the course.
+
+```
+scripts/create-project.sh coursename
+```
+
+and create the JupyterHub and PostgreSQL instances.
+
+```
+scripts/instantiate-template.sh coursename
+```
+
+You will be prompted for details of the Git repository, LDAP credentials and any permanent admin users. 
+
 ## Load Testing
 
 If needing to load test the JupyterHub deployment and OpenShift environment to see if you can create many concurrent Jupyter notebook instances at the same time, you will first need to disable the LDAP authentication mechanism for users.
