@@ -100,3 +100,28 @@ template "jupyterhub" created
     Build scheduled, use 'oc logs -f bc/jupyterhub-nb-img' to track its progress.
     Run 'oc status' to view your app.
 ```
+
+If you need to deploy multiple courses, the recommended procedure is to deploy one course at a time using the above script. After deploying a course, you should confirm it is all deployed correctly and running okay before creating additional courses. This is recommended as it will be less confusing if for some reason the deployment of a course fails.
+
+If you still want to deploy multiple courses at the same time, you can use:
+
+* [scripts/deploy-multiple-jupyterhub.sh](../scripts/deploy-multiple-jupyterhub.sh)
+
+When the script is run, it will prompt you for a number of inputs. These are:
+
+* ``Courses File`` - The path to a file containing the details of each course to be created.
+* ``LDAP Search User`` - The name of the LDAP user account used to perform searches against the LDAP authentication servers.
+* ``LDAP Search Password`` - The password for the LDAP user account used to perform searches against the LDAP authentication servers.
+* ``JupyterHub Admin Users`` - A list of the LDAP users who should initially be granted JupyterHub admin rights. The names of each user should be separate by whitespace. This can be left empty as the names can be updated later.
+
+The courses file is a CSV formatted file, with no header row, just the data rows.
+
+Each line in the file needs to be of the form:
+
+```
+Course Name,Notebook Repository URL,Notebook Repository Context Dir,Notebook Repository Reference
+```
+
+Do not include spaces around field values.
+
+The ``Notebook Repository Context Dir`` and ``Notebook Repository Reference`` fields can be left empty if not required. If the latter is left empty, it will default to ``master``.
