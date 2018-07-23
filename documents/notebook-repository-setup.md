@@ -85,3 +85,24 @@ $ oc start-build jupyterhub-nb-bld -n coursename
 ```
 
 When that build completes, it will automatically trigger a new build of ``jupyterhub-nb-img``.
+
+## Private Git Repository
+
+The assumption in the templates and the all in one deployment script for deploying the JupyterHub instance is that the Git repository holding the notebooks is public. If the Git repository is private, the manual [step by step instructions](step-by-step-installation.md) for deploying the JupyterHub instance will need to be followed.
+
+In following the step by step instructions, after you have created the project, but before you instantiate the template, you will need to perform additional setup steps.
+
+Because the steps depend on the the Git hosting service being used, and the way in which the private Git repository is being accessed, exact details are not provided here. Instead you are referred to these series of blog posts on using a private Git repository.
+
+* https://blog.openshift.com/private-git-repositories-part-1-best-practices/
+
+The general steps you need to do are:
+
+1. Enable external access to the private Git repository.
+2. Create the secret in OpenShift for the Git repository credentials.
+3. Annotate the secret with the details of the Git repository.
+4. Mark that the secret can be used by the ``builder`` service account.
+
+Check the blog post series for details on the specific Git hosting service being used.
+
+Once you have performed these steps, then run the step to instantiate the template which creates the JupyterHub deployment.
