@@ -106,3 +106,5 @@ The general steps you need to do are:
 Check the blog post series for details on the specific Git hosting service being used.
 
 Once you have performed these steps, then run the step to instantiate the template which creates the JupyterHub deployment.
+
+Alternatively, you can create the secrets as raw resource definitions in a file supplied as _Project Resources_ when using ``deploy-jupyterhub.sh``. The secrets must have labels of ``app=jupyterhub`` and ``link=builder`` so that they will be automatically linked with the ``builder`` service account and used.

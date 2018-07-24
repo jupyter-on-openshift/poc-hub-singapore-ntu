@@ -33,6 +33,13 @@ else
     read -p "JupyterHub Admin Users: " JUPYTERHUB_ADMIN_USERS
 fi
 
+if [ "$#" -ge 1 ]; then
+    PROJECT_RESOURCES=$1
+    shift
+else
+    read -p "Project Resources: " PROJECT_RESOURCES
+fi
+
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
     read -p "Continue? [Y/n] " DO_UPDATE
 fi
@@ -54,6 +61,7 @@ do
     `dirname $0`/deploy-jupyterhub.sh "$COURSE_NAME" \
       "$NOTEBOOK_REPOSITORY_URL" "$NOTEBOOK_REPOSITORY_CONTEXT_DIR" \
       "$NOTEBOOK_REPOSITORY_REFERENCE" "$LDAP_SEARCH_USER" \
-      "$LDAP_SEARCH_PASSWORD" "$JUPYTERHUB_ADMIN_USERS"
+      "$LDAP_SEARCH_PASSWORD" "$JUPYTERHUB_ADMIN_USERS" \
+      "$PROJECT_RESOURCES"
 
 done < $COURSES_FILE

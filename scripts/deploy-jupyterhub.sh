@@ -79,6 +79,13 @@ else
     read -p "JupyterHub Admin Users: " JUPYTERHUB_ADMIN_USERS
 fi
 
+if [ "$#" -ge 1 ]; then
+    PROJECT_RESOURCES=$1
+    shift
+else
+    read -p "Project Resources: " PROJECT_RESOURCES
+fi
+
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
     read -p "Continue? [Y/n] " DO_UPDATE
 fi
@@ -105,6 +112,12 @@ set -e
 # Create the project and load the template into it.
 
 `dirname $0`/create-project.sh "$COURSE_NAME"
+
+# Load any project resources if path to file has been provided.
+
+if [ x"$PROJECT_RESOURCES" != x"" ]; then
+    `dirname $0`/create-project-resources.sh "$COURSE_NAME" "$PROJECT_RESOURCES"
+fi
 
 # Deploy instantiate the template to deploy JupyterHub.
 

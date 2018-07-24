@@ -21,6 +21,7 @@ When the script is run, it will prompt you for a number of inputs. These are:
 * ``LDAP Search User`` - The name of the LDAP user account used to perform searches against the LDAP authentication servers.
 * ``LDAP Search Password`` - The password for the LDAP user account used to perform searches against the LDAP authentication servers.
 * ``JupyterHub Admin Users`` - A list of the LDAP users who should initially be granted JupyterHub admin rights. The names of each user should be separate by whitespace. This can be left empty as the names can be updated later.
+* ``Project Resources`` - The path to a file contain raw resources definitions which should be created inside of the project once created, but before JupyterHub is deployed.
 
 Example output when running the script is:
 
@@ -33,6 +34,7 @@ Notebook Repository Reference [master]:
 LDAP Search User: ldap-username
 LDAP Search Password:
 JupyterHub Admin Users: admin-username
+Project Resources:
 Continue? [Y/n] y
 
 persistentvolume "jakevdp-notebooks-pv" created
@@ -113,6 +115,7 @@ When the script is run, it will prompt you for a number of inputs. These are:
 * ``LDAP Search User`` - The name of the LDAP user account used to perform searches against the LDAP authentication servers.
 * ``LDAP Search Password`` - The password for the LDAP user account used to perform searches against the LDAP authentication servers.
 * ``JupyterHub Admin Users`` - A list of the LDAP users who should initially be granted JupyterHub admin rights. The names of each user should be separate by whitespace. This can be left empty as the names can be updated later.
+* ``Project Resources`` - The path to a file contain raw resources definitions which should be created inside of the project once created, but before JupyterHub is deployed.
 
 The courses file is a CSV formatted file, with no header row, just the data rows.
 

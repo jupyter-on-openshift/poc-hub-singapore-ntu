@@ -9,6 +9,7 @@ These scripts are:
 * [scripts/create-notebooks-volume.sh](../scripts/create-notebooks-volume.sh) - Creates the persistent volume resource definition in OpenShift for the volume to hold the users Jupyter notebooks for the course.
 * [scripts/create-database-volume.sh](../scripts/create-database-volume.sh) - Creates the persistent volume resource definition in OpenShift for the volume to hold the JupyterHub database for the course.
 * [scripts/create-project.sh](../scripts/create-project.sh) - Creates the project for the course and loads the template used to deploy JupyterHub.
+* [scripts/create-project-resources.sh](../scripts/create-project-resources.sh) - Loads and raw resource definitions into a project after it is created.
 * [scripts/instiante-template.sh](../scripts/instantiate-template.sh) - Instantiates the template that deploys the JupyterHub instance.
 
 If running the scripts one at a time instead of using ``scripts/deploy-jupyterhub.sh``, you still need to perform the deployment. This can be done using the loaded template, from the command line or the web console.
@@ -83,6 +84,23 @@ The input can be supplied as a command line argument. If not supplied as  a comm
 This script must be run from a UNIX user account for which ``oc`` is already logged into the OpenShift cluster as a cluster admin, or other user which can create projects. If a non cluster admin is used, the user must have sufficient quota on the number of projects they can create, in order to create the project.
 
 The script will create a project with name the same as the course name. The template for deploying the JupyterHub instance will be loaded into the project. The template will not be instantiated and deployment of a JupyterHub instance into the project will need to be done as a separate step.
+
+## Creating Project Resources
+
+Loading of any project resource definitions is handled using the script:
+
+* [scripts/create-project-resources.sh](../scripts/create-project-resources.sh)
+
+The script needs to be supplied with the following inputs.
+
+* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
+* ``Project Resources`` - The path to a file contain raw resources definitions which should be created inside of the project once created, but before JupyterHub is deployed.
+
+The file needs to be in JSON or YAML file format and describe the raw resource objects that should be created inside of the project. The resource object definitions must not specify any namespace attribute.
+
+The file can be used to load secrets for private Git repositories, where the secrets are annotated with the details of the Git repository they apply to. In order for the secrets to be automatically linked to the ``builder`` service account so they can be used, they must use the ``app=jupyterhub`` and ``link=builder`` labels.
+
+The file can also be used to load project specific resource quotas so long as the user running it is a cluster admin.
 
 ## Instantiating the Template
 
