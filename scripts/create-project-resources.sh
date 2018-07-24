@@ -82,6 +82,7 @@ fi
 
 for name in `oc get secrets --selector \
   app=${JUPYTERHUB_DEPLOYMENT},link=builder \
-  --template='{{range .items}}{{.metadata.name}}{{" "}}{{end}}'`; do
-    oc secrets link builder $name
+  --template='{{range .items}}{{.metadata.name}}{{" "}}{{end}}' \
+  -n "$COURSE_NAME"`; do
+    oc secrets link builder $name -n "$COURSE_NAME"
 done
