@@ -195,10 +195,7 @@ c.JupyterHub.services = [
         'admin': True,
         'command': ['backup-user-details',
                 '--backups=/opt/app-root/notebooks/backups',
-                '--config-map=%s-cfg-backup' % jupyterhub_service_name],
-        'environment': {
-            'PYTHONUNBUFFERED': '1'
-        }
+                '--config-map=%s-cfg-backup' % jupyterhub_service_name]
     }
 ]
 
@@ -209,9 +206,6 @@ if idle_timeout and int(idle_timeout):
         {
             'name': 'cull-idle',
             'admin': True,
-            'command': ['cull-idle-servers', '--timeout=%s' % idle_timeout],
-            'environment': {
-                'PYTHONUNBUFFERED': '1'
-            }
+            'command': ['cull-idle-servers', '--timeout=%s' % idle_timeout]
         }
     ])
