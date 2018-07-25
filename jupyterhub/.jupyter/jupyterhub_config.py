@@ -69,7 +69,7 @@ c.JupyterHub.authenticator_class = MultiLDAPAuthenticator
 c.Authenticator.admin_users = set()
 
 rest_api_user = os.environ.get('REST_API_USER', 'jupyterhub-rest-api-user')
-rest_api_password = os.environ.get('REST_API_USER')
+rest_api_password = os.environ.get('REST_API_PASSWORD')
 
 if os.path.exists('/opt/app-root/configs/admin_users.txt'):
     with open('/opt/app-root/configs/admin_users.txt') as fp:
