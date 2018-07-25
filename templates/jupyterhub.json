@@ -117,6 +117,17 @@
             "generate": "expression",
             "from": "[a-f0-9]{32}",
             "required": true
+        },
+        {
+            "name": "REST_API_USER",
+            "value": "jupyterhub-rest-api-user",
+            "required": true
+        },
+        {
+            "name": "REST_API_PASSWORD",
+            "generate": "expression",
+            "from": "[a-zA-Z0-9]{16}",
+            "required": true
         }
     ],
     "objects": [
@@ -456,6 +467,14 @@
                                                 "key": "password"
                                             }
                                         }
+                                    },
+                                    {
+                                        "name": "REST_API_USER",
+                                        "value": "${REST_API_USER}"
+                                    },
+                                    {
+                                        "name": "REST_API_PASSWORD",
+                                        "value": "${REST_API_PASSWORD}"
                                     },
                                     {
                                         "name": "NOTEBOOK_MEMORY_REQUEST",

@@ -66,11 +66,23 @@ class MultiLDAPAuthenticator(Authenticator):
 
 c.JupyterHub.authenticator_class = MultiLDAPAuthenticator
 
+c.Authenticator.admin_users = set()
+
+rest_api_user = os.environ.get('REST_API_USER', 'jupyterhub-rest-api-user')
+rest_api_password = os.environ.get('REST_API_USER')
+
 if os.path.exists('/opt/app-root/configs/admin_users.txt'):
     with open('/opt/app-root/configs/admin_users.txt') as fp:
         content = fp.read().strip()
         if content:
             c.Authenticator.admin_users = set(content.split())
+
+c.Authenticator.admin_users.add(rest_api_user)
+
+if rest_api_password:
+    c.JupyterHub.api_tokens = {
+	rest_api_password: rest_api_user
+    }
 
 if os.path.exists('/opt/app-root/configs/user_whitelist.txt'):
     with open('/opt/app-root/configs/user_whitelist.txt') as fp:
