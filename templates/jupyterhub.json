@@ -119,14 +119,9 @@
             "required": true
         },
         {
-            "name": "REST_API_USER",
-            "value": "jupyterhub-rest-api-user",
-            "required": true
-        },
-        {
             "name": "REST_API_PASSWORD",
             "generate": "expression",
-            "from": "[a-zA-Z0-9]{16}",
+            "from": "[a-zA-Z0-9]{32}",
             "required": true
         }
     ],
@@ -467,10 +462,6 @@
                                                 "key": "password"
                                             }
                                         }
-                                    },
-                                    {
-                                        "name": "REST_API_USER",
-                                        "value": "${REST_API_USER}"
                                     },
                                     {
                                         "name": "REST_API_PASSWORD",
