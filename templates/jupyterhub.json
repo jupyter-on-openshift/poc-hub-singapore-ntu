@@ -202,7 +202,7 @@
                     "type": "Git",
                     "git": {
                         "uri": "https://github.com/jupyter-on-openshift/jupyterhub-quickstart.git",
-                        "ref": "1.0.3"
+                        "ref": "1.0.4"
                     }
                 },
                 "strategy": {
@@ -387,6 +387,10 @@
                                     {
                                         "name": "JUPYTERHUB_DATABASE_HOST",
                                         "value": "${APPLICATION_NAME}-database"
+                                    },
+                                    {
+                                        "name": "JUPYTERHUB_DATABASE_NAME",
+                                        "value": "postgres"
                                     }
                                 ]
                             }
@@ -440,6 +444,10 @@
                                     {
                                         "name": "JUPYTERHUB_DATABASE_HOST",
                                         "value": "${APPLICATION_NAME}-database"
+                                    },
+                                    {
+                                        "name": "JUPYTERHUB_DATABASE_NAME",
+                                        "value": "postgres"
                                     },
                                     {
                                         "name": "JUPYTERHUB_COOKIE_SECRET",
@@ -635,7 +643,7 @@
                                     },
                                     {
                                         "name": "POSTGRESQL_DATABASE",
-                                        "value": "jupyterhub"
+                                        "value": "postgres"
                                     }
                                 ],
                                 "livenessProbe": {
