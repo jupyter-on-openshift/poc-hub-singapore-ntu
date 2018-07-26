@@ -45,6 +45,9 @@ fi
 if [ "$#" -ge 1 ]; then
     USERS_FILE=$1
     shift
+
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Users File: " USERS_FILE
 fi

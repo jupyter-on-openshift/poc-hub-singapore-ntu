@@ -45,6 +45,9 @@ fi
 if [ "$#" -ge 1 ]; then
     USER_NAME=$1
     shift
+
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Username: " USER_NAME
 fi
