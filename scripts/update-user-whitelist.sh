@@ -50,6 +50,10 @@ fi
 if [ "$#" -ge 1 ]; then
     USER_WHITELIST_FILE=$1
     shift
+
+    DO_RESTART=y
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "User Whitelist File: " USER_WHITELIST_FILE
 fi

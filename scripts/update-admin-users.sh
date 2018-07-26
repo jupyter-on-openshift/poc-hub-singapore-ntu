@@ -50,6 +50,10 @@ fi
 if [ "$#" -ge 1 ]; then
     ADMIN_USERS_FILE=$1
     shift
+
+    DO_RESTART=y
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Admin Users File: " ADMIN_USERS_FILE
 fi
