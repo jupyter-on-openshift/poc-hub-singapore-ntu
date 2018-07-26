@@ -115,10 +115,11 @@ fi
 # Trigger a new deployment if requested.
 
 if [[ $DO_RESTART =~ ^[Yy]?$ ]]; then
-    oc rollout latest "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
-fi
+    oc rollout latest "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME" && \
+      oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT"
 
-if [ "$?" != "0" ]; then
-    echo "ERROR: Failed to start new deployment for $COURSE_NAME."
-    exit 1
+    if [ "$?" != "0" ]; then
+        echo "ERROR: Failed to start new deployment for $COURSE_NAME."
+        exit 1
+    fi
 fi
