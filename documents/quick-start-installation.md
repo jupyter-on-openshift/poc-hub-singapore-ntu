@@ -14,7 +14,7 @@ This script must be run as the super user, using ``sudo``. This is because it ne
 
 When the script is run, it will prompt you for a number of inputs. These are:
 
-* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
+* ``Course Name`` - The name identifying the course. This should consist of only lower case letters, numbers, and the dash character. If upper case letters are supplied they will be translated to lower case. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
 * ``Notebook Repository URL`` - The URL of the Git repository which hosts the Jupyter notebook and data files for the course.
 * ``Notebook Repository Context Dir`` - The directory within the Git repository which contains the Jupyter notebook and data files, along with the ``requirements.txt`` file listing what Python packages are required for the Jupyter notebooks. This should be left empty if files are in the root of the Git repository.
 * ``Notebook Repository Reference`` - The Git branch, tag or ref of the Git repository which holds the desired version of the Jupyter notebooks and data files. If left as empty, the Git repository 'master' branch will be used.
@@ -102,6 +102,35 @@ template "jupyterhub" created
     Build scheduled, use 'oc logs -f bc/jupyterhub-nb-img' to track its progress.
     Run 'oc status' to view your app.
 ```
+
+If you want to see the details of the project created and what it contains, you can run:
+
+```
+$ oc describe project jakevdp
+Name:                   mh2801
+Created:                15 hours ago
+Labels:                 <none>
+Annotations:            openshift.io/description=
+                        openshift.io/display-name=
+                        openshift.io/requester=developer
+                        openshift.io/sa.scc.mcs=s0:c10,c0
+                        openshift.io/sa.scc.supplemental-groups=1000090000/10000
+                        openshift.io/sa.scc.uid-range=1000090000/10000
+Display Name:           <none>
+Description:            <none>
+Status:                 Active
+Node Selector:          <none>
+Quota:                  <none>
+Resource limits:        <none>
+```
+
+and:
+
+```
+$ oc get all,pvc,secret,configmap,sa -n coursename
+```
+
+This will also show some default resources that are created automatically for all projects and which were not specifically created as a result of the JupyterHub deployment.
 
 If you need to deploy multiple courses, the recommended procedure is to deploy one course at a time using the above script. After deploying a course, you should confirm it is all deployed correctly and running okay before creating additional courses. This is recommended as it will be less confusing if for some reason the deployment of a course fails.
 

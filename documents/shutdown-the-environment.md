@@ -58,15 +58,15 @@ When a Jupyter notebook is shutdown, when a user accesses JupyterHub again, a ne
 If the JupyterHub instance has been shutdown, and you want to also shutdown the PostgreSQL database, you can run:
 
 ```
-$ oc scale dc jupyterhub-db --replicas=0 -n coursename
-deploymentconfig "jupyterhub-db" scaled
+$ oc scale dc jupyterhub-database --replicas=0 -n coursename
+deploymentconfig "jupyterhub-database" scaled
 ```
 
 To start up the PostgreSQL database again, you can run:
 
 ```
-$ oc scale dc jupyterhub-db --replicas=1 -n coursename
-deploymentconfig "jupyterhub-db" scaled
+$ oc scale dc jupyterhub-database --replicas=1 -n coursename
+deploymentconfig "jupyterhub-database" scaled
 ```
 
 Do not ever set the number of replicas of PostgreSQL to any value besides 0 or 1. If you scale up the number of replicas for PostrgreSQL to more than 1, you can corrupt the database.
@@ -80,4 +80,11 @@ If at any time you want to restart the JupyterHub instance, possibly because of 
 ```
 $ oc rollout latest jupyterhub -n coursename
 deploymentconfig "jupyterhub" rolled out
+```
+
+You can monitor the progress of the restart by running:
+
+```
+$ oc rollout status dc/jupyterhub -n coursename
+replication controller "jupyterhub-1" successfully rolled out
 ```

@@ -13,7 +13,7 @@ If the set of users may need to change, you should not use the config map method
 
 The reason for using the admin panel when changes need to be made is that, if a user is included in the list held by the config map, and the user is deleted via the admin panel, when JupyterHub is restarted, the user will be added back to the JupyterHub database again from the config map. To avoid this you would need to manually keep the list in the config map synchronised with the database, and remove the user from that list as well as removing them via the admin panel.
 
-## Using the Admin Panel
+## Using the JupyterHub Admin Panel
 
 Use of the admin panel to manage users is the recommended approach that should be used, even if the user list is fixed and not expected to change.
 
@@ -23,7 +23,7 @@ From the admin panel, select on _Add Users_. From the popup window, you can add 
 
 To delete a user, find the user in the list of users from the admin panel and select _delete_. If the user has a current Jupyter notebook instance, that Jupyter notebook instance will be shutdown, when removing the user from the database.
 
-## Querying Config Map
+## Querying User Whitelist Config Map
 
 If using the config map to load users, to get a copy of the current contents of the config map for the JupyterHub instance, you can run the script:
 
@@ -37,7 +37,7 @@ Note that this list is not what is recorded in the JupyterHub database. Any user
 
 If you want to see the full list of users in the JupyterHub database, use the admin panel, or access the backup files created from the database.
 
-## Updating Config Map
+## Updating User Whitelist Config Map
 
 If not using the recommended method of adding users via the admin panel of JupyterHub, and you want to load them via the config map, create a file which contains the LDAP usernames of the users. Add the users one per line.
 
@@ -63,7 +63,7 @@ Performing the second step of deleting the user from the admin panel will remove
 
 Because of the need to perform two steps when removing users, if you know you will need to keep making changes, it is better to load users and make changes through the admin panel and not use the config map.
 
-## User Database Backups
+## User Whitelist Database Backups
 
 As the recommended procedure is to use the admin page in JupyterHub to manage users, the user whitelist in the config map will usually be empty. In this case it is possible to retrieve an up to date copy from the JupyterHub instance. This is done by retrieving it from backups which are periodically made from the database.
 

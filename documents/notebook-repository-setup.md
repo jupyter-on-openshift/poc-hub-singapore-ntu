@@ -62,7 +62,7 @@ To add in additional system packages, you can modify the ``Dockerfile`` included
 
 The base image uses CentOS, so you will need to use yum/rpm to install packages and use the appropriate system package name for CentOS.
 
-Note that if always using the same copy of this repository, the set of system packages you install by customising the docker build in the ``notebook`` directory, will carry through to any future deployments for other courses. You can there use it to build up over time a custom base image which incorporates additional system packages for a range of courses.
+Note that if always using the same copy of this repository, the set of system packages you install by customising the docker build in the ``notebook`` directory, will carry through to any future deployments for other courses. You can then use it to build up over time a custom base image which incorporates additional system packages for a range of courses.
 
 ## Triggering Builds
 

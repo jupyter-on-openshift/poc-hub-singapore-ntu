@@ -23,7 +23,7 @@ Creation of the directories is handled using the scripts:
 
 These scripts need to be supplied two inputs.
 
-* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character.
+* ``Course Name`` - The name identifying the course. This should consist of only lower case letters, numbers, and the dash character. If upper case letters are supplied they will be translated to lower case.
 * ``Version Number`` - An optional version number or instance count. This should be left empty unless needing to create a separate new instance of the directory for the same course. This would only be needed where needing to start over with a new persistent volume for a course without needing to re-create the whole JupyterHub deployment.
 
 These inputs can be supplied as command line arguments. If not supplied as command line arguments, the script will prompt for the values.
@@ -43,7 +43,7 @@ Creation of the persistent volume resource definitions is handled using the scri
 
 These scripts need to be supplied two inputs.
 
-* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character.
+* ``Course Name`` - The name identifying the course. This should consist of only lower case letters, numbers, and the dash character. If upper case letters are supplied they will be translated to lower case.
 * ``Version Number`` - An optional version number or instance count. This should be left empty unless needing to create a separate new instance of the directory for the same course. This would only be needed where needing to start over with a new persistent volume for a course without needing to re-create the whole JupyterHub deployment.
 
 These inputs can be supplied as command line arguments. If not supplied as command line arguments, the script will prompt for the values.
@@ -77,7 +77,7 @@ Creation of the project for the course is handled using the script:
 
 This script needs to be supplied a single input:
 
-* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character.
+* ``Course Name`` - The name identifying the course. This should consist of only lower case letters, numbers, and the dash character. If upper case letters are supplied they will be translated to lower case.
 
 The input can be supplied as a command line argument. If not supplied as  a command line argument, the script will prompt for the value.
 
@@ -93,7 +93,7 @@ Loading of any project resource definitions is handled using the script:
 
 The script needs to be supplied with the following inputs.
 
-* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
+* ``Course Name`` - The name identifying the course. This should consist of only lower case letters, numbers, and the dash character. If upper case letters are supplied they will be translated to lower case. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
 * ``Project Resources`` - The path to a file contain raw resources definitions which should be created inside of the project once created, but before JupyterHub is deployed.
 
 The file needs to be in JSON or YAML file format and describe the raw resource objects that should be created inside of the project. The resource object definitions must not specify any namespace attribute.
@@ -110,7 +110,7 @@ Instantiation of the template which deploys the JupyterHub instance is handled u
 
 The script needs to be supplied with the following inputs.
 
-* ``Course Name`` - The name identifying the course. This must consist of only lower case letters, numbers, and the dash character. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
+* ``Course Name`` - The name identifying the course. This should consist of only lower case letters, numbers, and the dash character. If upper case letters are supplied they will be translated to lower case. This will be used as the project name and will also appear in the generated hostname for the JupyterHub instance.
 * ``Notebook Repository URL`` - The URL of the Git repository which hosts the Jupyter notebook and data files for the course.
 * ``Notebook Repository Context Dir`` - The directory within the Git repository which contains the Jupyter notebook and data files, along with the ``requirements.txt`` file listing what Python packages are required for the Jupyter notebooks. This should be left empty if files are in the root of the Git repository.
 * ``Notebook Repository Reference`` - The Git branch, tag or ref of the Git repository which holds the desired version of the Jupyter notebooks and data files. If left as empty, the Git repository 'master' branch will be used.

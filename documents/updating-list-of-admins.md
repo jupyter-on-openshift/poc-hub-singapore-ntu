@@ -17,7 +17,7 @@ When the JupyterHub instance is initially deployed, a list of initial admin user
 
 You should define at least one permanent admin user when performing the initial deployment. Additional admin users and normal users can then be added through the admin panel of JupyterHub, by that initial user.
 
-## Using the Admin Panel
+## Using the JupyterHub Admin Panel
 
 Although both admin users and normal users can be loaded into the JupyterHub database through config maps, it is recommended that the admin panel always be used to manage both type of users.
 
@@ -35,7 +35,7 @@ If you need to remove admin rights from a user, you can select _edit_ on that us
 
 To delete any user, find the user in the list of users from the admin panel and select _delete_. If the user has a current Jupyter notebook instance, that Jupyter notebook instance will be shutdown, when removing the user from the database. You will also need to remove the user from any config map if they were also listed there.
 
-## Querying the Config Map
+## Querying the Admin Users Config Map
 
 To get a copy of the current contents of the config map used to initialise the admin users for the JupyterHub instance, run the script:
 
@@ -45,7 +45,7 @@ $ scripts/extract-admin-users.sh coursename > coursename-admin_users.txt
 
 The contents of the config map will be displayed as output, so can be saved to a file by directing output to a file as shown.
 
-## Updating Config Map
+## Updating Admin Users Config Map
 
 If not using the recommended method of adding additional admins via the admin panel of JupyterHub, and you want to load them via the config map, pull down the current config map and add the LDAP username of the user to it.
 
@@ -73,7 +73,7 @@ Performing the second step of deleting the user from the admin panel will remove
 
 Because of the need to perform two steps when removing users, if you know you will need to keep making changes, it is better to load users and make changes through the admin panel and not use the config map.
 
-## User Database Backups
+## Admin Users Database Backups
 
 As the recommended procedure is to use the admin page in JupyterHub to manage additional admin users, the admin users in the config map may not be complete. In this case it is possible to retrieve an up to date copy from the JupyterHub instance. This is done by retrieving it from backups which are periodically made from the database.
 

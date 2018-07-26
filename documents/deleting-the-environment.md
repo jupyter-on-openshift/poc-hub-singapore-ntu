@@ -24,6 +24,8 @@ The input can be supplied as a command line argument. If not supplied as  a comm
 
 Because the entire project containing the JupyterHub instance is deleted, the secrets, config maps, service accounts and persistent volume claims created for the JupyterHub instance will also be deleted.
 
+Note that you should not attempt to immediately create a new course with the same course name. This action only schedules the deletion of the project. When there are many applications running in a project, it can take a short time to shut them all down before the project can be deleted. If you attempt to create a course with the same name straight away, creation of the project will fail.
+
 ## Deleting the Persistent Volume
 
 Although the persistent volume claims in the project for a JupyterHub instance will be deleted when the project is deleted, the underlying persistent volume resource definition, corresponding to the persistent volume claim, will not be deleted.
