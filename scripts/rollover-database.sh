@@ -85,9 +85,9 @@ fi
 
 echo "WARNING: Will rollover database for $COURSE_NAME."
 
-read -p "Continue? [Y/n] " DO_UPDATE
+read -p "Continue? [y/N] " DO_UPDATE
 
-if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
+if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
     exit 1
 fi
 

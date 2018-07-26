@@ -96,9 +96,9 @@ fi
 
 echo "WARNING: Will delete directory $NFS_NOTEBOOKS_DIRECTORY."
 
-read -p "Continue? [Y/n] " DO_UPDATE
+read -p "Continue? [y/N] " DO_UPDATE
 
-if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
+if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
     umount /mnt
     exit 1
 fi

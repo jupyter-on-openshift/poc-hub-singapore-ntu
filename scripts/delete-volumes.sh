@@ -44,10 +44,10 @@ else
 fi
 
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
-    read -p "Continue? [Y/n] " DO_UPDATE
+    read -p "Continue? [y/N] " DO_UPDATE
 fi
 
-if ! [[ $DO_UPDATE =~ ^[Yy]?$ ]]; then
+if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
