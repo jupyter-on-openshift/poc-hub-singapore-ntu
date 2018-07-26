@@ -164,7 +164,7 @@ oc delete pods \
 
 echo "INFO: Create new database directory."
 
-`dirname $0`/scripts/create-database-directory.sh "$COURSE_NAME" "$VERSION_NUMBER"
+`dirname $0`/create-database-directory.sh "$COURSE_NAME" "$VERSION_NUMBER"
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Cannot create database directory."
@@ -173,7 +173,7 @@ fi
 
 echo "INFO: Create new persistent volume."
 
-`dirname $0`/scripts/create-database-volume.sh "$COURSE_NAME" "$VERSION_NUMBER"
+`dirname $0`/create-database-volume.sh "$COURSE_NAME" "$VERSION_NUMBER"
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Cannot create persistent volume."
