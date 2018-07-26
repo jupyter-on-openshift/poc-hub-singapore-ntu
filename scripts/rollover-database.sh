@@ -144,13 +144,13 @@ echo "INFO: Shutting down JupyterHub."
 
 oc scale --replicas=0 "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 
-oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT"
+oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 
 echo "INFO: Shutting down PostgreSQL."
 
 oc scale --replicas=0 "dc/$JUPYTERHUB_DEPLOYMENT-database" -n "$COURSE_NAME"
 
-oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT-database"
+oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT-database" -n "$COURSE_NAME"
 
 # Stop any Jupyter notebook instances.
 
@@ -225,7 +225,7 @@ echo "INFO: Start up PostgreSQL."
 
 oc scale --replicas=1 "dc/$JUPYTERHUB_DEPLOYMENT-database" -n "$COURSE_NAME"
 
-oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT-database"
+oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT-database" -n "$COURSE_NAME"
 
 # Update input config maps from backups.
 
@@ -245,7 +245,7 @@ echo "INFO: Start up JupyterHub."
 
 oc scale --replicas=1 "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 
-oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT"
+oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 
 # Revert input config maps to originals.
 

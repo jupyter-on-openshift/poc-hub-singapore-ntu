@@ -116,7 +116,7 @@ fi
 
 if [[ $DO_RESTART =~ ^[Yy]?$ ]]; then
     oc rollout latest "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME" && \
-      oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT"
+      oc rollout status "dc/$JUPYTERHUB_DEPLOYMENT" -n "$COURSE_NAME"
 
     if [ "$?" != "0" ]; then
         echo "ERROR: Failed to start new deployment for $COURSE_NAME."
