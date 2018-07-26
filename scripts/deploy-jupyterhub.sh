@@ -43,6 +43,13 @@ else
     read -p "Notebook Repository URL: " NOTEBOOK_REPOSITORY_URL
 fi
 
+NOTEBOOK_REPOSITORY_URL=$(trim $NOTEBOOK_REPOSITORY_URL)
+
+if [ "$NOTEBOOK_REPOSITORY_URL" == "" ]; then
+    echo "ERROR: Repository URL cannot be empty."
+    exit 1
+fi
+
 if [ "$#" -ge 1 ]; then
     NOTEBOOK_REPOSITORY_CONTEXT_DIR=$1
     shift
@@ -64,12 +71,26 @@ else
     read -p "LDAP Search User: " LDAP_SEARCH_USER
 fi
 
+LDAP_SEARCH_USER=$(trim $LDAP_SEARCH_USER)
+
+if [ "$LDAP_SEARCH_USER" == "" ]; then
+    echo "ERROR: LDAP search user cannot be empty."
+    exit 1
+fi
+
 if [ "$#" -ge 1 ]; then
     LDAP_SEARCH_PASSWORD=$1
     shift
 else
     read -s -p "LDAP Search Password: " LDAP_SEARCH_PASSWORD
     echo
+fi
+
+LDAP_SEARCH_PASSWORD=$(trim $LDAP_SEARCH_PASSWORD)
+
+if [ "$LDAP_SEARCH_PASSWORD" == "" ]; then
+    echo "ERROR: LDAP search user password cannot be empty."
+    exit 1
 fi
 
 if [ "$#" -ge 1 ]; then
