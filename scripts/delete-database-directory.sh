@@ -42,6 +42,9 @@ fi
 if [ "$#" -ge 1 ]; then
     VERSION_NUMBER=$1
     shift
+
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Version Number: " VERSION_NUMBER
 fi
@@ -96,7 +99,9 @@ fi
 
 echo "WARNING: Will delete directory $NFS_DATABASE_DIRECTORY."
 
-read -p "Continue? [y/N] " DO_UPDATE
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
+    read -p "Continue? [y/N] " DO_UPDATE
+fi
 
 if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
     umount /mnt

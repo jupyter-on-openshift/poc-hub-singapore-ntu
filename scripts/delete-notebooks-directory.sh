@@ -23,6 +23,9 @@ NFS_SERVER_SHARE=${NFS_SERVER_SHARE:-/NTU/SPMS/openshift/jupyter}
 if [ "$#" -ge 1 ]; then
     COURSE_NAME=$1
     shift
+
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Course Name: " COURSE_NAME
 fi
@@ -96,7 +99,9 @@ fi
 
 echo "WARNING: Will delete directory $NFS_NOTEBOOKS_DIRECTORY."
 
-read -p "Continue? [y/N] " DO_UPDATE
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
+    read -p "Continue? [y/N] " DO_UPDATE
+fi
 
 if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
     umount /mnt

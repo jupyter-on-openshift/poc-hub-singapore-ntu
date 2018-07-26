@@ -39,6 +39,9 @@ fi
 if [ "$#" -ge 1 ]; then
     VERSION_NUMBER=$1
     shift
+
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Version Number: " VERSION_NUMBER
 fi

@@ -26,6 +26,9 @@ JUPYTERHUB_DEPLOYMENT=${JUPYTERHUB_DEPLOYMENT:-jupyterhub}
 if [ "$#" -ge 1 ]; then
     COURSE_NAME=$1
     shift
+
+    DO_UPDATE=y
+    CONTINUE_PROMPT=n
 else
     read -p "Course Name: " COURSE_NAME
 fi
@@ -66,7 +69,9 @@ fi
 
 echo "WARNING: Will delete project $COURSE_NAME."
 
-read -p "Continue? [y/N] " DO_UPDATE
+if [ x"$CONTINUE_PROMPT" != x"n" ]; then
+    read -p "Continue? [y/N] " DO_UPDATE
+fi
 
 if ! [[ $DO_UPDATE =~ ^[Yy]$ ]]; then
     exit 1
