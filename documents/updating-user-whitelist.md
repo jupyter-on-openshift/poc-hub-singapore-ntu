@@ -9,19 +9,84 @@ Note that when JupyterHub is initially deployed, the list of normal users will b
 
 JupyterHub provides two ways of adding users. If the set of users is going to be fixed and doesn't need to be changed over time, you can load the list of users through a config map and restart JupyterHub. This will cause that list of users to be added to the JupyterHub database.
 
-If the set of users may need to change, you should not use the config map method of loading the users, and leave the config map empty. Instead, a user designated as an admin, should load the list of users through the admin panel of JupyterHub.
+If the set of users may need to change, you should not use the config map method of loading the users, and leave the config map empty. Instead, you should load users directly into the JupyterHub database. This can be done by a user designated as an admin, through the admin panel of JupyterHub, or the JupyterHub REST API can be used.
 
-The reason for using the admin panel when changes need to be made is that, if a user is included in the list held by the config map, and the user is deleted via the admin panel, when JupyterHub is restarted, the user will be added back to the JupyterHub database again from the config map. To avoid this you would need to manually keep the list in the config map synchronised with the database, and remove the user from that list as well as removing them via the admin panel.
+The reason for updating the JupyterHub database directly when changes need to be made is that, if a user is included in the list held by the config map, and the user is deleted via the admin panel, when JupyterHub is restarted, the user will be added back to the JupyterHub database again from the config map. To avoid this you would need to manually keep the list in the config map synchronised with the database, and remove the user from that list as well as removing them via the admin panel.
+
+## Adding Users via the REST API
+
+Users can be added direct to the JupyterHub database using the scripts:
+
+* [scripts/add-user-to-jupyterhub.sh](../scripts/add-user-to-jupyterhub.sh) - Adds a single user to the JupyterHub user database via the REST API.
+* [scripts/add-multiple-users-to-jupyterhub.sh](../scripts/add-multiple-users-to-jupyterhub.sh) - Adds multiple users to the JupyterHub user database via the REST API.
+
+Note that these scripts do not provide a way of adding admin users. It is recommended that individual admin users be added via the admin panel in JupyterHub.
+
+To add a single user use the command:
+
+```
+$ scripts/add-user-to-jupyterhub.sh coursename username
+{"kind": "user", "name": "username", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:55:50.163763Z", "last_activity": null, "servers": null}
+```
+
+The script will output a record as JSON for the user which was added. If the user already exists, you will get an error response:
+
+```
+{"status": 409, "message": "User username already exists"}
+```
+
+To add multiple users in one command, create an input file with a list of the users one per line. Then run the command:
+
+```
+$ ./scripts/add-multiple-users-to-jupyterhub.sh coursename users.txt
+[{"kind": "user", "name": "username1", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:58:16.451094Z", "last_activity": null, "servers": null}, {"kind": "user", "name": "username2", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:58:16.453661Z", "last_activity": null, "servers": null}, {"kind": "user", "name": "username3", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:58:16.456022Z", "last_activity": null, "servers": null}]
+```
+
+The script will output the record of all users added. If all users already existed, you will see an error response of:
+
+```
+{"status": 409, "message": "All 3 users already exist"}
+```
+
+If some users already existed and others didn't, you will only see output the record of which users were added. So it is safe to attempt to add users which are already recorded in the JupyterHub database.
+
+Note that in order to be able to access the JupyterHub REST API, an access token is needed. The script obtains this access token by accessing a pre-generated token from the deployment config for JupyterHub in OpenShift. You therefore need to be logged into OpenShift from the command line with an account with appropriate access to the project for the course.
+
+## Removing Users via the REST API
+
+A user can be removed direct from the JupyterHub database using the script:
+
+* [scripts/remove-user-from-jupyterhub.sh](../scripts/remove-user-from-jupyterhub.sh) - Removes a single user from the JupyterHub user database via the REST API.
+
+This can be used to remove any users, including users designated as admins.
+
+To remove a single user use the command:
+
+```
+$ ./scripts/remove-user-from-jupyterhub.sh coursename username
+```
+
+Output will be empty if it succeeds. If you attempt to remove a user that doesn't exist, you will see the response:
+
+```
+{"status": 404, "message": "Not Found"}
+```
+
+The REST API doesn't provide a way to remove users in bulk. They would need to be remove one at a time.
+
+When a user is removed, any Jupyter notebook instance they currently have running will be shutdown.
+
+Note that if you remove a user in this way who was originally added using the user whitelist config map, they will be added back again the next time JupyterHub is restarted, unless you also update the config map.
 
 ## Using the JupyterHub Admin Panel
-
-Use of the admin panel to manage users is the recommended approach that should be used, even if the user list is fixed and not expected to change.
 
 To add users via the admin panel, you need to be logged in as a user designated as an admin in JupyterHub. You should access the _Control Panel_ and then the _Admin_ panel.
 
 From the admin panel, select on _Add Users_. From the popup window, you can add a new user. If you need to add more than one user, they need to be listed one per line. You cannot list multiple users on the same line.
 
 To delete a user, find the user in the list of users from the admin panel and select _delete_. If the user has a current Jupyter notebook instance, that Jupyter notebook instance will be shutdown, when removing the user from the database.
+
+Note that if you remove a user in this way who was originally added using the user whitelist config map, they will be added back again the next time JupyterHub is restarted, unless you also update the config map.
 
 ## Querying User Whitelist Config Map
 

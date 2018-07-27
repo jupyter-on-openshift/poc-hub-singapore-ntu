@@ -19,7 +19,7 @@ You should define at least one permanent admin user when performing the initial 
 
 ## Using the JupyterHub Admin Panel
 
-Although both admin users and normal users can be loaded into the JupyterHub database through config maps, it is recommended that the admin panel always be used to manage both type of users.
+Although both admin users and normal users can be loaded into the JupyterHub database through config maps, it is recommended that the JupyterHub user database be updated directly, by way of the admin panel, or via the REST API.
 
 The reason for this recommendation is that if you are making frequent changes to the list of users, using the config map is more unwieldy. Also, removing of users is more complicated as they have to be removed from both the config map and the JupyterHub database via the admin panel.
 

@@ -24,6 +24,12 @@ Do not ever set the number of replicas of JupyterHub to any value besides 0 or 1
 
 When the JupyterHub instance is restarted in this way, if there were any Jupyter notebook instances running, users will once again be able to access the existing instance. If however, the JupyterHub instance had been shutdown for longer that the culling interval for idle Jupyter notebook instances, any Jupyter notebook instances will be shutdown when JupyterHub starts up again.
 
+In the case of either shutting down or starting up JupyterHub by changing the number of replicas, you can monitor progress by running:
+
+```
+$ oc rollout status dc jupyterhub -n coursename
+```
+
 ## Shutting Down Jupyter Notebooks
 
 If when shutting down JupyterHub, you want to also shutdown all Jupyter notebook instances first, then this can be done from the admin panel accessed from the control panel in JupyterHub. Select the _Stop All_ button in the admin panel. Once shutdown of all the Jupyter notebook instances has been done, you can then shutdown the JupyterHub instance.
