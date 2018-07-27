@@ -77,6 +77,24 @@ Because of the need to perform two steps when removing users, if you know you wi
 
 As the recommended procedure is to use the admin page in JupyterHub to manage additional admin users, the admin users in the config map may not be complete. In this case it is possible to retrieve an up to date copy from the JupyterHub instance. This is done by retrieving it from backups which are periodically made from the database.
 
+There are two ways that the user database is backed up, which you can retrieve. The need to backup the database is checked on a five minute interval. The backup will only be done if a change in the users is detected.
+
+The first type of backup is done to a config map in OpenShift. To retrieve this backup for admin users you can use the script:
+
+* [scripts/extract-admin-users-backup.sh](../scripts/extract-admin-users-backup.sh) - Download the backup of the admin users in the JupyterHub database.
+
+Run the script as:
+
+```
+$ scripts/extract-admin-users-backup.sh coursename > coursename-admin_users.txt
+```
+
+The file created will only include users marked as an admins.
+
+This type of backup only provides the latest set of users from the JupyterHub database.
+
+A second type of backup is done by writing the backup files to the same persistent volume as is used for notebooks.
+
 To see the list of files in the backups directory, first identify the name of the pod for the JupyterHub instance using ``oc get pods``.
 
 ```

@@ -104,7 +104,7 @@ If you want to see the full list of users in the JupyterHub database, use the ad
 
 ## Updating User Whitelist Config Map
 
-If not using the recommended method of adding users via the admin panel of JupyterHub, and you want to load them via the config map, create a file which contains the LDAP usernames of the users. Add the users one per line.
+If not using the recommended method of adding users via the admin panel of JupyterHub or using the REST API, and you want to load them via the config map, create a file which contains the LDAP usernames of the users. Add the users one per line.
 
 To update the config map, run the script:
 
@@ -130,7 +130,25 @@ Because of the need to perform two steps when removing users, if you know you wi
 
 ## User Whitelist Database Backups
 
-As the recommended procedure is to use the admin page in JupyterHub to manage users, the user whitelist in the config map will usually be empty. In this case it is possible to retrieve an up to date copy from the JupyterHub instance. This is done by retrieving it from backups which are periodically made from the database.
+As the recommended procedure is to use the admin page in JupyterHub, or the REST API, to manage users directly in the JupyterHub database, the user whitelist in the config map will usually be empty. In this case it is possible to retrieve a backup with the contents of the JupyterHub user database.
+
+There are two ways that the user database is backed up, which you can retrieve. The need to backup the database is checked on a five minute interval. The backup will only be done if a change in the users is detected.
+
+The first type of backup is done to a config map in OpenShift. To retrieve this backup for users you can use the script:
+
+* [scripts/extract-user-whitelist-backup.sh](../scripts/extract-user-whitelist-backup.sh) - Download the backup of the users in the JupyterHub database.
+
+Run the script as:
+
+```
+$ scripts/extract-user-whitelist-backup.sh coursename > coursename-user_whitelist.txt
+```
+
+The file created will only include normal users. It will not include users who are marked as an admin.
+
+This type of backup only provides the latest set of users from the JupyterHub database.
+
+A second type of backup is done by writing the backup files to the same persistent volume as is used for notebooks.
 
 To see the list of files in the backups directory, first identify the name of the pod for the JupyterHub instance using ``oc get pods``.
 
@@ -165,3 +183,55 @@ A new backup file is created each time the JupyterHub instance is restarted. A b
 You can therefore use the backup files as an audit trail as to when changes were made to the list of users in the whitelist.
 
 Note that these files are saved into a ``backups`` directory within the persistent volume used to hold users notebooks. An alternative way to retrieve these files is to mount the NFS share for the notebooks directory, and traverse to the ``backups`` directory within the notebooks directory for the course.
+
+## Reconciling the User Whitelist
+
+Users would initially be loaded direct into the JupyterHub user database using the ``add-multiple-users-to-jupyterhub.sh`` script, from a file with a list of the users. You can then, after a backup has been made, retrieve the current contents of the user database.
+
+If you have also added or removed users via the JupyterHub admin panel, the list of the users in the JupyterHub user database, can end up being different to the list you originally loaded. To determine the differences and use that to reconcile expected lists of users and what is in the database, you can use the UNIX utility ``comm``.
+
+As an example, if the original list of users you used was ``original-user_whitelist.txt`` and you can fetched back a copy of users in the user database using ``extract-user-whitelist-backup.sh`` which was called ``current-user_whitelist.txt``, you can compare them by first running the commands:
+
+```
+$ sort -u original-user_whitelist.txt > sorted-original-user_whitelist.txt
+$ sort -u current-user_whitelist.txt > sorted-current-user_whitelist.txt
+```
+
+This will order the list of users and eliminate duplicates.
+
+Then run the ``comm`` command to compare them.
+
+```
+$ comm sorted-original-user_whitelist.txt sorted-current-user_whitelist.txt
+username1
+                    username2
+                    username3
+                    username4
+          username5
+```
+
+Column 1 is any users in the first file but not in the second.
+
+Column 2 in any users in the second file but not in the first.
+
+Column 3 is the users in both files.
+
+When running ``comm`` you can be selective as to which set is output by suppressing which columns are shown.
+
+If the original list was the authoritative list, to work out which users are missing from the JupyterHub database, run:
+
+```
+$ comm -23 sorted-original-user_whitelist.txt sorted-current-user_whitelist.txt
+username1
+```
+
+You could save the output from this to a file and then use the ``add-multiple-users-to-jupyterhub.sh`` script to add them.
+
+To work out which users exist in the JupyterHub database which shouldn't be there and which should be removed, you can run:
+
+```
+$ comm -13 sorted-original-user_whitelist.txt sorted-current-user_whitelist.txt
+username5
+```
+
+You could then remove each of these users from the JupyterHub database.
