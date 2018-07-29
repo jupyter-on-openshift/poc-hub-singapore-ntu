@@ -15,7 +15,7 @@ With the configuration used for this deployment, the extra capabilities that a u
 
 When the JupyterHub instance is initially deployed, a list of initial admin users can be specified. This list is added to what is called a config map in OpenShift. This config map is in turn mounted as a file into the JupyterHub instance and is used to populate the JupyterHub database. If you do not provide any admin users in this way, you can instead add them via the REST API. You will only be able to add users via the admin panel when you have at least one admin user setup.
 
-## Adding Users via the REST API
+## Adding Admins via the REST API
 
 Users can be added direct to the JupyterHub database using the scripts:
 
@@ -56,7 +56,7 @@ If some users already existed and others didn't, you will only see output the re
 
 Note that in order to be able to access the JupyterHub REST API, an access token is needed. The script obtains this access token by accessing a pre-generated token from the deployment config for JupyterHub in OpenShift. You therefore need to be logged into OpenShift from the command line with an account with appropriate access to the project for the course.
 
-## Removing Users via the REST API
+## Removing Admins via the REST API
 
 A user can be removed direct from the JupyterHub database using the script:
 
