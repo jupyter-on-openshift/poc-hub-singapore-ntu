@@ -13,9 +13,74 @@ With the configuration used for this deployment, the extra capabilities that a u
 
 ## Initial Setup of Admins
 
-When the JupyterHub instance is initially deployed, a list of initial admin users can be specified. This list is added to what is called a config map in OpenShift. This config map is in turn mounted as a file into the JupyterHub instance and is used to populate the JupyterHub database.
+When the JupyterHub instance is initially deployed, a list of initial admin users can be specified. This list is added to what is called a config map in OpenShift. This config map is in turn mounted as a file into the JupyterHub instance and is used to populate the JupyterHub database. If you do not provide any admin users in this way, you can instead add them via the REST API. You will only be able to add users via the admin panel when you have at least one admin user setup.
 
-You should define at least one permanent admin user when performing the initial deployment. Additional admin users and normal users can then be added through the admin panel of JupyterHub, by that initial user.
+## Adding Users via the REST API
+
+Users can be added direct to the JupyterHub database using the scripts:
+
+* [scripts/add-user-to-jupyterhub.sh](../scripts/add-user-to-jupyterhub.sh) - Adds a single user to the JupyterHub user database via the REST API.
+* [scripts/add-multiple-users-to-jupyterhub.sh](../scripts/add-multiple-users-to-jupyterhub.sh) - Adds multiple users to the JupyterHub user database via the REST API.
+
+To add a single user, which is also marked as an admin, use the command:
+
+```
+$ scripts/add-user-to-jupyterhub.sh coursename username admin
+[]{"kind": "user", "name": "username", "admin": true, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:55:50.163763Z", "last_activity": null, "servers": null}]
+```
+
+Compared to adding a normal user, you must supply the additional ``admin`` argument.
+
+The script will output a record as JSON for the user which was added. If the user already exists, you will get an error response:
+
+```
+{"status": 409, "message": "All 1 users already exist"}
+```
+
+To add multiple users in one command, create an input file with a list of the users one per line. Then run the command:
+
+```
+$ ./scripts/add-multiple-users-to-jupyterhub.sh coursename users.txt admin
+[{"kind": "user", "name": "username1", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:58:16.451094Z", "last_activity": null, "servers": null}, {"kind": "user", "name": "username2", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:58:16.453661Z", "last_activity": null, "servers": null}, {"kind": "user", "name": "username3", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:58:16.456022Z", "last_activity": null, "servers": null}]
+```
+
+Compared to adding nnormal users, you must supply the additional ``admin`` argument.
+
+The script will output the record of all users added. If all users already existed, you will see an error response of:
+
+```
+{"status": 409, "message": "All 3 users already exist"}
+```
+
+If some users already existed and others didn't, you will only see output the record of which users were added. So it is safe to attempt to add users which are already recorded in the JupyterHub database.
+
+Note that in order to be able to access the JupyterHub REST API, an access token is needed. The script obtains this access token by accessing a pre-generated token from the deployment config for JupyterHub in OpenShift. You therefore need to be logged into OpenShift from the command line with an account with appropriate access to the project for the course.
+
+## Removing Users via the REST API
+
+A user can be removed direct from the JupyterHub database using the script:
+
+* [scripts/remove-user-from-jupyterhub.sh](../scripts/remove-user-from-jupyterhub.sh) - Removes a single user from the JupyterHub user database via the REST API.
+
+This can be used to remove any users, including users designated as admins.
+
+To remove a single user use the command:
+
+```
+$ ./scripts/remove-user-from-jupyterhub.sh coursename username
+```
+
+Output will be empty if it succeeds. If you attempt to remove a user that doesn't exist, you will see the response:
+
+```
+{"status": 404, "message": "Not Found"}
+```
+
+The REST API doesn't provide a way to remove users in bulk. They would need to be remove one at a time.
+
+When a user is removed, any Jupyter notebook instance they currently have running will be shutdown.
+
+Note that if you remove a user in this way who was originally added using the admin users config map, they will be added back again the next time JupyterHub is restarted, unless you also update the config map.
 
 ## Using the JupyterHub Admin Panel
 

@@ -20,13 +20,11 @@ Users can be added direct to the JupyterHub database using the scripts:
 * [scripts/add-user-to-jupyterhub.sh](../scripts/add-user-to-jupyterhub.sh) - Adds a single user to the JupyterHub user database via the REST API.
 * [scripts/add-multiple-users-to-jupyterhub.sh](../scripts/add-multiple-users-to-jupyterhub.sh) - Adds multiple users to the JupyterHub user database via the REST API.
 
-Note that these scripts do not provide a way of adding admin users. It is recommended that individual admin users be added via the admin panel in JupyterHub.
-
 To add a single user use the command:
 
 ```
 $ scripts/add-user-to-jupyterhub.sh coursename username
-{"kind": "user", "name": "username", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:55:50.163763Z", "last_activity": null, "servers": null}
+[{"kind": "user", "name": "username", "admin": false, "groups": [], "server": null, "pending": null, "created": "2018-07-27T00:55:50.163763Z", "last_activity": null, "servers": null}]
 ```
 
 The script will output a record as JSON for the user which was added. If the user already exists, you will get an error response:
