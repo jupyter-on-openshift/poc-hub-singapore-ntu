@@ -48,8 +48,19 @@ if [ "$#" -ge 1 ]; then
 
     DO_UPDATE=y
     CONTINUE_PROMPT=n
+
+    OPTIONAL_ARGS=y
 else
     read -p "Users File: " USERS_FILE
+fi
+
+if [ "$#" -ge 1 ]; then
+    ROLE=$1
+    shift
+else
+    if [ x"$OPTIONAL_ARGS" != x"y" ]; then
+        read -p "Role: [user] " ROLE
+    fi
 fi
 
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
@@ -97,7 +108,7 @@ fi
 # Add the new user via the REST API.
 
 python -c "import json; \
-    print(json.dumps({'usernames':open('$USERS_FILE').read().split()}))" > /tmp/users$$.json
+    print(json.dumps({'usernames':open('$USERS_FILE').read().split(),'admin':'$ROLE'=='admin'}))" > /tmp/users$$.json
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Cannot read users file."

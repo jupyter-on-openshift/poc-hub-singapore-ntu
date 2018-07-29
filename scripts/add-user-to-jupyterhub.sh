@@ -48,8 +48,19 @@ if [ "$#" -ge 1 ]; then
 
     DO_UPDATE=y
     CONTINUE_PROMPT=n
+
+    OPTIONAL_ARGS=y
 else
     read -p "Username: " USER_NAME
+fi
+
+if [ "$#" -ge 1 ]; then
+    ROLE=$1
+    shift
+else
+    if [ x"$OPTIONAL_ARGS" != x"y" ]; then
+        read -p "Role: [user] " ROLE
+    fi
 fi
 
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
@@ -96,7 +107,12 @@ fi
 
 # Add the new user via the REST API.
 
+python -c "import json; \
+    print(json.dumps({'usernames':['$USER_NAME'],'admin':'$ROLE'=='admin'}))" > /tmp/users$$.json
+
 curl -k -H "Authorization: token $REST_API_PASSWORD" -X POST \
-    "$REST_API_URL/users/$USER_NAME"
+    -d @/tmp/users$$.json "$REST_API_URL/users"
+
+rm -f /tmp/users$$.json
 
 echo
