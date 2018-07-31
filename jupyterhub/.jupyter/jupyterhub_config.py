@@ -153,6 +153,8 @@ def modify_pod_hook(spawner, pod):
             value='/opt/app-root/master'))
     pod.spec.containers[0].env.append(dict(name='JUPYTER_WORKSPACE_NAME',
             value=workspace))
+    pod.spec.containers[0].env.append(dict(name='JUPYTER_SYNC_VOLUME',
+            value='true'))
 
     pod.spec.containers[0].volume_mounts.extend(
             expand_strings(spawner, volume_mounts))

@@ -781,7 +781,7 @@
                     "type": "Git",
                     "git": {
                         "uri": "https://github.com/jupyter-on-openshift/jupyter-notebooks.git",
-                        "ref": "1.0.1"
+                        "ref": "1.0.2"
                     },
                     "contextDir": "minimal-notebook"
                 },
