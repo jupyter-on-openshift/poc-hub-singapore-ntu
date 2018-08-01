@@ -6,7 +6,7 @@ A Jupyter notebook provides a means for you to create and share documents that c
 
 ![](http://jupyter.org/assets/jupyterpreview.png)
 
-The Jupyter notebooks in the environment you will be using are being used to provide material for you to learn about about topics being taught in the course you are enrolled.
+The Jupyter notebooks in the environment you will be using are being used to provide material for you to learn about topics being taught in the course you are enrolled.
 
 If you want to learn more about Jupyter notebooks and how they can be used, you can check out the [Jupyter Project](http://jupyter.org/) web site.
 
@@ -26,7 +26,7 @@ Once you have successfully logged in, a Jupyter notebook instance will be automa
 
 ![](jupyter-notebook-web-interface.png)
 
-Depending on the number of users using the environment at the same time, the Jupyter notebook instance may not be deployed immediately. In this case you will see a progress page which tracks the processing of starting your Jupyter notebook instance.
+Depending on the number of users using the environment at the same time, the Jupyter notebook instance may not be deployed immediately. In this case you will see a progress page which tracks the process of starting your Jupyter notebook instance.
 
 ![](spawning-jupyter-notebook-instance.png)
 
@@ -50,13 +50,13 @@ To run each successive code cell in the notebook, click on the ``Run`` button.
 
 You can re-run a cell at any time by clicking on the cell and then on ``Run``.
 
-Note that the order in which cells are run usually important. You should always run cells starting at the beginning of the notebook. This ensures that any require code modules are imported and configured correctly.
+Note that the order in which cells are run is usually important. You should always run cells starting at the beginning of the notebook. This ensures that any require code modules are imported and configured correctly.
 
 If you want to run all code cells in the notebook, you can click on ``Cell`` in the menu bar above the ``Run`` button and select ``Run All``.
 
 ## Stopping the Jupyer Notebook Instance
 
-If you have finished using the Jupyter notebook instance, you can shut it down using the JupyterHub control panel. It is requested you do this if possible as it will up resources in the JupyterHub environment for other users. If you do not shut it down and close the browser window or tab, the Jupyter notebook instance will be automatically shutdown after a period of inactivity.
+If you have finished using the Jupyter notebook instance, you can shut it down using the JupyterHub control panel. It is requested you do this if possible as it will free up resources in the JupyterHub environment for other users. If you do not shut it down and close the browser window or tab, the Jupyter notebook instance will be automatically shutdown after a period of inactivity.
 
 When the Jupyter notebook instance is shutdown, if you have made changes to the notebook and save them, your changes will still be present the next time you login into JupyterHub, or startup a new Jupyter notebook instance.
 
@@ -100,9 +100,9 @@ This will reveal buttons for operations that you can perform on the notebook fil
 
 ![](rename-notebook-file.png)
 
-Click on ``Rename`` in the popup window and the name will be changed to the new which you entered.
+Click on ``Rename`` in the popup window and the name will be changed to the new name which you entered.
 
-To have the original file returned, you should now select on ``Control Panel`` and use the ``Stop My Server`` button to shutdown the Jupyter notebook instance. Once stopped, click on ``My Server`` to start it again. When the Jupyter notebook instance is started again, the original file will have been restored and your renamed file will still be present.
+To have the original file returned, you should now click on ``Control Panel`` and use the ``Stop My Server`` button to shutdown the Jupyter notebook instance. Once stopped, click on ``Start My Server`` to start it again. When the Jupyter notebook instance is started again, the original file will have been restored and your renamed file will still be present.
 
 ## New Files for the Course
 
@@ -120,7 +120,25 @@ Click on the checkbox to the left of the ``workspace`` directory and click on ``
 
 Once the workspace directory is renamed, you should immediately go to the ``Control Panel`` to stop and start your Jupyter notebook instance. When it starts up again, you should have a fresh copy of the ``workspace`` directory. The original workspace directory you renamed should also be present so that you can if necessary access files in that directory.
 
-## Accessing the Control panel
+## Stopping a Running Notebook File
+
+When you open a Jupyter notebook file, this will start a new process in which any code from the notebook file will be run. This will occur for each notebook file you open.
+
+For your Jupyter notebook instance, you are only provided a set amount of memory resources. If you open many notebook files at the same time, you may use up all your memory resource quota and notebooks may not start or may not run correctly.
+
+In this situation you will need to completely close down any open notebook files you have running and do not need, or potentially restart the complete Jupyter notebook instance.
+
+To completely close down an open notebook file, first close the browser tab or window for that Jupyter notebook file. Then from the file browser, select the ``Running`` notebooks tab.
+
+![](running-notebooks-tab.png)
+
+Find entries for running notebooks that you no longer need, and click on the ``Shutdown`` button against that entry.
+
+![](shutdown-running-notebook.png)
+
+If you have any running ``Terminal`` sessions which you do not need, these also can be shutdown to reclaim memory resources.
+
+## Accessing the Control Panel
 
 The control panel can be accessed from the Jupyter notebook instance, or open Jupyter notebook file by clicking on the ``Control Panel`` file. If you are viewing a page which is part of JupyterHub and do not see the ``Control Panel`` button, but can see a ``Home`` button use it instead.
 
