@@ -76,7 +76,11 @@ $ oc start-build jupyterhub-nb-img -n coursename
 
 The new image will be used for any new Jupyter notebook instances started.
 
-If the changes include changes to Jupyter notebook and data files, and a user has previously started up a Jupyter notebook instance, their persistent storage would have been populated with the original files. In this case, they would need to rename or delete their workspace directory, then stop and start their Jupyter notebook instance. When the Jupyter notebook instance starts up again, their workspace directory will be populated with the new files.
+If the changes include changes to existing Jupyter notebook and data files, and a user has previously started up a Jupyter notebook instance, their persistent storage would have been populated with the original files. In this case, they would need to rename or delete their workspace directory, then stop and start their Jupyter notebook instance. When the Jupyter notebook instance starts up again, their workspace directory will be populated with the new files.
+
+If the changes consisted of new files and the original files had not been changed, then a user need only stop and start their Jupyter notebook instance. In this case any new files will be automatically copied into the users workspace. Any existing files in the users workspace will not be touched, even if the files in the Git repository had been changed.
+
+Because new files in the Git repository will be copied into the users workspace, an alternative way to update individual files, is to have users rename the original copy of a single file in their workspace, then stop and start the Jupyter notebook instance. As the file no longer exists in their workspace under the original name, a new copy from the Git repisitory will be copied in.
 
 If adding additional Python packages into the ``requirements.txt`` file and you also needed to add an additional system package to the docker build from the ``notebook`` subdirectory, you can trigger a new docker build for that phase by running:
 
