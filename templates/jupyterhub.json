@@ -283,7 +283,7 @@
             "apiVersion": "v1",
             "kind": "PersistentVolumeClaim",
             "metadata": {
-                "name": "${APPLICATION_NAME}-notebooks-pvc",
+                "name": "${APPLICATION_NAME}-notebooks-pvc${VERSION_NUMBER}",
                 "labels": {
                     "app": "${APPLICATION_NAME}"
                 }
@@ -519,7 +519,7 @@
                             {
                                 "name": "notebooks",
                                 "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-notebooks-pvc"
+                                    "claimName": "${APPLICATION_NAME}-notebooks-pvc${VERSION_NUMBER}"
                                 }
                             }
                         ]
@@ -588,7 +588,7 @@
             "kind": "PersistentVolumeClaim",
             "apiVersion": "v1",
             "metadata": {
-                "name": "${APPLICATION_NAME}-database-pvc",
+                "name": "${APPLICATION_NAME}-database-pvc${VERSION_NUMBER}",
                 "labels": {
                     "app": "${APPLICATION_NAME}"
                 }
@@ -698,7 +698,7 @@
                             {
                                 "name": "data",
                                 "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-database-pvc"
+                                    "claimName": "${APPLICATION_NAME}-database-pvc${VERSION_NUMBER}"
                                 }
                             },
                             {

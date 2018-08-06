@@ -270,7 +270,7 @@ Make a copy of this using the same version number as used above.
 sudo rsync -av ./notebooks-coursename-pv ./notebooks-coursename-pv2
 ```
 
-You can now unmount the NFS share.
+Keep the NFS shared mounted at this point as it is necessary to fix up ownership on files below.
 
 Next you need to create the persistent volume definitions for the copies of the directories.
 
@@ -288,6 +288,37 @@ scripts/create-project.sh coursename
 ```
 
 and create the JupyterHub and PostgreSQL instances.
+
+With the project created, work out what user ID is assigned to the project. To find out this, run:
+
+```
+oc describe project coursename
+```
+
+This will output various information. Look for the ``openshift.io/sa.scc.uid-range`` annotation. For example:
+
+```
+openshift.io/sa.scc.uid-range=1014260000/10000
+```
+
+You now need to change the owner of the database and notebook directories in the NFS share that you created when you copied the originals, to be the user UID given in the ``uid-range``.
+
+In this example the user ID is '1014260000'. Make sure you use what ``oc describe project`` shows for the course project.
+
+Find the directories which are owned by the prior user ID for the old project that was deleted, and then run ``chown -R`` on them, setting the user ID to that from ``uid-range``. For example, for the database directory run:
+
+```
+chown -R 1014260000 userdata
+```
+
+and for notebooks directory run:
+
+```
+chown -R 1014260000 users backups
+```
+
+You can now unmount the NFS share.
+
 
 ```
 scripts/instantiate-template.sh coursename
