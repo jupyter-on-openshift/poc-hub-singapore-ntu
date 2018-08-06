@@ -272,16 +272,6 @@ sudo rsync -av ./notebooks-coursename-pv ./notebooks-coursename-pv2
 
 You can now unmount the NFS share.
 
-Even though a copy of the database and notebooks directories are made, the original directories *MUST NOT* be deleted. What does need to be deleted though is the original persistent volume definitions in OpenShift, mapping to those directories. This is done by running:
-
-```
-scripts/delete-volumes.sh coursename
-```
-
-When prompted for the version number, press return so an empty value is used if it is the original volumes, or the non empty version number of a subsequent volume instance was being used. If a database rollover had been done, you may need to run this for multiple different version numbers where the same version number is not used for both database and notebook volumes.
-
-Note that the deletion of the original persistent volume definitions is only done due to what appears to be a problem in OpenShift 3.7. If they are not deleted, creation of the persistent volume claim will wrongly try and grab the original persistent volume even though they aren't marked as available.
-
 Next you need to create the persistent volume definitions for the copies of the directories.
 
 ```
@@ -303,7 +293,7 @@ and create the JupyterHub and PostgreSQL instances.
 scripts/instantiate-template.sh coursename
 ```
 
-You will be prompted for details of the Git repository, LDAP credentials and any permanent admin users.
+You will be prompted for details of the Git repository, LDAP credentials and any permanent admin users. You will also be prompted for the version number. You must supply the same version number you used above.
 
 Note that if you had to use this procedure, you will have multiple database and notebooks directories, and corresponding persistent volume definitions, for the one course. When later deleting the course, you will need to remember to delete all versions of the directories and persistent volume definitions.
 

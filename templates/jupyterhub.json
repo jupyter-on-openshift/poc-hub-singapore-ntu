@@ -113,6 +113,10 @@
             "required": true
         },
         {
+            "name": "VERSION_NUMBER",
+            "value": ""
+        },
+        {
             "name": "COOKIE_SECRET",
             "generate": "expression",
             "from": "[a-f0-9]{32}",
@@ -293,7 +297,7 @@
                         "storage": "${NOTEBOOK_VOLUME_SIZE}"
                     }
                 },
-                "volumeName": "${COURSE_NAME}-notebooks-pv"
+                "volumeName": "${COURSE_NAME}-notebooks-pv${VERSION_NUMBER}"
             }
         },
         {
@@ -598,7 +602,7 @@
                         "storage": "${POSTGRESQL_VOLUME_SIZE}"
                     }
                 },
-                "volumeName": "${COURSE_NAME}-database-pv"
+                "volumeName": "${COURSE_NAME}-database-pv${VERSION_NUMBER}"
             }
         },
         {

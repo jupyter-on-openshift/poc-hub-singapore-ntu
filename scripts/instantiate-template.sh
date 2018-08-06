@@ -102,8 +102,19 @@ fi
 if [ "$#" -ge 1 ]; then
     JUPYTERHUB_ADMIN_USERS=$1
     shift
+
+    OPTIONAL_ARGS=y
 else
     read -p "JupyterHub Admin Users: " JUPYTERHUB_ADMIN_USERS
+fi
+
+if [ "$#" -ge 1 ]; then
+    VERSION_NUMBER=$1
+    shift
+else
+    if [ x"$OPTIONAL_ARGS" != x"y" ]; then
+        read -p "Version Number: " VERSION_NUMBER
+    fi
 fi
 
 if [ x"$CONTINUE_PROMPT" != x"n" ]; then
@@ -124,7 +135,8 @@ oc new-app -n "$COURSE_NAME" --template jupyterhub \
     --param NOTEBOOK_REPOSITORY_REFERENCE="$NOTEBOOK_REPOSITORY_REFERENCE" \
     --param LDAP_SEARCH_USER="$LDAP_SEARCH_USER" \
     --param LDAP_SEARCH_PASSWORD="$LDAP_SEARCH_PASSWORD" \
-    --param JUPYTERHUB_ADMIN_USERS="$JUPYTERHUB_ADMIN_USERS"
+    --param JUPYTERHUB_ADMIN_USERS="$JUPYTERHUB_ADMIN_USERS" \
+    --param VERSION_NUMBER="$VERSION_NUMBER"
 
 if [ "$?" != "0" ]; then
     echo "ERROR: Cannot deploy JupyterHub for $COURSE_NAME."
