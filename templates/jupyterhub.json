@@ -458,6 +458,10 @@
                                         "value": "${COOKIE_SECRET}"
                                     },
                                     {
+                                        "name": "VOLUME_VERSION_NUMBER",
+                                        "value": "${VERSION_NUMBER}"
+                                    },
+                                    {
                                         "name": "LDAP_SEARCH_USER",
                                         "valueFrom": {
                                             "secretKeyRef": {

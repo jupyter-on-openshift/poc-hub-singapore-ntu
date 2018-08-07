@@ -80,7 +80,7 @@ rest_api_password = os.environ.get('REST_API_PASSWORD')
 
 if rest_api_password:
     c.JupyterHub.service_tokens = {
-	rest_api_password: 'jupyterhub-rest-api-user'
+        rest_api_password: 'jupyterhub-rest-api-user'
     }
 
 # Provide persistent storage for users notebooks. We share one
@@ -91,8 +91,11 @@ if rest_api_password:
 # restrictions which prevent a specific user filling up the entire
 # persistent volume.
 
+volume_version_number = os.environ.get('VOLUME_VERSION_NUMBER', '')
+
 c.KubeSpawner.user_storage_pvc_ensure = False
-c.KubeSpawner.pvc_name_template = '%s-notebooks-pvc' % c.KubeSpawner.hub_connect_ip
+c.KubeSpawner.pvc_name_template = '%s-notebooks-pvc%s' % (
+        c.KubeSpawner.hub_connect_ip, volume_version_number)
 
 c.KubeSpawner.volumes = [
     {
