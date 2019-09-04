@@ -42,6 +42,16 @@ if [ x"$JUPYTER_MASTER_FILES" != x"" ]; then
     fi
 fi
 
+JUPYTER_PROGRAM_ARGS=
+
+if [[ "$JUPYTER_ENABLE_LAB" =~ ^(true|yes|y|1)$ ]]; then
+    JUPYTER_PROGRAM_ARGS="$JUPYTER_PROGRAM_ARGS --NotebookApp.default_url=/lab"
+else
+    if [ x"$JUPYTER_WORKSPACE_NAME" != x"" ]; then
+        JUPYTER_PROGRAM_ARGS="$JUPYTER_PROGRAM_ARGS --NotebookApp.default_url=/tree/$JUPYTER_WORKSPACE_NAME"
+    fi
+fi
+
 # Start up the notebook instance.
 
-exec start-notebook.sh "$@"
+exec start-notebook.sh $JUPYTER_PROGRAM_ARGS "$@"
