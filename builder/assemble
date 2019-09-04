@@ -14,6 +14,10 @@ set -eo pipefail
 rm -f /home/$NB_USER/environment.yml
 rm -f /home/$NB_USER/requirements.txt
 
+# Remove the obsolete work directory if still exists in Jupyter image.
+
+rmdir /home/$NB_USER/work || true
+
 # Copy injected files to target directory.
 
 cp -Rf /tmp/src/. /home/$NB_USER
