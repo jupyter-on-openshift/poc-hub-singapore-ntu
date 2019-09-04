@@ -1,11 +1,11 @@
-The directory contains build scripts and a template for build a Jupyter
+The directory contains build scripts and a template for building a Jupyter
 notebook image based off the official Jupyter Project base images. Steps
 are also included for modifying a standard deployment of JupyterHub for
 a course, to use the image built from this image.
 
 The steps are:
  
-1. Deploy a JupyterHub instance for a new course name using:
+STEP 1: Deploy a JupyterHub instance for a new course name using:
 
 ```
 scripts/deploy-jupyterhub.sh
@@ -20,7 +20,7 @@ A sample notebook repository you can use is:
 * `NOTEBOOK_REPOSITORY_CONTEXT_DIR`: `samples/empty`
 * `NOTEBOOK_REPOSITORY_REFERENCE` - `master`
 
-2. Change the active OpenShit project using the `oc project` command to
+STEP 2: Change the active OpenShit project using the `oc project` command to
 be the same project as the course was deployed into. Run the following
 command against the Git repository for the notebook you want to use with
 the Jupyter Project notebook images:
@@ -39,10 +39,10 @@ repository.
 This should result in an image stream being created for the image called
 `notebook`.
 
-3. Edit the config map `jupyterhub-cfg` in the course project. This can be
-done in the web console under "Resources->Config Map".
+STEP 3: Edit the config map `jupyterhub-cfg` in the course project. This
+can be done in the web console under "Resources->Config Map".
 
-4. In the `jupyterhub_config.py` section of the `jupyterhub-cfg` config
+STEP 4: In the `jupyterhub_config.py` section of the `jupyterhub-cfg` config
 map, add:
 
 ```
@@ -96,10 +96,10 @@ c.KubeSpawner.cmd = ['/tmp/scripts/run']
 
 Avoid using tabs. The indentation in the function should be 4 spaces.
 
-5. Redeploy the JupyterHub instance by running:
+STEP 5: Redeploy the JupyterHub instance by running:
 
 ```
 oc rollout latest dc/jupyterhub oc rollout status dc/jupyterhub
 ```
 
-6. Visit the JupyterHub URL.
+STEP 6: Visit the JupyterHub URL.
