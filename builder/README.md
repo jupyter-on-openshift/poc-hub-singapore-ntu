@@ -94,7 +94,8 @@ c.KubeSpawner.singleuser_image_spec = 'notebook:latest'
 c.KubeSpawner.cmd = ['/tmp/scripts/run']
 ```
 
-Avoid using tabs. The indentation in the function should be 4 spaces.
+Avoid using tabs. Each level of indentation in the function should be 4
+spaces.
 
 STEP 5: Redeploy the JupyterHub instance by running:
 
