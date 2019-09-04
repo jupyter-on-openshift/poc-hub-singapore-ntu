@@ -16,9 +16,9 @@ in subsequent steps.
 
 A sample notebook repository you can use is:
 
-* `NOTEBOOK_REPOSITORY_URL`: `https://github.com/jupyter-on-openshift/poc-hub-singapore-ntu`
-* `NOTEBOOK_REPOSITORY_CONTEXT_DIR`: `samples/empty`
-* `NOTEBOOK_REPOSITORY_REFERENCE` - `master`
+* Notebook Repository URL: `https://github.com/jupyter-on-openshift/poc-hub-singapore-ntu`
+* Notebook Repository Context Dir: `samples/empty`
+* Notebook Repository Reference: `master`
 
 STEP 2: Change the active OpenShit project using the `oc project` command to
 be the same project as the course was deployed into. Run the following
@@ -32,9 +32,9 @@ oc new-app https://raw.githubusercontent.com/jupyter-on-openshift/poc-hub-singap
 ```
 
 Change the `GIT_REPOSITORY_URL` and `CONTEXT_DIR` as necessary to values
-for the Git repository for your notebook. You can also set `GIT_REFERENCE`
-template parameter if need to use other than the `master` branch of the Git
-repository.
+for the Git repository for your notebook. You can also pass the
+`GIT_REFERENCE` template parameter if need to use branch other than the
+`master` branch of the Git repository.
 
 This should result in an image stream being created for the image called
 `notebook`.
