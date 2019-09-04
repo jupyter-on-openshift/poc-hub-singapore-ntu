@@ -90,6 +90,8 @@ def modify_pod_hook(spawner, pod):
 c.KubeSpawner.modify_pod_hook = modify_pod_hook
 
 c.KubeSpawner.singleuser_image_spec = 'notebook:latest'
+
+c.KubeSpawner.cmd = ['/tmp/scripts/run']
 ```
 
 Avoid using tabs. The indentation in the function should be 4 spaces.
