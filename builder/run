@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -x
+
+setup_volume() {
+    SRC=$1
+    DEST=$2
+
+    if [ -f $DEST/.delete-volume ]; then
+        rm -rf $DEST
+    fi
+
+    if [ -d $DEST ]; then
+        if [ -f $DEST/.sync-volume ]; then
+            if ! [[ "$JUPYTER_SYNC_VOLUME" =~ ^(false|no|n|0)$ ]]; then
+                JUPYTER_SYNC_VOLUME=yes
+            fi
+        fi
+
+        if [[ "$JUPYTER_SYNC_VOLUME" =~ ^(true|yes|y|1)$ ]]; then
+            rsync -ar --ignore-existing $SRC/. $DEST
+        fi
+
+        exit
+    fi
+
+    if [ -d $DEST.setup-volume ]; then
+        rm -rf $DEST.setup-volume
+    fi
+
+    mkdir -p $DEST.setup-volume
+
+    tar -C $SRC -cf - . | tar -C $DEST.setup-volume -xvf -
+
+    mv $DEST.setup-volume $DEST
+}
+
+if [ x"$JUPYTER_MASTER_FILES" != x"" ]; then
+    if [ x"$JUPYTER_WORKSPACE_NAME" != x"" ]; then
+        JUPYTER_WORKSPACE_PATH=/home/$NB_USER/$JUPYTER_WORKSPACE_NAME
+        setup_volume $JUPYTER_MASTER_FILES $JUPYTER_WORKSPACE_PATH
+    fi
+fi
+
+# Start up the notebook instance.
+
+exec start-notebook.sh "$@"

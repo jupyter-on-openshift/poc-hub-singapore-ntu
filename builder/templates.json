@@ -1,0 +1,109 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "jupyter-notebook-builder",
+        "annotations": {
+            "openshift.io/display-name": "Jupyter Notebook Builder",
+            "description": "Template for building Jupyter Notebook images with bundled notebooks and files.",
+            "iconClass": "icon-python",
+            "tags": "python,jupyter"
+        }
+    },
+    "parameters": [
+        {
+            "name": "IMAGE_NAME",
+            "value": "notebook",
+            "required": true
+        },
+        {
+            "name": "BUILDER_IMAGE",
+            "value": "jupyter/minimal-notebook:latest",
+            "required": true
+        },
+        {
+            "name": "BUILDER_SCRIPTS",
+            "value": "https://raw.githubusercontent.com/jupyter-on-openshift/poc-hub-singapore-ntu/master/builder",
+            "required": true
+        },
+        {
+            "name": "GIT_REPOSITORY_URL",
+            "value": "",
+            "required": true
+        },
+        {
+            "name": "GIT_REFERENCE",
+            "value": "master",
+            "required": true
+        },
+        {
+            "name": "CONTEXT_DIR",
+            "value": "",
+            "required": false
+        }
+    ],
+    "objects": [
+        {
+            "apiVersion": "v1",
+            "kind": "ImageStream",
+            "metadata": {
+                "name": "${IMAGE_NAME}",
+                "labels": {
+                    "app": "${IMAGE_NAME}"
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "BuildConfig",
+            "metadata": {
+                "name": "${IMAGE_NAME}",
+                "labels": {
+                    "app": "${IMAGE_NAME}"
+                }
+            },
+            "spec": {
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "${IMAGE_NAME}:latest"
+                    }
+                },
+                "resources": {
+                    "limits": {
+                        "memory": "3Gi"
+                    }
+                },
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${GIT_REPOSITORY_URL}",
+                        "ref": "${GIT_REFERENCE}"
+                    },
+                    "contextDir": "${CONTEXT_DIR}"
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "${BUILDER_IMAGE}"
+                        },
+                        "scripts": "${BUILDER_SCRIPTS}",
+                        "env": [
+                            {
+                                "name": "JUPYTER_MASTER_FILES",
+                                "value": "/opt/conda/master"
+                            }
+                        ]
+                    }
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    }
+                ]
+            }
+        }
+    ]
+}
