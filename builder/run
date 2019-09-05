@@ -22,7 +22,7 @@ setup_volume() {
             cp -pvRn $SRC $DEST
         fi
 
-        exit
+        return
     fi
 
     if [ -d $DEST.setup-volume ]; then
