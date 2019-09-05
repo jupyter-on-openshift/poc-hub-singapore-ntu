@@ -18,7 +18,8 @@ setup_volume() {
         fi
 
         if [[ "$JUPYTER_SYNC_VOLUME" =~ ^(true|yes|y|1)$ ]]; then
-            rsync -ar --ignore-existing $SRC/. $DEST
+            #rsync -ar --ignore-existing $SRC/. $DEST
+            cp -pvRn $SRC $DEST
         fi
 
         exit
